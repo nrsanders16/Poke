@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54955fc3dffc6004092f1af538665382, type: 3}
+  m_Name: Bulbasaur
+  m_EditorClassIdentifier: 
+  pokemonName: Bulbasaur
+  pokemonBattleSprite: {fileID: 21300000, guid: ac3acf997508f82469d6c59a4d6ee723, type: 3}
+  primaryType: {fileID: 11400000, guid: 796d0ba503e14fd49bafc3452c7777c1, type: 2}
+  secondaryType: {fileID: 11400000, guid: 6e91e213da8e9e441b8d22bd10b219a9, type: 2}
+  level: 50
+  currentHP: 5221
+  currentAttack: 118
+  currentDefense: 111
+  currentSpeed: 10
+  currentEnergy: 0
+  baseHP: 100
+  baseAttack: 10
+  baseSpAttack: 10
+  baseDefense: 10
+  baseSpDefense: 10
+  baseSpeed: 35
+  fastMove1: {fileID: 11400000, guid: cf8b81d4d5cda3b43949c54c05bf0f90, type: 2}
+  fastMove2: {fileID: 0}
+  chargedMove1: {fileID: 11400000, guid: 6ad29fa1db48546499c7d3ecb99f7b41, type: 2}
+  chargedMove2: {fileID: 11400000, guid: e6785df43abd8784db50c50880ed389a, type: 2}

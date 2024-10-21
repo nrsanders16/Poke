@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73360b506c309f545b6f8a71951ef427, type: 3}
+  m_Name: Psychic Fangs
+  m_EditorClassIdentifier: 
+  moveName: Psychic Fangs
+  baseDamage: 40
+  moveType: {fileID: 11400000, guid: 0bacd531cd4cab84d9ab24ab1a6eb752, type: 2}
+  animationClips: []
+  baseEnergyReq: 35
+  OwnBuff1: 0
+  ownBuff1Chances: 0
+  OwnBuff2: 0
+  ownBuff2Chances: 0
+  OppBuff1: 0
+  oppBuff1Chances: 0
+  OppBuff2: 0
+  oppBuff2Chances: 0
+  OwnDebuff1: 0
+  ownDebuff1Chances: 0
+  OwnDebuff2: 0
+  ownDebuff2Chances: 0
+  OppDebuff1: 7
+  oppDebuff1Chances: 100
+  OppDebuff2: 0
+  oppDebuff2Chances: 0
