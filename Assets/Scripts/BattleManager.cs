@@ -8,50 +8,16 @@ using UnityEngine;
 using UnityEngine.UI;
 public class BattleManager : MonoBehaviour {
 
+    public HUDManager HUDManager;
+
     public PokemonIndividual playerPokemonIndividual;
     public PokemonIndividual aiTrainerPokemonIndividual;
 
     public PlayerPokemonController playerPokemonController;
     public AIPokemonController aiTrainerPokemonController;
 
-    public Image[] playerPartyPokemonSprites;
-
-    public TMP_Text playerPokemonText;
-    public Image playerPokemonSprite;
-    public TMP_Text playerPokemonHPText;
-    public TMP_Text playerPokemonEffectivenessText;
     public Animation playerPokemonAnimation;
-    public TMP_Text playerChargedMove1NameText;
-    public TMP_Text playerChargedMove2NameText;
-    public Image playerEnergyOutline1;
-    public Image playerEnergyBackground1;
-    public Image playerEnergyImage1layer1;
-    public Image playerEnergyImage1layer2;
-    public Image playerEnergyBackground2;
-    public Image playerEnergyOutline2;
-    public Image playerEnergyImage1layer3;
-    public Image playerEnergyImage2layer1;
-    public Image playerEnergyImage2layer2;
-    public Image playerEnergyImage2layer3;
-
-    public GameObject playerHPBar;
-    public Image playerHPFill;
-    public GameObject aiTrainerHPBar;
-    public Image aiTrainerHPFill;
-
-    public TMP_Text aiTrainerPokemonText;
-    public Image aiTrainerPokemonSprite;
-    public TMP_Text aiTrainerPokemonHPText;
-    public TMP_Text aiTrainerPokemonEffectivenessText;
     public Animation aiTrainerPokemonAnimation;
-    //public Image aiTrainerEnergyImage1Layer1;
-    //public Image aiTrainerEnergyImage1layer2;
-    //public Image aiTrainerEnergyImage1layer3;
-    //public Image aiTrainerEnergyImage2layer1;
-    //public Image aiTrainerEnergyImage2layer2;
-    //public Image aiTrainerEnergyImage2layer3;
-
-    public TMP_Text chargedMoveText;
 
     public bool playerPokemonUsingFastMove;
     public bool aiTrainerPokemonUsingFastMove;
@@ -67,10 +33,10 @@ public class BattleManager : MonoBehaviour {
     private void Start() {
         playerPokemonController.currentPokemon.currentEnergy = 0;
         aiTrainerPokemonController.currentPokemon.currentEnergy = 0;
-        SetHUD();
-        UpdateHUD();
+        HUDManager.SetHUD(playerPokemonController, aiTrainerPokemonController);
+        HUDManager.UpdateHUD(playerPokemonController, aiTrainerPokemonController);
     }
-    #region Attacking
+    #region Fast Attack
     public void StartFastAttack(PokemonController attackingPokemonController, FastMove fastMove, bool playerPokemon) {
         if (playerPokemonUsingChargedMove || aiTrainerPokemonUsingChargedMove || (playerPokemonUsingChargedMove && aiTrainerPokemonUsingChargedMove)) return;
 
@@ -107,7 +73,7 @@ public class BattleManager : MonoBehaviour {
 
         ApplyAttackDamage(attackingPokemonController.currentPokemon, defendingPokemonController.currentPokemon, fastMove);
 
-        UpdateHUD();
+        HUDManager.UpdateHUD(playerPokemonController, aiTrainerPokemonController);
 
         //if (playerPokemon) playerPokemonUsingFastMove = false;
 
@@ -147,6 +113,8 @@ public class BattleManager : MonoBehaviour {
         }
 
     }
+    #endregion
+    #region Charged Attack
     public void ThrowChargedMove(bool playerPokemon) {
         //if (playerPokemonUsingChargedMove || aiTrainerPokemonUsingChargedMove) return;
         if (playerPokemon) {
@@ -188,15 +156,15 @@ public class BattleManager : MonoBehaviour {
     IEnumerator ChargedAttack(PokemonController attackingPokemonController, PokemonController defendingPokemonController, bool playerPokemon) {
         //print("Battle Manager charged move Coroutine");
         //This is where trainer would decide to use shield 
-        chargedMoveText.enabled = true;
-        chargedMoveText.text = attackingPokemonController.currentPokemon.pokemonBaseInfo.PokemonName + " is unleashing energy!";
+        //chargedMoveText.enabled = true;
+        //chargedMoveText.text = attackingPokemonController.currentPokemon.pokemonBaseInfo.PokemonName + " is unleashing energy!";
 
         yield return new WaitForSeconds(5);
 
-        chargedMoveText.text = attackingPokemonController.currentPokemon.pokemonBaseInfo.PokemonName + " used " + attackingPokemonController.queuedChargedMove.moveName + "!";
+        //chargedMoveText.text = attackingPokemonController.currentPokemon.pokemonBaseInfo.PokemonName + " used " + attackingPokemonController.queuedChargedMove.moveName + "!";
 
         yield return new WaitForSeconds(2.5f);
-        chargedMoveText.enabled = false;
+        //chargedMoveText.enabled = false;
 
         //play attack animations and apply damage
         attackingPokemonController.currentPokemon.currentEnergy -= attackingPokemonController.queuedChargedMove.baseEnergyReq;
@@ -234,7 +202,7 @@ public class BattleManager : MonoBehaviour {
         int damage = Mathf.RoundToInt(BattleCalculations.CalculateAttackDamage(attackingPokemon, defendingPokemon, pokemonMove));
         //print(damage);
         defendingPokemon.currentHP -= damage;
-        UpdateHUD();
+        HUDManager.UpdateHUD(playerPokemonController, aiTrainerPokemonController);
     }
     #endregion
     #region Switching Pokemon
@@ -246,13 +214,13 @@ public class BattleManager : MonoBehaviour {
     IEnumerator PokemonSwitch(bool playerPokemon, int newPokemonIndex) {
         if (playerPokemon) {
             playerPokemonController.queuedChargedMove = null;
-            playerPokemonSprite.sprite = null;
-            playerPokemonSprite.enabled = false;
+            HUDManager.playerPokemonSprite.sprite = null;
+            HUDManager.playerPokemonSprite.enabled = false;
 
         } else {
             aiTrainerPokemonController.queuedChargedMove = null;
-            aiTrainerPokemonSprite.sprite = null;
-            aiTrainerPokemonSprite.enabled = false;
+            HUDManager.aiTrainerPokemonSprite.sprite = null;
+            HUDManager.aiTrainerPokemonSprite.enabled = false;
         }
 
         yield return new WaitForSeconds(0.5f);
@@ -260,21 +228,21 @@ public class BattleManager : MonoBehaviour {
         if (playerPokemon) {
             playerPokemonController.currentPokemon = playerPokemonController.pokemonInParty[newPokemonIndex];
             playerPokemonIndividual = playerPokemonController.currentPokemon;
-            playerPokemonSprite.sprite = playerPokemonIndividual.pokemonBattleSprite;
-            playerPokemonSprite.enabled = true;
+            HUDManager.playerPokemonSprite.sprite = playerPokemonIndividual.pokemonBattleSprite;
+            HUDManager.playerPokemonSprite.enabled = true;
         } else {
             aiTrainerPokemonController.currentPokemon = aiTrainerPokemonController.pokemonInParty[newPokemonIndex];
             aiTrainerPokemonIndividual = aiTrainerPokemonController.currentPokemon;
-            aiTrainerPokemonSprite.sprite = aiTrainerPokemonIndividual.pokemonBattleSprite;
-            aiTrainerPokemonSprite.enabled = true;
+            HUDManager.aiTrainerPokemonSprite.sprite = aiTrainerPokemonIndividual.pokemonBattleSprite;
+            HUDManager.aiTrainerPokemonSprite.enabled = true;
         }
 
         yield return new WaitForEndOfFrame();
 
         playerPokemonController.PostSwitch();
         aiTrainerPokemonController.PostSwitch();
-        SetHUD();
-        UpdateHUD();
+        HUDManager.SetHUD(playerPokemonController, aiTrainerPokemonController);
+        HUDManager.UpdateHUD(playerPokemonController, aiTrainerPokemonController);
     }
     public void SendOutPokemon() {
 
@@ -317,115 +285,6 @@ public class BattleManager : MonoBehaviour {
                 }
             }
         } 
-    }
-    #endregion
-    #region HUD
-    void SetHUD() {
-        playerPokemonText.text = playerPokemonIndividual.pokemonBaseInfo.PokemonName;
-        aiTrainerPokemonText.text = aiTrainerPokemonIndividual.pokemonBaseInfo.PokemonName;
-
-        playerPokemonSprite.sprite = playerPokemonIndividual.pokemonBaseInfo.PokemonBattleSprite;
-        aiTrainerPokemonSprite.sprite = aiTrainerPokemonIndividual.pokemonBaseInfo.PokemonBattleSprite;
-
-        playerChargedMove1NameText.text = playerPokemonIndividual.chargedMove1.moveName;
-        playerEnergyBackground1.sprite = playerPokemonIndividual.chargedMove1.moveType.typeIcon;
-        playerEnergyImage1layer1.color = playerPokemonIndividual.chargedMove1.moveType.typeColor;
-        playerEnergyImage1layer1.sprite = playerPokemonIndividual.chargedMove1.moveType.typeIcon;
-        playerEnergyImage1layer2.color = playerPokemonIndividual.chargedMove1.moveType.typeColor;
-        playerEnergyImage1layer2.sprite = playerPokemonIndividual.chargedMove1.moveType.typeIcon;
-        playerEnergyImage1layer3.color = playerPokemonIndividual.chargedMove1.moveType.typeColor;
-        playerEnergyImage1layer3.sprite = playerPokemonIndividual.chargedMove1.moveType.typeIcon;
-
-        if (playerPokemonIndividual.chargedMove2 != null) {
-            playerChargedMove2NameText.text = playerPokemonIndividual.chargedMove2.moveName;
-            playerEnergyBackground2.sprite = playerPokemonIndividual.chargedMove2.moveType.typeIcon;
-            playerEnergyImage2layer1.color = playerPokemonIndividual.chargedMove2.moveType.typeColor;
-            playerEnergyImage2layer1.sprite = playerPokemonIndividual.chargedMove2.moveType.typeIcon;
-            playerEnergyImage2layer2.color = playerPokemonIndividual.chargedMove2.moveType.typeColor;
-            playerEnergyImage2layer2.sprite = playerPokemonIndividual.chargedMove2.moveType.typeIcon;
-            playerEnergyImage2layer3.color = playerPokemonIndividual.chargedMove2.moveType.typeColor;
-            playerEnergyImage2layer3.sprite = playerPokemonIndividual.chargedMove2.moveType.typeIcon;
-        }
-
-        for (int i = 0; i < playerPartyPokemonSprites.Length; i++) {
-            if (playerPartyPokemonSprites[i] != null) {
-                playerPartyPokemonSprites[i].sprite = playerPokemonController.pokemonInParty[i].pokemonBattleSprite;
-            }
-        }
-    }
-    void UpdateHUD() {
-        //playerPokemonHPText.text = playerPokemonIndividual.currentHP.ToString();
-        float playerFill = (float)playerPokemonController.currentPokemon.currentHP / (float)playerPokemonController.currentPokemon.pokemonBaseInfo.BaseHP;
-        playerHPFill.fillAmount = playerFill;
-
-        if (playerFill >= 0.5f) {
-            playerHPFill.color = Color.green;
-        } else if (playerFill < 0.5f && playerFill >= 0.2f) {
-            playerHPFill.color = Color.yellow;
-        } else if (playerFill < 0.2f) {
-            playerHPFill.color = Color.red;
-        }
-        print(playerFill);
-
-        //aiTrainerPokemonHPText.text = aiTrainerPokemonIndividual.currentHP.ToString();
-        float aiFill = (float)aiTrainerPokemonController.currentPokemon.currentHP / (float)aiTrainerPokemonController.currentPokemon.MaxHP;
-        aiTrainerHPFill.fillAmount = aiFill;
-
-        if (aiFill >= 0.5f) {
-            aiTrainerHPFill.color = Color.green;
-        } else if (aiFill < 0.5f && aiFill >= 0.2f) {
-            aiTrainerHPFill.color = Color.yellow;
-        } else if (aiFill < 0.2f) {
-            aiTrainerHPFill.color = Color.red;
-        }
-
-        ManageChargedMove1Fill();
-
-        if (playerPokemonIndividual.chargedMove2 != null) {
-            ManageChargedMove2Fill();
-        }
-    }
-    public void ManageChargedMove1Fill() {
-        float _1fill1Amount = (float)playerPokemonIndividual.currentEnergy / (float)playerPokemonIndividual.chargedMove1.baseEnergyReq;
-        playerEnergyImage1layer1.fillAmount = _1fill1Amount;
-
-        float _1fill2Amount = ((float)playerPokemonIndividual.currentEnergy - (float)playerPokemonIndividual.chargedMove1.baseEnergyReq) / (float)playerPokemonIndividual.chargedMove1.baseEnergyReq;
-        playerEnergyImage1layer2.fillAmount = _1fill2Amount;
-
-        float _1fill3Amount = ((float)playerPokemonIndividual.currentEnergy - (float)(playerPokemonIndividual.chargedMove1.baseEnergyReq * 2)) / (float)playerPokemonIndividual.chargedMove1.baseEnergyReq;
-        playerEnergyImage1layer3.fillAmount = _1fill3Amount;
-
-        if (playerPokemonIndividual.currentEnergy >= playerPokemonIndividual.chargedMove1.baseEnergyReq) {
-            playerChargedMove1NameText.color = Color.white;
-            playerEnergyOutline1.color = Color.white;
-        } else {
-            playerChargedMove1NameText.color = Color.black;
-            playerEnergyOutline1.color = Color.black;
-        }
-    }
-    public void ManageChargedMove2Fill() {
-        float _2fill1Amount = (float)playerPokemonIndividual.currentEnergy / (float)playerPokemonIndividual.chargedMove2.baseEnergyReq;
-        playerEnergyImage2layer1.fillAmount = _2fill1Amount;
-
-        float _2fill2Amount = ((float)playerPokemonIndividual.currentEnergy - (float)playerPokemonIndividual.chargedMove2.baseEnergyReq) / (float)playerPokemonIndividual.chargedMove2.baseEnergyReq;
-        playerEnergyImage2layer2.fillAmount = _2fill2Amount;
-
-        float _2fill3Amount = ((float)playerPokemonIndividual.currentEnergy - (float)(playerPokemonIndividual.chargedMove2.baseEnergyReq * 2)) / (float)playerPokemonIndividual.chargedMove2.baseEnergyReq;
-        playerEnergyImage2layer3.fillAmount = _2fill3Amount;
-
-        if (playerPokemonIndividual.currentEnergy >= playerPokemonIndividual.chargedMove2.baseEnergyReq) {
-            playerChargedMove2NameText.color = Color.white;
-            playerEnergyOutline2.color = Color.white;
-
-        } else {
-            playerChargedMove2NameText.color = Color.black;
-            playerEnergyOutline2.color = Color.black;
-        }
-    }
-    public IEnumerator EffectivenessTextTimer(TMP_Text text) {
-        text.enabled = true;
-        yield return new WaitForSeconds(2.5f);
-        text.enabled = false;
     }
     #endregion
 }

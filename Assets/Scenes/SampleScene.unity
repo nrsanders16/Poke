@@ -498,7 +498,7 @@ MonoBehaviour:
   pokemonBaseInfo: {fileID: 11400000, guid: 9428e36d5fe0a6d4a91646a8523acce7, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 9eb601b8c706db84d872a52b2e07bf95, type: 3}
   level: 10
-  currentHP: 10
+  currentHP: 100
   currentEnergy: 0
   currentStatus: 0
   fastMove: {fileID: 11400000, guid: 6ee6fe39619dfd644ac4fc192dc56f2b, type: 2}
@@ -1272,7 +1272,7 @@ MonoBehaviour:
   pokemonBaseInfo: {fileID: 11400000, guid: c49ed883304fb104fafb11fe2663bc60, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 44f0fb22c748e1d4b96e3e2b3b414830, type: 3}
   level: 10
-  currentHP: 1000
+  currentHP: 100
   currentEnergy: 0
   currentStatus: 0
   fastMove: {fileID: 11400000, guid: e5dd20cf3e8eb1f48b40e3016fd7ae53, type: 2}
@@ -1325,7 +1325,7 @@ MonoBehaviour:
   pokemonBaseInfo: {fileID: 11400000, guid: c49ed883304fb104fafb11fe2663bc60, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 44f0fb22c748e1d4b96e3e2b3b414830, type: 3}
   level: 10
-  currentHP: 1000
+  currentHP: 100
   currentEnergy: 0
   currentStatus: 0
   fastMove: {fileID: 11400000, guid: e5dd20cf3e8eb1f48b40e3016fd7ae53, type: 2}
@@ -1655,7 +1655,7 @@ MonoBehaviour:
   pokemonBaseInfo: {fileID: 11400000, guid: c9dfcb354ab9edc4a9df762d525b7898, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 474d73864b5ef8e48853fa58f6ed9243, type: 3}
   level: 10
-  currentHP: 1000
+  currentHP: 100
   currentEnergy: 0
   currentStatus: 0
   fastMove: {fileID: 11400000, guid: 252201494e9faa04b9b7a643decb92b3, type: 2}
@@ -1859,7 +1859,7 @@ MonoBehaviour:
   pokemonBaseInfo: {fileID: 11400000, guid: f0a71b6022694b04895fb9dd7130a553, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: ac3acf997508f82469d6c59a4d6ee723, type: 3}
   level: 10
-  currentHP: 1000
+  currentHP: 100
   currentEnergy: 0
   currentStatus: 0
   fastMove: {fileID: 11400000, guid: cf8b81d4d5cda3b43949c54c05bf0f90, type: 2}
@@ -2043,7 +2043,7 @@ MonoBehaviour:
   pokemonBaseInfo: {fileID: 11400000, guid: 0b7ea78b37f49d64aa9b956fad8da952, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 4536879184dce004683b873fd1a37b3f, type: 3}
   level: 10
-  currentHP: 1000
+  currentHP: 100
   currentEnergy: 0
   currentStatus: 0
   fastMove: {fileID: 11400000, guid: 99ac136a521062b42976ea594fa9142f, type: 2}
@@ -2096,7 +2096,7 @@ MonoBehaviour:
   pokemonBaseInfo: {fileID: 11400000, guid: 1cb588eaec41993468ef7abda28e093e, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 4feb16c5ccdc01a44869a5f6b7fd7dae, type: 3}
   level: 10
-  currentHP: 10
+  currentHP: 100
   currentEnergy: 0
   currentStatus: 0
   fastMove: {fileID: 11400000, guid: 718e008a91ad56346ad5c2c391bcccb1, type: 2}
@@ -2300,7 +2300,7 @@ MonoBehaviour:
   pokemonBaseInfo: {fileID: 11400000, guid: 0b7ea78b37f49d64aa9b956fad8da952, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 4536879184dce004683b873fd1a37b3f, type: 3}
   level: 10
-  currentHP: 1000
+  currentHP: 100
   currentEnergy: 0
   currentStatus: 0
   fastMove: {fileID: 11400000, guid: 99ac136a521062b42976ea594fa9142f, type: 2}
@@ -2647,7 +2647,7 @@ MonoBehaviour:
   pokemonBaseInfo: {fileID: 11400000, guid: c9dfcb354ab9edc4a9df762d525b7898, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 474d73864b5ef8e48853fa58f6ed9243, type: 3}
   level: 10
-  currentHP: 1
+  currentHP: 100
   currentEnergy: 0
   currentStatus: 0
   fastMove: {fileID: 11400000, guid: 252201494e9faa04b9b7a643decb92b3, type: 2}
@@ -3537,44 +3537,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9cbd9cd8c409e845835f323a614a587, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HUDManager: {fileID: 1884095484}
   playerPokemonIndividual: {fileID: 0}
   aiTrainerPokemonIndividual: {fileID: 0}
   playerPokemonController: {fileID: 767376738}
   aiTrainerPokemonController: {fileID: 530734615}
-  playerPartyPokemonSprites:
-  - {fileID: 1611811153}
-  - {fileID: 648266983}
-  - {fileID: 875174592}
-  - {fileID: 1682249860}
-  - {fileID: 1501822594}
-  - {fileID: 264485647}
-  playerPokemonText: {fileID: 1987820254}
-  playerPokemonSprite: {fileID: 1615772229}
-  playerPokemonHPText: {fileID: 1848729176}
-  playerPokemonEffectivenessText: {fileID: 136208300}
   playerPokemonAnimation: {fileID: 1615772231}
-  playerChargedMove1NameText: {fileID: 1159444587}
-  playerChargedMove2NameText: {fileID: 17802538}
-  playerEnergyOutline1: {fileID: 309105671}
-  playerEnergyBackground1: {fileID: 2095125825}
-  playerEnergyImage1layer1: {fileID: 673258424}
-  playerEnergyImage1layer2: {fileID: 1243417528}
-  playerEnergyBackground2: {fileID: 854951674}
-  playerEnergyOutline2: {fileID: 1324888768}
-  playerEnergyImage1layer3: {fileID: 1126321878}
-  playerEnergyImage2layer1: {fileID: 268695396}
-  playerEnergyImage2layer2: {fileID: 1280043506}
-  playerEnergyImage2layer3: {fileID: 1469316426}
-  playerHPBar: {fileID: 1848729174}
-  playerHPFill: {fileID: 1876298743}
-  aiTrainerHPBar: {fileID: 1236390483}
-  aiTrainerHPFill: {fileID: 761357227}
-  aiTrainerPokemonText: {fileID: 1276119704}
-  aiTrainerPokemonSprite: {fileID: 1443874140}
-  aiTrainerPokemonHPText: {fileID: 174547849}
-  aiTrainerPokemonEffectivenessText: {fileID: 7566815}
   aiTrainerPokemonAnimation: {fileID: 1443874142}
-  chargedMoveText: {fileID: 1285113932}
   playerPokemonUsingFastMove: 0
   aiTrainerPokemonUsingFastMove: 0
   playerPokemonUsingChargedMove: 0
@@ -4245,7 +4214,7 @@ MonoBehaviour:
   pokemonBaseInfo: {fileID: 11400000, guid: 9428e36d5fe0a6d4a91646a8523acce7, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 9eb601b8c706db84d872a52b2e07bf95, type: 3}
   level: 10
-  currentHP: 10
+  currentHP: 100
   currentEnergy: 0
   currentStatus: 0
   fastMove: {fileID: 11400000, guid: 6ee6fe39619dfd644ac4fc192dc56f2b, type: 2}
@@ -4640,6 +4609,7 @@ GameObject:
   - component: {fileID: 1884095482}
   - component: {fileID: 1884095481}
   - component: {fileID: 1884095480}
+  - component: {fileID: 1884095484}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -4753,6 +4723,50 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1884095484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884095479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0c4099b6aaedda47b12e40c81bb261b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPartyPokemonSprites:
+  - {fileID: 1611811153}
+  - {fileID: 648266983}
+  - {fileID: 875174592}
+  - {fileID: 1682249860}
+  - {fileID: 1501822594}
+  - {fileID: 264485647}
+  playerPokemonText: {fileID: 1987820254}
+  playerPokemonSprite: {fileID: 1615772229}
+  playerPokemonHPText: {fileID: 0}
+  playerPokemonEffectivenessText: {fileID: 0}
+  playerChargedMove1NameText: {fileID: 1159444587}
+  playerChargedMove2NameText: {fileID: 17802538}
+  playerEnergyOutline1: {fileID: 309105671}
+  playerEnergyBackground1: {fileID: 2095125825}
+  playerEnergyImage1layer1: {fileID: 673258424}
+  playerEnergyImage1layer2: {fileID: 1243417528}
+  playerEnergyBackground2: {fileID: 854951674}
+  playerEnergyOutline2: {fileID: 1324888768}
+  playerEnergyImage1layer3: {fileID: 1126321878}
+  playerEnergyImage2layer1: {fileID: 268695396}
+  playerEnergyImage2layer2: {fileID: 1280043506}
+  playerEnergyImage2layer3: {fileID: 1469316426}
+  playerHPBar: {fileID: 1848729174}
+  playerHPFill: {fileID: 1876298743}
+  aiTrainerHPBar: {fileID: 1236390483}
+  aiTrainerHPFill: {fileID: 761357227}
+  aiTrainerPokemonText: {fileID: 1276119704}
+  aiTrainerPokemonSprite: {fileID: 1443874140}
+  aiTrainerPokemonHPText: {fileID: 0}
+  aiTrainerPokemonEffectivenessText: {fileID: 0}
+  chargedMoveText: {fileID: 1285113932}
 --- !u!1 &1944447045
 GameObject:
   m_ObjectHideFlags: 0
@@ -4785,7 +4799,7 @@ MonoBehaviour:
   pokemonBaseInfo: {fileID: 11400000, guid: 1cb588eaec41993468ef7abda28e093e, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 4feb16c5ccdc01a44869a5f6b7fd7dae, type: 3}
   level: 10
-  currentHP: 10
+  currentHP: 100
   currentEnergy: 0
   currentStatus: 0
   fastMove: {fileID: 11400000, guid: 718e008a91ad56346ad5c2c391bcccb1, type: 2}
