@@ -43,10 +43,7 @@ public class AIPokemonController : PokemonController {
         StartCoroutine(BattleAI());
 
     }
-    float AnalyzeMoveEffectiveness(TypeName attackType, PokemonObject targetPokemonInfo) {
-        float eff = 1;
-        return eff;
-    }
+
     public override void PostChargedMoves() {
         //evaluate AI options
         battleManager.StartFastAttack(this, currentPokemon.fastMove, false);

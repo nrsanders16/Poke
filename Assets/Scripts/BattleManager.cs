@@ -34,6 +34,11 @@ public class BattleManager : MonoBehaviour {
     public Image playerEnergyImage2layer2;
     public Image playerEnergyImage2layer3;
 
+    public GameObject playerHPBar;
+    public Image playerHPFill;
+    public GameObject aiTrainerHPBar;
+    public Image aiTrainerHPFill;
+
     public TMP_Text aiTrainerPokemonText;
     public Image aiTrainerPokemonSprite;
     public TMP_Text aiTrainerPokemonHPText;
@@ -65,7 +70,7 @@ public class BattleManager : MonoBehaviour {
         SetHUD();
         UpdateHUD();
     }
-
+    #region Attacking
     public void StartFastAttack(PokemonController attackingPokemonController, FastMove fastMove, bool playerPokemon) {
         if (playerPokemonUsingChargedMove || aiTrainerPokemonUsingChargedMove || (playerPokemonUsingChargedMove && aiTrainerPokemonUsingChargedMove)) return;
 
@@ -166,7 +171,7 @@ public class BattleManager : MonoBehaviour {
         if (playerPokemonUsingChargedMove && aiTrainerPokemonUsingChargedMove) {
             print("Charged Move Tie");
             //chargedMoveTie = true;
-            bool playerWinsCmp = CalculateChargedMovePriority(playerPokemonIndividual, aiTrainerPokemonIndividual);
+            bool playerWinsCmp = BattleCalculations.CalculateChargedMovePriority(playerPokemonIndividual, aiTrainerPokemonIndividual);
             if (playerWinsCmp) {
                 StartCoroutine(ChargedAttack(playerPokemonController, aiTrainerPokemonController, true));
             } else {
@@ -225,95 +230,154 @@ public class BattleManager : MonoBehaviour {
             }
         }
     }
-    public IEnumerator EffectivenessTextTimer(TMP_Text text) {
-        text.enabled = true;
-        yield return new WaitForSeconds(2.5f);
-        text.enabled = false;
-    }
-    float CalculateAttackDamage(PokemonIndividual attackingPokemon, PokemonIndividual defendingPokemon, PokemonMove pokemonMove) {
-        float mult = 1;
-        bool attackerHasScrappy = false;
-        bool gravityInEffect = false;
-        bool defendingPokemonHasLevitate = false;
-
-        if (attackerHasScrappy && defendingPokemon.pokemonBaseInfo.PrimaryType.typeName == TypeName.Ghost && (pokemonMove.moveType.typeName == TypeName.Normal || pokemonMove.moveType.typeName == TypeName.Fighting)) {
-            mult = 1;
-
-        } else if (gravityInEffect && defendingPokemon.pokemonBaseInfo.PrimaryType.typeName == TypeName.Flying && pokemonMove.moveType.typeName == TypeName.Ground) {
-            mult = 1;
-
-        } else {
-
-            if (defendingPokemon.pokemonBaseInfo.PrimaryType.weaknesses.Contains(pokemonMove.moveType.typeName)) {
-                mult *= 1.6f;
-                //print("Super Effective!");
-            } else if (defendingPokemon.pokemonBaseInfo.PrimaryType.resistances.Contains(pokemonMove.moveType.typeName)) {
-                mult *= 0.625f;
-            } else if (defendingPokemon.pokemonBaseInfo.PrimaryType.immunities.Contains(pokemonMove.moveType.typeName)) {
-                mult *= 0.391f;
-            }
-        }
-
-        if (defendingPokemon.pokemonBaseInfo.SecondaryType) {
-            if (attackerHasScrappy && defendingPokemon.pokemonBaseInfo.SecondaryType.typeName == TypeName.Ghost && (pokemonMove.moveType.typeName == TypeName.Normal || pokemonMove.moveType.typeName == TypeName.Fighting)) {
-                mult = 1;
-
-            } else if (gravityInEffect && defendingPokemon.pokemonBaseInfo.SecondaryType.typeName == TypeName.Flying && pokemonMove.moveType.typeName == TypeName.Ground) {
-                mult = 1;
-
-            } else {
-
-                if (defendingPokemon.pokemonBaseInfo.SecondaryType.weaknesses.Contains(pokemonMove.moveType.typeName)) {
-                    mult *= 1.6f;
-                    //print("Super Effective!");
-                } else if (defendingPokemon.pokemonBaseInfo.SecondaryType.resistances.Contains(pokemonMove.moveType.typeName)) {
-                    mult *= 0.625f;
-                } else if (defendingPokemon.pokemonBaseInfo.SecondaryType.immunities.Contains(pokemonMove.moveType.typeName)) {
-                    mult *= 0.391f;
-                }
-            }
-
-        }
-
-        if (defendingPokemonHasLevitate && pokemonMove.moveType.typeName == TypeName.Ground) {
-            mult *= 0.5f;
-        }
-
-        float stab = 1.2f;
-        if (attackingPokemon.pokemonBaseInfo.PrimaryType.typeName == pokemonMove.moveType.typeName) {
-            mult *= stab;
-        }
-        if (attackingPokemon.pokemonBaseInfo.SecondaryType != null && attackingPokemon.pokemonBaseInfo.SecondaryType.typeName == pokemonMove.moveType.typeName) {
-            mult *= stab;
-        }
-
-        return (0.65f * pokemonMove.baseDamage * attackingPokemon.Attack / defendingPokemon.Defense * mult) + 1;
-    }
     void ApplyAttackDamage(PokemonIndividual attackingPokemon, PokemonIndividual defendingPokemon, PokemonMove pokemonMove) {
-        int damage = Mathf.RoundToInt(CalculateAttackDamage(attackingPokemon, defendingPokemon, pokemonMove));
+        int damage = Mathf.RoundToInt(BattleCalculations.CalculateAttackDamage(attackingPokemon, defendingPokemon, pokemonMove));
         //print(damage);
         defendingPokemon.currentHP -= damage;
-
         UpdateHUD();
     }
-    bool CalculateChargedMovePriority(PokemonIndividual playerPokemon, PokemonIndividual aiTrainerPokemon) {
-        bool doesPlayerPokemonGoFirst = false;
+    #endregion
+    #region Switching Pokemon
+    public void SwitchPokemon(bool playerPokemon, int newPokemonIndex) {
+        StopCoroutine(PokemonSelectTimer(0, playerPokemon));
+        if(playerPokemon) { playerSelectingPokemon = false; } else { aiTrainerSelectingPokemon = false; }
+        StartCoroutine(PokemonSwitch(playerPokemon, newPokemonIndex));
+    }
+    IEnumerator PokemonSwitch(bool playerPokemon, int newPokemonIndex) {
+        if (playerPokemon) {
+            playerPokemonController.queuedChargedMove = null;
+            playerPokemonSprite.sprite = null;
+            playerPokemonSprite.enabled = false;
 
-        if (playerPokemon.Speed > aiTrainerPokemon.Speed) {
-            doesPlayerPokemonGoFirst = true;
-
-        } else if (playerPokemon.Speed == aiTrainerPokemon.Speed) {
-
-            float coinFlip = Random.Range(0, 1f);
-
-            if (coinFlip < 0.5f) doesPlayerPokemonGoFirst = true;
+        } else {
+            aiTrainerPokemonController.queuedChargedMove = null;
+            aiTrainerPokemonSprite.sprite = null;
+            aiTrainerPokemonSprite.enabled = false;
         }
 
-        return doesPlayerPokemonGoFirst;
+        yield return new WaitForSeconds(0.5f);
+
+        if (playerPokemon) {
+            playerPokemonController.currentPokemon = playerPokemonController.pokemonInParty[newPokemonIndex];
+            playerPokemonIndividual = playerPokemonController.currentPokemon;
+            playerPokemonSprite.sprite = playerPokemonIndividual.pokemonBattleSprite;
+            playerPokemonSprite.enabled = true;
+        } else {
+            aiTrainerPokemonController.currentPokemon = aiTrainerPokemonController.pokemonInParty[newPokemonIndex];
+            aiTrainerPokemonIndividual = aiTrainerPokemonController.currentPokemon;
+            aiTrainerPokemonSprite.sprite = aiTrainerPokemonIndividual.pokemonBattleSprite;
+            aiTrainerPokemonSprite.enabled = true;
+        }
+
+        yield return new WaitForEndOfFrame();
+
+        playerPokemonController.PostSwitch();
+        aiTrainerPokemonController.PostSwitch();
+        SetHUD();
+        UpdateHUD();
+    }
+    public void SendOutPokemon() {
+
+    }
+    void StartPokemonSelectTimer(bool pokemonFainted, bool playerPokemon) {  // timer for selecting pokemon after pokemon faints
+        int timer = 5;
+        if (pokemonFainted) timer = 10;
+        playerSelectingPokemon = !playerPokemon;
+        aiTrainerSelectingPokemon = playerPokemon;
+        aiTrainerPokemonUsingFastMove = false;
+        playerPokemonUsingFastMove = false;
+        StartCoroutine(PokemonSelectTimer(timer, !playerPokemon));
+    }
+    IEnumerator PokemonSelectTimer(int timerLength, bool playerPokemon) {
+
+        yield return new WaitForSeconds(timerLength / 2);
+
+        if(!playerPokemon) {
+            aiTrainerPokemonController.SwitchToBestMatchup();
+            print("Switch to best matchup");
+        }
+
+        StopCoroutine(PokemonSelectTimer(timerLength, playerPokemon));
+
+        yield return new WaitForSeconds(timerLength / 2);
+
+        if (playerPokemon) {
+
+            if (playerPokemonController.currentPokemon == null) {
+
+                int nextHealthyPokemon = 0;
+
+                for(int i = 0; i < playerPokemonController.pokemonInParty.Length; i++) {
+                    if (playerPokemonController.pokemonInParty[i].currentHP > 0) {
+                        SwitchPokemon(playerPokemon, nextHealthyPokemon);
+                        break;
+                    } else {
+                        nextHealthyPokemon++;
+                    }
+                }
+            }
+        } 
+    }
+    #endregion
+    #region HUD
+    void SetHUD() {
+        playerPokemonText.text = playerPokemonIndividual.pokemonBaseInfo.PokemonName;
+        aiTrainerPokemonText.text = aiTrainerPokemonIndividual.pokemonBaseInfo.PokemonName;
+
+        playerPokemonSprite.sprite = playerPokemonIndividual.pokemonBaseInfo.PokemonBattleSprite;
+        aiTrainerPokemonSprite.sprite = aiTrainerPokemonIndividual.pokemonBaseInfo.PokemonBattleSprite;
+
+        playerChargedMove1NameText.text = playerPokemonIndividual.chargedMove1.moveName;
+        playerEnergyBackground1.sprite = playerPokemonIndividual.chargedMove1.moveType.typeIcon;
+        playerEnergyImage1layer1.color = playerPokemonIndividual.chargedMove1.moveType.typeColor;
+        playerEnergyImage1layer1.sprite = playerPokemonIndividual.chargedMove1.moveType.typeIcon;
+        playerEnergyImage1layer2.color = playerPokemonIndividual.chargedMove1.moveType.typeColor;
+        playerEnergyImage1layer2.sprite = playerPokemonIndividual.chargedMove1.moveType.typeIcon;
+        playerEnergyImage1layer3.color = playerPokemonIndividual.chargedMove1.moveType.typeColor;
+        playerEnergyImage1layer3.sprite = playerPokemonIndividual.chargedMove1.moveType.typeIcon;
+
+        if (playerPokemonIndividual.chargedMove2 != null) {
+            playerChargedMove2NameText.text = playerPokemonIndividual.chargedMove2.moveName;
+            playerEnergyBackground2.sprite = playerPokemonIndividual.chargedMove2.moveType.typeIcon;
+            playerEnergyImage2layer1.color = playerPokemonIndividual.chargedMove2.moveType.typeColor;
+            playerEnergyImage2layer1.sprite = playerPokemonIndividual.chargedMove2.moveType.typeIcon;
+            playerEnergyImage2layer2.color = playerPokemonIndividual.chargedMove2.moveType.typeColor;
+            playerEnergyImage2layer2.sprite = playerPokemonIndividual.chargedMove2.moveType.typeIcon;
+            playerEnergyImage2layer3.color = playerPokemonIndividual.chargedMove2.moveType.typeColor;
+            playerEnergyImage2layer3.sprite = playerPokemonIndividual.chargedMove2.moveType.typeIcon;
+        }
+
+        for (int i = 0; i < playerPartyPokemonSprites.Length; i++) {
+            if (playerPartyPokemonSprites[i] != null) {
+                playerPartyPokemonSprites[i].sprite = playerPokemonController.pokemonInParty[i].pokemonBattleSprite;
+            }
+        }
     }
     void UpdateHUD() {
-        playerPokemonHPText.text = playerPokemonIndividual.currentHP.ToString();
-        aiTrainerPokemonHPText.text = aiTrainerPokemonIndividual.currentHP.ToString();
+        //playerPokemonHPText.text = playerPokemonIndividual.currentHP.ToString();
+        float playerFill = (float)playerPokemonController.currentPokemon.currentHP / (float)playerPokemonController.currentPokemon.pokemonBaseInfo.BaseHP;
+        playerHPFill.fillAmount = playerFill;
+
+        if (playerFill >= 0.5f) {
+            playerHPFill.color = Color.green;
+        } else if (playerFill < 0.5f && playerFill >= 0.2f) {
+            playerHPFill.color = Color.yellow;
+        } else if (playerFill < 0.2f) {
+            playerHPFill.color = Color.red;
+        }
+        print(playerFill);
+
+        //aiTrainerPokemonHPText.text = aiTrainerPokemonIndividual.currentHP.ToString();
+        float aiFill = (float)aiTrainerPokemonController.currentPokemon.currentHP / (float)aiTrainerPokemonController.currentPokemon.MaxHP;
+        aiTrainerHPFill.fillAmount = aiFill;
+
+        if (aiFill >= 0.5f) {
+            aiTrainerHPFill.color = Color.green;
+        } else if (aiFill < 0.5f && aiFill >= 0.2f) {
+            aiTrainerHPFill.color = Color.yellow;
+        } else if (aiFill < 0.2f) {
+            aiTrainerHPFill.color = Color.red;
+        }
 
         ManageChargedMove1Fill();
 
@@ -358,121 +422,10 @@ public class BattleManager : MonoBehaviour {
             playerEnergyOutline2.color = Color.black;
         }
     }
-    public void SwitchPokemon(bool playerPokemon, int newPokemonIndex) {
-        StopCoroutine(PokemonSelectTimer(0, playerPokemon));
-        if(playerPokemon) { playerSelectingPokemon = false; } else { aiTrainerSelectingPokemon = false; }
-        StartCoroutine(PokemonSwitch(playerPokemon, newPokemonIndex));
+    public IEnumerator EffectivenessTextTimer(TMP_Text text) {
+        text.enabled = true;
+        yield return new WaitForSeconds(2.5f);
+        text.enabled = false;
     }
-    IEnumerator PokemonSwitch(bool playerPokemon, int newPokemonIndex) {
-        if (playerPokemon) {
-            playerPokemonController.queuedChargedMove = null;
-            playerPokemonSprite.sprite = null;
-            playerPokemonSprite.enabled = false;
-
-        } else {
-            aiTrainerPokemonController.queuedChargedMove = null;
-            aiTrainerPokemonSprite.sprite = null;
-            aiTrainerPokemonSprite.enabled = false;
-        }
-
-        yield return new WaitForSeconds(0.5f);
-
-        if (playerPokemon) {
-            playerPokemonController.currentPokemon = playerPokemonController.pokemonInParty[newPokemonIndex];
-            playerPokemonIndividual = playerPokemonController.currentPokemon;
-            playerPokemonSprite.sprite = playerPokemonIndividual.pokemonBattleSprite;
-            playerPokemonSprite.enabled = true;
-        } else {
-            aiTrainerPokemonController.currentPokemon = aiTrainerPokemonController.pokemonInParty[newPokemonIndex];
-            aiTrainerPokemonIndividual = aiTrainerPokemonController.currentPokemon;
-            aiTrainerPokemonSprite.sprite = aiTrainerPokemonIndividual.pokemonBattleSprite;
-            aiTrainerPokemonSprite.enabled = true;
-        }
-
-        yield return new WaitForEndOfFrame();
-
-        playerPokemonController.PostSwitch();
-        aiTrainerPokemonController.PostSwitch();
-        SetHUD();
-        UpdateHUD();
-    }
-
-    public void SendOutPokemon() {
-
-    }
-
-    void StartPokemonSelectTimer(bool pokemonFainted, bool playerPokemon) {  // timer for selecting pokemon after pokemon faints
-        int timer = 5;
-        if (pokemonFainted) timer = 10;
-        playerSelectingPokemon = !playerPokemon;
-        aiTrainerSelectingPokemon = playerPokemon;
-        aiTrainerPokemonUsingFastMove = false;
-        playerPokemonUsingFastMove = false;
-        StartCoroutine(PokemonSelectTimer(timer, !playerPokemon));
-    }
-
-    IEnumerator PokemonSelectTimer(int timerLength, bool playerPokemon) {
-
-        yield return new WaitForSeconds(timerLength / 2);
-
-        if(!playerPokemon) {
-            aiTrainerPokemonController.SwitchToBestMatchup();
-            print("Switch to best matchup");
-        }
-
-        StopCoroutine(PokemonSelectTimer(timerLength, playerPokemon));
-
-        yield return new WaitForSeconds(timerLength / 2);
-
-        if (playerPokemon) {
-
-            if (playerPokemonController.currentPokemon == null) {
-
-                int nextHealthyPokemon = 0;
-
-                for(int i = 0; i < playerPokemonController.pokemonInParty.Length; i++) {
-                    if (playerPokemonController.pokemonInParty[i].currentHP > 0) {
-                        SwitchPokemon(playerPokemon, nextHealthyPokemon);
-                        break;
-                    } else {
-                        nextHealthyPokemon++;
-                    }
-                }
-            }
-        } 
-    }
-
-    void SetHUD() {
-        playerPokemonText.text = playerPokemonIndividual.pokemonBaseInfo.PokemonName;
-        aiTrainerPokemonText.text = aiTrainerPokemonIndividual.pokemonBaseInfo.PokemonName;
-
-        playerPokemonSprite.sprite = playerPokemonIndividual.pokemonBaseInfo.PokemonBattleSprite;
-        aiTrainerPokemonSprite.sprite = aiTrainerPokemonIndividual.pokemonBaseInfo.PokemonBattleSprite;
-
-        playerChargedMove1NameText.text = playerPokemonIndividual.chargedMove1.moveName;
-        playerEnergyBackground1.sprite = playerPokemonIndividual.chargedMove1.moveType.typeIcon;
-        playerEnergyImage1layer1.color = playerPokemonIndividual.chargedMove1.moveType.typeColor;
-        playerEnergyImage1layer1.sprite = playerPokemonIndividual.chargedMove1.moveType.typeIcon;
-        playerEnergyImage1layer2.color = playerPokemonIndividual.chargedMove1.moveType.typeColor;
-        playerEnergyImage1layer2.sprite = playerPokemonIndividual.chargedMove1.moveType.typeIcon;
-        playerEnergyImage1layer3.color = playerPokemonIndividual.chargedMove1.moveType.typeColor;
-        playerEnergyImage1layer3.sprite = playerPokemonIndividual.chargedMove1.moveType.typeIcon;
-
-        if (playerPokemonIndividual.chargedMove2 != null) {
-            playerChargedMove2NameText.text = playerPokemonIndividual.chargedMove2.moveName;
-            playerEnergyBackground2.sprite = playerPokemonIndividual.chargedMove2.moveType.typeIcon;
-            playerEnergyImage2layer1.color = playerPokemonIndividual.chargedMove2.moveType.typeColor;
-            playerEnergyImage2layer1.sprite = playerPokemonIndividual.chargedMove2.moveType.typeIcon;
-            playerEnergyImage2layer2.color = playerPokemonIndividual.chargedMove2.moveType.typeColor;
-            playerEnergyImage2layer2.sprite = playerPokemonIndividual.chargedMove2.moveType.typeIcon;
-            playerEnergyImage2layer3.color = playerPokemonIndividual.chargedMove2.moveType.typeColor;
-            playerEnergyImage2layer3.sprite = playerPokemonIndividual.chargedMove2.moveType.typeIcon;
-        }
-
-        for (int i = 0; i < playerPartyPokemonSprites.Length; i++) {
-            if (playerPartyPokemonSprites[i] != null) {
-                playerPartyPokemonSprites[i].sprite = playerPokemonController.pokemonInParty[i].pokemonBattleSprite;
-            }
-        }
-    }
+    #endregion
 }
