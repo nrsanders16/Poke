@@ -2,9 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(fileName = "New Pokemon Info", menuName = "Pokemon/Pokemon Info", order = 100)]
-
-public class PokemonObject : ScriptableObject
-{
+public class PokemonObject : ScriptableObject{
     [SerializeField] string pokemonName;
     [SerializeField] Sprite pokemonBattleSprite;
     [SerializeField] Sprite shinyPokemonBattleSprite;
@@ -22,61 +20,48 @@ public class PokemonObject : ScriptableObject
     [SerializeField] FastMove[] learnableFastMoves;
 
     [SerializeField] ChargedMove[] learnableChargedMoves;
+    [SerializeField] Ability[] possibleAbilities;
 
-    public string PokemonName
-    {
+    public string PokemonName {
         get { return pokemonName; }
     }
-
-    public Sprite PokemonBattleSprite
-    {
+    public Sprite PokemonBattleSprite {
         get { return pokemonBattleSprite; }
     }
-
-    public Sprite ShinyPokemonBattleSprite { 
-    
+    public Sprite ShinyPokemonBattleSprite {  
         get { return shinyPokemonBattleSprite; }
     }
-
-    public Type PrimaryType
-    {
+    public Type PrimaryType {
         get { return primaryType; }
     }
-    public Type SecondaryType
-    {
+    public Type SecondaryType {
         get { return secondaryType; }
     }
-
-    public int BaseHP
-    {
+    public int BaseHP {
         get { return baseHP; }
     }
-    public int BaseAttack
-    {
+    public int BaseAttack {
         get { return baseAttack; }
     }
-    public int BaseSpAttack
-    {
+    public int BaseSpAttack {
         get { return baseSpAttack; }
     }
-    public int BaseDefense
-    {
+    public int BaseDefense {
         get { return baseDefense; }
     }
-    public int BaseSpDefense
-    {
+    public int BaseSpDefense {
         get { return baseSpDefense; }
     }
-    public int BaseSpeed
-    {
+    public int BaseSpeed {
         get { return baseSpeed; }
     }
-    public FastMove[] LearnableFastMoves
-    {
+    public FastMove[] LearnableFastMoves {
         get { return learnableFastMoves; }
     }
-    public ChargedMove[] LearnableChargedMoves
-    {
+    public ChargedMove[] LearnableChargedMoves {
         get { return learnableChargedMoves; }
+    }
+    public Ability[] PossibleAbilities {
+        get { return possibleAbilities; }
     }
 }

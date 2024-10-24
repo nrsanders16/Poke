@@ -15,5 +15,7 @@ MonoBehaviour:
   moveName: Incinerate
   baseDamage: 20
   moveType: {fileID: 11400000, guid: e73f30425d2072f4ea34fac3bd752926, type: 2}
+  attackType: 1
+  animationClips: []
   cycles: 5
   baseEnergy: 20

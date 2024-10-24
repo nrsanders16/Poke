@@ -15,21 +15,11 @@ MonoBehaviour:
   moveName: Flame Charge
   baseDamage: 65
   moveType: {fileID: 11400000, guid: e73f30425d2072f4ea34fac3bd752926, type: 2}
+  attackType: 0
   animationClips: []
   baseEnergyReq: 50
-  OwnBuff1: 2
-  ownBuff1Chances: 100
-  OwnBuff2: 0
-  ownBuff2Chances: 0
-  OppBuff1: 0
-  oppBuff1Chances: 0
-  OppBuff2: 0
-  oppBuff2Chances: 0
-  OwnDebuff1: 0
-  ownDebuff1Chances: 0
-  OwnDebuff2: 0
-  ownDebuff2Chances: 0
-  OppDebuff1: 0
-  oppDebuff1Chances: 0
-  OppDebuff2: 0
-  oppDebuff2Chances: 0
+  ownBuffs:
+  - 0.2
+  ownBuffChance: 100
+  oppBuffs: []
+  oppBuffChance: 0

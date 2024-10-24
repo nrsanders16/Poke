@@ -15,4 +15,10 @@ MonoBehaviour:
   moveName: Water Pulse
   baseDamage: 80
   moveType: {fileID: 11400000, guid: 451868880cf910141b768e8456a1aefa, type: 2}
+  attackType: 1
+  animationClips: []
   baseEnergyReq: 55
+  ownBuffs: []
+  ownBuffChance: 0
+  oppBuffs: []
+  oppBuffChance: 0

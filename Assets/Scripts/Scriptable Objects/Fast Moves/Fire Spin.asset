@@ -15,6 +15,7 @@ MonoBehaviour:
   moveName: Fire Spin
   baseDamage: 11
   moveType: {fileID: 11400000, guid: e73f30425d2072f4ea34fac3bd752926, type: 2}
+  attackType: 1
   animationClips:
   - {fileID: 7400000, guid: d76004a6ff8e48248a0e6d4c1698cfb1, type: 2}
   - {fileID: 7400000, guid: 6135fdbe0f849a943899fde87b0a2698, type: 2}

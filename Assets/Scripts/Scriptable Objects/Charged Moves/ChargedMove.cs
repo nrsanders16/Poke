@@ -3,25 +3,11 @@ using UnityEngine;
 public class ChargedMove : PokemonMove {
 
     public int baseEnergyReq;
-    public BuffLevel OwnBuff1;
-    public float ownBuff1Chances;
-    public BuffLevel OwnBuff2;
-    public float ownBuff2Chances;
-    public BuffLevel OppBuff1;
-    public float oppBuff1Chances;
-    public BuffLevel OppBuff2;
-    public float oppBuff2Chances;
 
-    public BuffLevel OwnDebuff1;
-    public float ownDebuff1Chances;
-    public BuffLevel OwnDebuff2;
-    public float ownDebuff2Chances;
-    public BuffLevel OppDebuff1;
-    public float oppDebuff1Chances;
-    public BuffLevel OppDebuff2;
-    public float oppDebuff2Chances;
-
-
+    public float[] ownBuffs;
+    public float ownBuffChance;
+    public float[] oppBuffs;
+    public float oppBuffChance;
     //public MoveEffect[] moveEffects;
     //public float[] moveEffectChances;
 

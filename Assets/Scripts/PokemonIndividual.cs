@@ -1,13 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class PokemonIndividual : MonoBehaviour
-{
+public class PokemonIndividual : MonoBehaviour {
     public PokemonObject pokemonBaseInfo;
     public Sprite pokemonBattleSprite;
+
     public int level;
     int battlePower;
+    int currentExp;
+    public int currentHP;
+    public int currentEnergy;
+    public StatusEffect currentStatus;
+    public float[] currentBuffs;
 
     public int IV_HP;
     public int IV_Attack;
@@ -16,14 +20,13 @@ public class PokemonIndividual : MonoBehaviour
     public int IV_SpDefense;
     public int IV_Speed;
 
-    public int currentHP;
-    public int currentEnergy;
-    public StatusEffect currentStatus;
-
     public FastMove fastMove;
-
     public ChargedMove chargedMove1;
     public ChargedMove chargedMove2;
+
+    private void Awake() {
+        currentBuffs = new float[4];
+    }
 
     public int BattlePower {
         get {
@@ -36,7 +39,6 @@ public class PokemonIndividual : MonoBehaviour
             float defense = (baseDefense + ((IV_Defense + IV_SpDefense) * 0.5f)) * totalCPMult;
             return (int)Mathf.Max(10, (Mathf.Floor(Mathf.Sqrt(stamina) * attack * Mathf.Sqrt(defense))) / 10); }
     }
-
     public int MaxHP {
         get { return Mathf.FloorToInt((pokemonBaseInfo.BaseHP * level) / 100f) + 64; }
     }

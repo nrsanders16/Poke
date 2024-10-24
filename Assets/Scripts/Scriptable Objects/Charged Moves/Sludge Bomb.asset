@@ -15,4 +15,10 @@ MonoBehaviour:
   moveName: Sludge Bomb
   baseDamage: 80
   moveType: {fileID: 11400000, guid: 6e91e213da8e9e441b8d22bd10b219a9, type: 2}
+  attackType: 1
+  animationClips: []
   baseEnergyReq: 50
+  ownBuffs: []
+  ownBuffChance: 0
+  oppBuffs: []
+  oppBuffChance: 0

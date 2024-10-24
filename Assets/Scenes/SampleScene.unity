@@ -498,16 +498,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonBaseInfo: {fileID: 11400000, guid: 9428e36d5fe0a6d4a91646a8523acce7, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 9eb601b8c706db84d872a52b2e07bf95, type: 3}
-  level: 100
+  level: 5
+  currentHP: 100
+  currentEnergy: 0
+  currentStatus: 0
+  currentBuffs: []
   IV_HP: 10
   IV_Attack: 10
   IV_Defense: 10
   IV_SpAttack: 10
   IV_SpDefense: 10
   IV_Speed: 10
-  currentHP: 100
-  currentEnergy: 0
-  currentStatus: 0
   fastMove: {fileID: 11400000, guid: 6ee6fe39619dfd644ac4fc192dc56f2b, type: 2}
   chargedMove1: {fileID: 11400000, guid: 31da20351dcc15846932dfd03bfb7c01, type: 2}
   chargedMove2: {fileID: 0}
@@ -1354,15 +1355,16 @@ MonoBehaviour:
   pokemonBaseInfo: {fileID: 11400000, guid: c49ed883304fb104fafb11fe2663bc60, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 44f0fb22c748e1d4b96e3e2b3b414830, type: 3}
   level: 5
+  currentHP: 100
+  currentEnergy: 0
+  currentStatus: 0
+  currentBuffs: []
   IV_HP: 0
   IV_Attack: 0
   IV_Defense: 0
   IV_SpAttack: 0
   IV_SpDefense: 0
   IV_Speed: 0
-  currentHP: 100
-  currentEnergy: 0
-  currentStatus: 0
   fastMove: {fileID: 11400000, guid: e5dd20cf3e8eb1f48b40e3016fd7ae53, type: 2}
   chargedMove1: {fileID: 11400000, guid: 139debd895378d041b9cd04eeb6d6640, type: 2}
   chargedMove2: {fileID: 11400000, guid: e6785df43abd8784db50c50880ed389a, type: 2}
@@ -1412,16 +1414,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonBaseInfo: {fileID: 11400000, guid: c49ed883304fb104fafb11fe2663bc60, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 44f0fb22c748e1d4b96e3e2b3b414830, type: 3}
-  level: 100
+  level: 5
+  currentHP: 100
+  currentEnergy: 0
+  currentStatus: 0
+  currentBuffs: []
   IV_HP: 13
   IV_Attack: 15
   IV_Defense: 14
   IV_SpAttack: 15
   IV_SpDefense: 14
   IV_Speed: 13
-  currentHP: 100
-  currentEnergy: 0
-  currentStatus: 0
   fastMove: {fileID: 11400000, guid: e5dd20cf3e8eb1f48b40e3016fd7ae53, type: 2}
   chargedMove1: {fileID: 11400000, guid: 139debd895378d041b9cd04eeb6d6640, type: 2}
   chargedMove2: {fileID: 11400000, guid: e6785df43abd8784db50c50880ed389a, type: 2}
@@ -1824,16 +1827,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonBaseInfo: {fileID: 11400000, guid: c9dfcb354ab9edc4a9df762d525b7898, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 474d73864b5ef8e48853fa58f6ed9243, type: 3}
-  level: 100
+  level: 5
+  currentHP: 100
+  currentEnergy: 0
+  currentStatus: 0
+  currentBuffs: []
   IV_HP: 15
   IV_Attack: 6
   IV_Defense: 9
   IV_SpAttack: 6
   IV_SpDefense: 9
   IV_Speed: 15
-  currentHP: 100
-  currentEnergy: 0
-  currentStatus: 0
   fastMove: {fileID: 11400000, guid: 252201494e9faa04b9b7a643decb92b3, type: 2}
   chargedMove1: {fileID: 11400000, guid: 6939c506ea44006499aa7f688c28fe0d, type: 2}
   chargedMove2: {fileID: 11400000, guid: e6785df43abd8784db50c50880ed389a, type: 2}
@@ -2035,15 +2039,16 @@ MonoBehaviour:
   pokemonBaseInfo: {fileID: 11400000, guid: f0a71b6022694b04895fb9dd7130a553, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: ac3acf997508f82469d6c59a4d6ee723, type: 3}
   level: 5
+  currentHP: 100
+  currentEnergy: 0
+  currentStatus: 0
+  currentBuffs: []
   IV_HP: 0
   IV_Attack: 0
   IV_Defense: 0
   IV_SpAttack: 0
   IV_SpDefense: 0
   IV_Speed: 0
-  currentHP: 100
-  currentEnergy: 0
-  currentStatus: 0
   fastMove: {fileID: 11400000, guid: cf8b81d4d5cda3b43949c54c05bf0f90, type: 2}
   chargedMove1: {fileID: 11400000, guid: 6ad29fa1db48546499c7d3ecb99f7b41, type: 2}
   chargedMove2: {fileID: 11400000, guid: e6785df43abd8784db50c50880ed389a, type: 2}
@@ -2301,15 +2306,16 @@ MonoBehaviour:
   pokemonBaseInfo: {fileID: 11400000, guid: 0b7ea78b37f49d64aa9b956fad8da952, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 4536879184dce004683b873fd1a37b3f, type: 3}
   level: 5
+  currentHP: 100
+  currentEnergy: 0
+  currentStatus: 0
+  currentBuffs: []
   IV_HP: 0
   IV_Attack: 0
   IV_Defense: 0
   IV_SpAttack: 0
   IV_SpDefense: 0
   IV_Speed: 0
-  currentHP: 100
-  currentEnergy: 0
-  currentStatus: 0
   fastMove: {fileID: 11400000, guid: 99ac136a521062b42976ea594fa9142f, type: 2}
   chargedMove1: {fileID: 11400000, guid: 76fb4144226b29b4b81bfe52c217fb91, type: 2}
   chargedMove2: {fileID: 11400000, guid: e6785df43abd8784db50c50880ed389a, type: 2}
@@ -2360,15 +2366,16 @@ MonoBehaviour:
   pokemonBaseInfo: {fileID: 11400000, guid: 1cb588eaec41993468ef7abda28e093e, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 4feb16c5ccdc01a44869a5f6b7fd7dae, type: 3}
   level: 5
+  currentHP: 100
+  currentEnergy: 0
+  currentStatus: 0
+  currentBuffs: []
   IV_HP: 0
   IV_Attack: 0
   IV_Defense: 0
   IV_SpAttack: 0
   IV_SpDefense: 0
   IV_Speed: 0
-  currentHP: 100
-  currentEnergy: 0
-  currentStatus: 0
   fastMove: {fileID: 11400000, guid: 718e008a91ad56346ad5c2c391bcccb1, type: 2}
   chargedMove1: {fileID: 11400000, guid: 0445e565e8540db47b7d3c6698e93eb8, type: 2}
   chargedMove2: {fileID: 11400000, guid: 1740c8d67b42ecf458e267379999f289, type: 2}
@@ -2569,16 +2576,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonBaseInfo: {fileID: 11400000, guid: 0b7ea78b37f49d64aa9b956fad8da952, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 4536879184dce004683b873fd1a37b3f, type: 3}
-  level: 100
+  level: 5
+  currentHP: 100
+  currentEnergy: 0
+  currentStatus: 0
+  currentBuffs: []
   IV_HP: 10
   IV_Attack: 10
   IV_Defense: 10
   IV_SpAttack: 10
   IV_SpDefense: 10
   IV_Speed: 10
-  currentHP: 100
-  currentEnergy: 0
-  currentStatus: 0
   fastMove: {fileID: 11400000, guid: 99ac136a521062b42976ea594fa9142f, type: 2}
   chargedMove1: {fileID: 11400000, guid: 76fb4144226b29b4b81bfe52c217fb91, type: 2}
   chargedMove2: {fileID: 11400000, guid: e6785df43abd8784db50c50880ed389a, type: 2}
@@ -2923,15 +2931,16 @@ MonoBehaviour:
   pokemonBaseInfo: {fileID: 11400000, guid: c9dfcb354ab9edc4a9df762d525b7898, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 474d73864b5ef8e48853fa58f6ed9243, type: 3}
   level: 5
+  currentHP: 100
+  currentEnergy: 0
+  currentStatus: 0
+  currentBuffs: []
   IV_HP: 0
   IV_Attack: 0
   IV_Defense: 0
   IV_SpAttack: 0
   IV_SpDefense: 0
   IV_Speed: 0
-  currentHP: 100
-  currentEnergy: 0
-  currentStatus: 0
   fastMove: {fileID: 11400000, guid: 252201494e9faa04b9b7a643decb92b3, type: 2}
   chargedMove1: {fileID: 11400000, guid: 6939c506ea44006499aa7f688c28fe0d, type: 2}
   chargedMove2: {fileID: 11400000, guid: e6785df43abd8784db50c50880ed389a, type: 2}
@@ -3822,10 +3831,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HUDManager: {fileID: 1884095484}
   playerPokemonIndividual: {fileID: 0}
-  aiTrainerPokemonIndividual: {fileID: 0}
   playerPokemonController: {fileID: 767376738}
-  aiTrainerPokemonController: {fileID: 530734615}
   playerPokemonAnimation: {fileID: 1615772231}
+  aiTrainerPokemonIndividual: {fileID: 0}
+  aiTrainerPokemonController: {fileID: 530734615}
   aiTrainerPokemonAnimation: {fileID: 1443874142}
   playerPokemonUsingFastMove: 0
   aiTrainerPokemonUsingFastMove: 0
@@ -4199,16 +4208,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonBaseInfo: {fileID: 11400000, guid: f0a71b6022694b04895fb9dd7130a553, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: ac3acf997508f82469d6c59a4d6ee723, type: 3}
-  level: 100
+  level: 5
+  currentHP: 100
+  currentEnergy: 0
+  currentStatus: 0
+  currentBuffs: []
   IV_HP: 15
   IV_Attack: 2
   IV_Defense: 9
   IV_SpAttack: 2
   IV_SpDefense: 9
   IV_Speed: 15
-  currentHP: 100
-  currentEnergy: 0
-  currentStatus: 0
   fastMove: {fileID: 11400000, guid: cf8b81d4d5cda3b43949c54c05bf0f90, type: 2}
   chargedMove1: {fileID: 11400000, guid: 6ad29fa1db48546499c7d3ecb99f7b41, type: 2}
   chargedMove2: {fileID: 11400000, guid: e6785df43abd8784db50c50880ed389a, type: 2}
@@ -4655,15 +4665,16 @@ MonoBehaviour:
   pokemonBaseInfo: {fileID: 11400000, guid: 9428e36d5fe0a6d4a91646a8523acce7, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 9eb601b8c706db84d872a52b2e07bf95, type: 3}
   level: 5
+  currentHP: 100
+  currentEnergy: 0
+  currentStatus: 0
+  currentBuffs: []
   IV_HP: 0
   IV_Attack: 0
   IV_Defense: 0
   IV_SpAttack: 0
   IV_SpDefense: 0
   IV_Speed: 0
-  currentHP: 100
-  currentEnergy: 0
-  currentStatus: 0
   fastMove: {fileID: 11400000, guid: 6ee6fe39619dfd644ac4fc192dc56f2b, type: 2}
   chargedMove1: {fileID: 11400000, guid: 31da20351dcc15846932dfd03bfb7c01, type: 2}
   chargedMove2: {fileID: 0}
@@ -5329,16 +5340,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonBaseInfo: {fileID: 11400000, guid: 1cb588eaec41993468ef7abda28e093e, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 4feb16c5ccdc01a44869a5f6b7fd7dae, type: 3}
-  level: 100
+  level: 5
+  currentHP: 100
+  currentEnergy: 0
+  currentStatus: 0
+  currentBuffs: []
   IV_HP: 15
   IV_Attack: 15
   IV_Defense: 15
   IV_SpAttack: 15
   IV_SpDefense: 15
   IV_Speed: 13
-  currentHP: 100
-  currentEnergy: 0
-  currentStatus: 0
   fastMove: {fileID: 11400000, guid: 718e008a91ad56346ad5c2c391bcccb1, type: 2}
   chargedMove1: {fileID: 11400000, guid: 0445e565e8540db47b7d3c6698e93eb8, type: 2}
   chargedMove2: {fileID: 11400000, guid: 1740c8d67b42ecf458e267379999f289, type: 2}

@@ -1,24 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum WeatherType
-{
+public enum WeatherType{
     None,
     Rain,
     Sun,
     Snow,
     Sandstorm
 }
-public enum TerrainType
-{
+public enum TerrainType{
     None,
     Electric,
     Grassy,
     Psychic,
     Misty
 }
-public enum StatusEffect
-{
+public enum StatusEffect{
     None,
     Poison,
     Sleep,
@@ -55,8 +52,7 @@ public enum BuffLevel {
     Speed3,
     Speed4
 }
-public enum TypeName
-{
+public enum TypeName{
     Normal,
     Fire, 
     Water,
@@ -76,9 +72,7 @@ public enum TypeName
     Dragon,
     Fairy
 }
-
 [CreateAssetMenu(fileName = "New Pokemon Type", menuName = "Pokemon/Pokemon Type", order = 103)]
-
 public class Type : ScriptableObject {
 
     public TypeName typeName;

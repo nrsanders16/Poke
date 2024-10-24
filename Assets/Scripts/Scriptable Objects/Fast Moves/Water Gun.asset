@@ -15,6 +15,7 @@ MonoBehaviour:
   moveName: Water Gun
   baseDamage: 3
   moveType: {fileID: 11400000, guid: 451868880cf910141b768e8456a1aefa, type: 2}
+  attackType: 1
   animationClips:
   - {fileID: 7400000, guid: b0ffb1ce2a45f0b48bc4b8e46a1b4289, type: 2}
   - {fileID: 7400000, guid: 9b6bcff4e0f515745bb49e58a23df0f4, type: 2}

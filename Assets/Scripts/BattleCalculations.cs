@@ -1,7 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-
+public enum Ability {
+    None,
+    Intimidate,
+    FlameBody,
+    EffectSpore,
+    Justified,
+    SapSipper,
+    StormDrain,
+    LightningRod,
+    EarthEater,
+    Scrappy,
+    Levitate
+}
 public static class BattleCalculations {
     public static float CalculateAttackDamage(PokemonIndividual attackingPokemon, PokemonIndividual defendingPokemon, PokemonMove pokemonMove) {
         float mult = 1;
@@ -21,7 +34,7 @@ public static class BattleCalculations {
             mult = 1;
 
         } else {
-            mult = BattleCalculations.CalculateTypeEffectiveness(pokemonMove.moveType.typeName, defendingPokemon.pokemonBaseInfo.PrimaryType);
+            mult = CalculateTypeEffectiveness(pokemonMove.moveType.typeName, defendingPokemon.pokemonBaseInfo.PrimaryType);
         }
 
         if (defendingPokemon.pokemonBaseInfo.SecondaryType) {
@@ -38,7 +51,7 @@ public static class BattleCalculations {
                 mult *= 1;
 
             } else {
-                mult *= BattleCalculations.CalculateTypeEffectiveness(pokemonMove.moveType.typeName, defendingPokemon.pokemonBaseInfo.SecondaryType);
+                mult *= CalculateTypeEffectiveness(pokemonMove.moveType.typeName, defendingPokemon.pokemonBaseInfo.SecondaryType);
             }
         }
 
@@ -54,7 +67,78 @@ public static class BattleCalculations {
             mult *= stab;
         }
 
-        return (0.65f * pokemonMove.baseDamage * attackingPokemon.Attack / defendingPokemon.Defense * mult) + 1;
+        if (pokemonMove.attackType == AttackType.Physical) {
+            return (0.64f * pokemonMove.baseDamage * (attackingPokemon.Attack * ConvertBuffLevelToMultiplier(attackingPokemon.currentBuffs[0])) / (defendingPokemon.Defense * ConvertBuffLevelToMultiplier(defendingPokemon.currentBuffs[1])) * mult) + 1;
+
+        } else if (pokemonMove.attackType == AttackType.Special) {
+            return (0.64f * pokemonMove.baseDamage * (attackingPokemon.SpecialAttack * ConvertBuffLevelToMultiplier(attackingPokemon.currentBuffs[2])) / (defendingPokemon.SpecialDefense * ConvertBuffLevelToMultiplier(attackingPokemon.currentBuffs[3])) * mult) + 1;
+
+        } else { // STATUS MOVES
+            return 0;
+        }
+     
+    }
+    public static float ConvertBuffLevelToMultiplier(float buffLevel) {
+        switch (buffLevel) {
+            case 4:
+                return 1.8f;
+            case 3.5f:
+                return 1.7f;
+            case 3:
+                return 1.6f;
+            case 2.5f:
+                return 1.5f;
+            case 2:
+                return 1.4f;
+            case 1.5f:
+                return 1.3f;
+            case 1:
+                return 1.2f;
+            case 0.5f:
+                return 1.1f;
+            case 0:
+                return 1;
+            case -0.5f:
+                return 0.95f;
+            case -1:
+                return 0.9f;
+            case -1.5f:
+                return 0.85f;
+            case -2:
+                return 0.8f;
+            case -2.5f:
+                return 0.75f;
+            case -3:
+                return 0.7f;
+            case -3.5f:
+                return 0.65f;
+            case -4f:
+                return 0.6f;
+            default:
+                return 1;
+        }
+    }
+    public static float CheckForAttackBuffsAndDebuffs(AttackType attackType, PokemonIndividual pokemonToCheck) {
+        if (attackType == AttackType.Physical) {
+            return 1f;
+
+        } else if (attackType == AttackType.Special) {
+            return 1f;
+
+        } else {
+            return 1f;
+        }
+    }
+    public static float CheckForDefenseBuffsAndDebuffs(AttackType attackType, PokemonIndividual pokemonToCheck) {
+        if (attackType == AttackType.Physical) {
+            return 1f;
+
+        } else if (attackType == AttackType.Special) {
+            return 1f;
+
+        } else {
+            return 1f;
+        }
     }
     public static bool CalculateChargedMovePriority(PokemonIndividual playerPokemon, PokemonIndividual aiTrainerPokemon) {
         bool doesPlayerPokemonGoFirst = false;
