@@ -14,8 +14,8 @@ public class PokemonObject : ScriptableObject
 
     [SerializeField] int baseHP;
     [SerializeField] int baseAttack;
-    [SerializeField] int baseSpAttack;
     [SerializeField] int baseDefense;
+    [SerializeField] int baseSpAttack;
     [SerializeField] int baseSpDefense;
     [SerializeField] int baseSpeed;
 

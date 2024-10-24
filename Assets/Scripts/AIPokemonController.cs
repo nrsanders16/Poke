@@ -43,12 +43,10 @@ public class AIPokemonController : PokemonController {
         StartCoroutine(BattleAI());
 
     }
-
     public override void PostChargedMoves() {
         //evaluate AI options
         battleManager.StartFastAttack(this, currentPokemon.fastMove, false);
     }
-
     public override void PostSwitch() {
         //evaluate AI options
         if (currentPokemon && battleManager.playerPokemonIndividual) AssessPartyMatchupQuality();

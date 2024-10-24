@@ -17,11 +17,12 @@ MonoBehaviour:
   shinyPokemonBattleSprite: {fileID: 0}
   primaryType: {fileID: 11400000, guid: 451868880cf910141b768e8456a1aefa, type: 2}
   secondaryType: {fileID: 0}
-  baseHP: 0
-  baseAttack: 0
-  baseSpAttack: 0
-  baseDefense: 0
-  baseSpDefense: 0
-  baseSpeed: 0
-  learnableFastMoves: []
+  baseHP: 65
+  baseAttack: 45
+  baseDefense: 55
+  baseSpAttack: 45
+  baseSpDefense: 70
+  baseSpeed: 45
+  learnableFastMoves:
+  - {fileID: 11400000, guid: 99ac136a521062b42976ea594fa9142f, type: 2}
   learnableChargedMoves: []

@@ -14,21 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonName: Girafarig
   pokemonBattleSprite: {fileID: 21300000, guid: 44f0fb22c748e1d4b96e3e2b3b414830, type: 3}
+  shinyPokemonBattleSprite: {fileID: 0}
   primaryType: {fileID: 11400000, guid: 311227a28169be640b31e6b4d062b6f0, type: 2}
   secondaryType: {fileID: 11400000, guid: 0bacd531cd4cab84d9ab24ab1a6eb752, type: 2}
-  level: 0
-  currentHP: 0
-  currentAttack: 0
-  currentDefense: 0
-  currentSpeed: 0
-  currentEnergy: 0
-  baseHP: 0
-  baseAttack: 0
-  baseSpAttack: 0
-  baseDefense: 0
-  baseSpDefense: 0
-  baseSpeed: 0
-  fastMove1: {fileID: 11400000, guid: e5dd20cf3e8eb1f48b40e3016fd7ae53, type: 2}
-  fastMove2: {fileID: 0}
-  chargedMove1: {fileID: 11400000, guid: 139debd895378d041b9cd04eeb6d6640, type: 2}
-  chargedMove2: {fileID: 0}
+  baseHP: 70
+  baseAttack: 80
+  baseDefense: 65
+  baseSpAttack: 90
+  baseSpDefense: 65
+  baseSpeed: 85
+  learnableFastMoves: []
+  learnableChargedMoves: []

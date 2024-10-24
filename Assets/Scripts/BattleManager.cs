@@ -29,12 +29,27 @@ public class BattleManager : MonoBehaviour {
     public bool aiTrainerSelectingPokemon;
 
     //[SerializeField] bool chargedMoveTie;
+    public float switchTimerLength;
 
     private void Start() {
         playerPokemonController.currentPokemon.currentEnergy = 0;
         aiTrainerPokemonController.currentPokemon.currentEnergy = 0;
         HUDManager.SetHUD(playerPokemonController, aiTrainerPokemonController);
         HUDManager.UpdateHUD(playerPokemonController, aiTrainerPokemonController);
+
+        for (int i = 0; i < playerPokemonController.pokemonInParty.Length; i++) {
+            if (playerPokemonController.pokemonInParty[i].currentHP > 0) {
+                HUDManager.playerPartyPokemonTimerImages[i].fillAmount = playerPokemonController.switchTimer / switchTimerLength;
+                playerPokemonController.pokemonInParty[i].currentHP = playerPokemonController.pokemonInParty[i].MaxHP;
+                print(playerPokemonController.pokemonInParty[i].BattlePower);
+            }
+        }
+
+        for (int i = 0; i < aiTrainerPokemonController.pokemonInParty.Length; i++) {
+            if (aiTrainerPokemonController.pokemonInParty[i].currentHP > 0) {
+                aiTrainerPokemonController.pokemonInParty[i].currentHP = aiTrainerPokemonController.pokemonInParty[i].MaxHP;
+            }
+        }
     }
     #region Fast Attack
     public void StartFastAttack(PokemonController attackingPokemonController, FastMove fastMove, bool playerPokemon) {
@@ -156,15 +171,15 @@ public class BattleManager : MonoBehaviour {
     IEnumerator ChargedAttack(PokemonController attackingPokemonController, PokemonController defendingPokemonController, bool playerPokemon) {
         //print("Battle Manager charged move Coroutine");
         //This is where trainer would decide to use shield 
-        //chargedMoveText.enabled = true;
-        //chargedMoveText.text = attackingPokemonController.currentPokemon.pokemonBaseInfo.PokemonName + " is unleashing energy!";
+        HUDManager.chargedMoveText.enabled = true;
+        HUDManager.chargedMoveText.text = attackingPokemonController.currentPokemon.pokemonBaseInfo.PokemonName + " is unleashing energy!";
 
         yield return new WaitForSeconds(5);
 
-        //chargedMoveText.text = attackingPokemonController.currentPokemon.pokemonBaseInfo.PokemonName + " used " + attackingPokemonController.queuedChargedMove.moveName + "!";
+        HUDManager.chargedMoveText.text = attackingPokemonController.currentPokemon.pokemonBaseInfo.PokemonName + " used " + attackingPokemonController.queuedChargedMove.moveName + "!";
 
         yield return new WaitForSeconds(2.5f);
-        //chargedMoveText.enabled = false;
+        HUDManager.chargedMoveText.enabled = false;
 
         //play attack animations and apply damage
         attackingPokemonController.currentPokemon.currentEnergy -= attackingPokemonController.queuedChargedMove.baseEnergyReq;
@@ -223,6 +238,14 @@ public class BattleManager : MonoBehaviour {
             HUDManager.aiTrainerPokemonSprite.enabled = false;
         }
 
+        if (playerPokemon) {
+            if(playerPokemonController.currentPokemon.currentHP >= 0) playerPokemonController.switchTimer = switchTimerLength;
+            StartCoroutine(SwitchCountdownTimer(playerPokemon, playerPokemonController));
+        } else {
+            if (aiTrainerPokemonController.currentPokemon.currentHP >= 0) aiTrainerPokemonController.switchTimer = switchTimerLength;
+            StartCoroutine(SwitchCountdownTimer(playerPokemon, aiTrainerPokemonController));
+        }
+
         yield return new WaitForSeconds(0.5f);
 
         if (playerPokemon) {
@@ -243,6 +266,22 @@ public class BattleManager : MonoBehaviour {
         aiTrainerPokemonController.PostSwitch();
         HUDManager.SetHUD(playerPokemonController, aiTrainerPokemonController);
         HUDManager.UpdateHUD(playerPokemonController, aiTrainerPokemonController);
+    }
+    public IEnumerator SwitchCountdownTimer(bool playerPokemon, PokemonController pokemonController) {
+        yield return new WaitForSeconds(0.1f);
+        pokemonController.switchTimer -= 0.1f;
+
+        if (playerPokemon) {
+            for (int i = 0; i < pokemonController.pokemonInParty.Length; i++) {
+                if (pokemonController.pokemonInParty[i].currentHP > 0) {
+                    HUDManager.playerPartyPokemonTimerImages[i].fillAmount = pokemonController.switchTimer / switchTimerLength;
+                } else {
+                    HUDManager.playerPartyPokemonTimerImages[i].fillAmount = 1;
+                }
+            }
+        }
+
+        if (pokemonController.switchTimer >= 0) StartCoroutine(SwitchCountdownTimer(playerPokemon, pokemonController));
     }
     public void SendOutPokemon() {
 

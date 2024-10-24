@@ -6,7 +6,10 @@ using UnityEngine.UI;
 
 public class HUDManager : MonoBehaviour {
 
+    public PlayerPokemonController playerPokemonController;
+
     public Image[] playerPartyPokemonSprites;
+    public Image[] playerPartyPokemonTimerImages;
 
     public TMP_Text playerPokemonText;
     public Image playerPokemonSprite;
@@ -77,7 +80,7 @@ public class HUDManager : MonoBehaviour {
         }
     }
     public void UpdateHPBar(PokemonController pokemonController, Image barFillImage) {
-        float playerFill = (float)pokemonController.currentPokemon.currentHP / (float)pokemonController.currentPokemon.pokemonBaseInfo.BaseHP;
+        float playerFill = (float)pokemonController.currentPokemon.currentHP / (float)pokemonController.currentPokemon.MaxHP;
         barFillImage.fillAmount = playerFill;
 
         if (playerFill >= 0.5f) {

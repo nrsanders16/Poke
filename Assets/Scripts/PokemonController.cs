@@ -11,6 +11,7 @@ public class PokemonController : MonoBehaviour
     public ChargedMove queuedChargedMove;
 
     public PokemonIndividual[] pokemonInParty;
+    public float switchTimer;
 
     public virtual void PostChargedMoves() { }
 
