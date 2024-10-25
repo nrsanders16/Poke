@@ -29,6 +29,8 @@ public class BattleManager : MonoBehaviour {
     //[SerializeField] bool chargedMoveTie;
     public float switchTimerLength;
 
+    public Type[] types;
+
     private void Start() {
         playerPokemonController.currentPokemon.currentEnergy = 0;
         aiTrainerPokemonController.currentPokemon.currentEnergy = 0;
@@ -49,9 +51,21 @@ public class BattleManager : MonoBehaviour {
             }
         }
     }
+    private void OnDisable() {
+        foreach (PokemonIndividual poke in playerPokemonController.pokemonInParty) {
+            if(poke.chargedMove1.moveName == "Aura Wheel") {
+                poke.chargedMove1.moveType = types[0];
+            }
+            if (poke.chargedMove2 != null && poke.chargedMove2.moveName == "Aura Wheel") {
+                poke.chargedMove2.moveType = types[0];
+            }
+        }
+    }
     #region Fast Attack
     public void StartFastAttack(PokemonController attackingPokemonController, FastMove fastMove, bool playerPokemon) {
         if (playerPokemonUsingChargedMove || aiTrainerPokemonUsingChargedMove || (playerPokemonUsingChargedMove && aiTrainerPokemonUsingChargedMove)) return;
+
+        if (attackingPokemonController.currentPokemon.currentHP <= 0) return;
 
         if (playerPokemon) {
             if (playerPokemonUsingFastMove) return;
@@ -84,7 +98,7 @@ public class BattleManager : MonoBehaviour {
         if (attackingPokemonController.currentPokemon.currentEnergy < 100) attackingPokemonController.currentPokemon.currentEnergy += fastMove.baseEnergy;
         if (attackingPokemonController.currentPokemon.currentEnergy > 100) attackingPokemonController.currentPokemon.currentEnergy = 100;
 
-        ApplyAttackDamage(attackingPokemonController.currentPokemon, defendingPokemonController.currentPokemon, fastMove);
+        ApplyAttackDamage(attackingPokemonController, defendingPokemonController, fastMove);
 
         HUDManager.UpdateHUD(playerPokemonController, aiTrainerPokemonController);
 
@@ -137,10 +151,8 @@ public class BattleManager : MonoBehaviour {
         } else {
 
             //if (!aiTrainerPokemonController.shouldThrowChargedMoves) return;
-            //print("Battle Manager Throw charged move");
             aiTrainerPokemonUsingChargedMove = true;
             if (!aiTrainerPokemonUsingFastMove) ChargedAttackSetup();
-
         }
     }
     public void ChargedAttackSetup() {
@@ -148,7 +160,6 @@ public class BattleManager : MonoBehaviour {
         //change camera
         playerPokemonUsingChargedMove = playerPokemonController.throwingChargedMove;
         aiTrainerPokemonUsingChargedMove = aiTrainerPokemonController.throwingChargedMove;
-        //print("Battle Manager charged move setup");
         if (playerPokemonUsingChargedMove && aiTrainerPokemonUsingChargedMove) {
             print("Charged Move Tie");
             //chargedMoveTie = true;
@@ -167,7 +178,6 @@ public class BattleManager : MonoBehaviour {
         }
     }
     IEnumerator ChargedAttack(PokemonController attackingPokemonController, PokemonController defendingPokemonController, bool playerPokemon) {
-        //print("Battle Manager charged move Coroutine");
         //This is where trainer would decide to use shield 
         HUDManager.chargedMoveText.enabled = true;
         HUDManager.chargedMoveText.text = attackingPokemonController.currentPokemon.pokemonBaseInfo.PokemonName + " is unleashing energy!";
@@ -182,9 +192,8 @@ public class BattleManager : MonoBehaviour {
         //play attack animations and apply damage
         attackingPokemonController.currentPokemon.currentEnergy -= attackingPokemonController.queuedChargedMove.baseEnergyReq;
 
-        ApplyAttackDamage(attackingPokemonController.currentPokemon, defendingPokemonController.currentPokemon, attackingPokemonController.queuedChargedMove);
-        ApplyAttackEffects(attackingPokemonController.currentPokemon, defendingPokemonController.currentPokemon, attackingPokemonController.queuedChargedMove);
-
+        ApplyAttackDamage(attackingPokemonController, defendingPokemonController, attackingPokemonController.queuedChargedMove);
+        ApplyAttackEffects(attackingPokemonController, defendingPokemonController, attackingPokemonController.queuedChargedMove);
 
         attackingPokemonController.throwingChargedMove = false;
 
@@ -192,6 +201,18 @@ public class BattleManager : MonoBehaviour {
             playerPokemonUsingChargedMove = false;
         } else {
             aiTrainerPokemonUsingChargedMove = false;
+        }
+
+        if (attackingPokemonController.queuedChargedMove.moveName == "Aura Wheel") {
+            if (attackingPokemonController.currentPokemon.chargedMove1.moveType == types[0]) {
+                attackingPokemonController.currentPokemon.chargedMove1.moveType = types[1];
+                attackingPokemonController.currentPokemon.pokemonBattleSprite = attackingPokemonController.currentPokemon.pokemonBaseInfo.PokemonBattleSprites[1];
+            } else {
+                attackingPokemonController.currentPokemon.chargedMove1.moveType = types[0];
+                attackingPokemonController.currentPokemon.pokemonBattleSprite = attackingPokemonController.currentPokemon.pokemonBaseInfo.PokemonBattleSprites[0];
+            }
+            HUDManager.playerPokemonSprite.sprite = attackingPokemonController.currentPokemon.pokemonBattleSprite;
+            HUDManager.SetHUD(playerPokemonController, aiTrainerPokemonController);
         }
 
         if (defendingPokemonController.currentPokemon.currentHP <= 0) {
@@ -211,55 +232,61 @@ public class BattleManager : MonoBehaviour {
                 defendingPokemonController.PostChargedMoves();
             }
         }
+
     }
-    void ApplyAttackDamage(PokemonIndividual attackingPokemon, PokemonIndividual defendingPokemon, PokemonMove pokemonMove) {
-        int damage = Mathf.RoundToInt(BattleCalculations.CalculateAttackDamage(attackingPokemon, defendingPokemon, pokemonMove));
-        defendingPokemon.currentHP -= damage;
+    void ApplyAttackDamage(PokemonController attackingPokemonController, PokemonController defendingPokemonController, PokemonMove pokemonMove) {
+        Vector2 calc = BattleCalculations.CalculateAttackDamage(attackingPokemonController.currentPokemon, defendingPokemonController.currentPokemon, pokemonMove);
+        int damage = Mathf.RoundToInt(calc.x);
+        if(!defendingPokemonController.effectivenessText.enabled) StartCoroutine(HUDManager.EffectivenessTextTimer(defendingPokemonController.effectivenessText, ConvertMultiplierToEffectivenessString(calc.y)));
+        defendingPokemonController.currentPokemon.currentHP -= damage;
         HUDManager.UpdateHUD(playerPokemonController, aiTrainerPokemonController);
     }
-    void ApplyAttackEffects(PokemonIndividual attackingPokemon, PokemonIndividual defendingPokemon, ChargedMove chargedMove) {
+    void ApplyAttackEffects(PokemonController attackingPokemonController, PokemonController defendingPokemonController, ChargedMove chargedMove) {
         float rdmOwn = Random.Range(0, 100);
         if (rdmOwn <= chargedMove.ownBuffChance) {
             string buffString = "";
             for (int i = 0; i < chargedMove.ownBuffs.Length; i++) {
-                attackingPokemon.currentBuffs[i] += chargedMove.ownBuffs[i];
 
-                if (i == 0) {
-                    buffString += "Attack ";
-                } else if (i == 1) {
-                    buffString += "Defense ";
-                } else if (i == 2) {
-                    buffString += "Special Attack ";
-                } else if (i == 3) {
-                    buffString += "Special Defense ";
-                }
+                if (chargedMove.ownBuffs[i] != 0) {
+                    attackingPokemonController.currentPokemon.currentBuffs[i] += chargedMove.ownBuffs[i];
 
-                float buffAmount = chargedMove.ownBuffs[i];
+                    if (i == 0) {
+                        buffString += "Attack ";
+                    } else if (i == 1) {
+                        buffString += "Defense ";
+                    } else if (i == 2) {
+                        buffString += "Special Attack ";
+                    } else if (i == 3) {
+                        buffString += "Special Defense ";
+                    }
 
-                if (buffAmount > 0) {
-                    buffString += "rose";
+                    float buffAmount = chargedMove.ownBuffs[i];
 
-                } else if (buffAmount < 0) {
-                    buffString += "fell";
-                }
+                    if (buffAmount > 0) {
+                        buffString += "rose";
 
-                if (Mathf.Abs(buffAmount) == 0.1f) {
-                    buffString += " slightly!";
-                } else if (Mathf.Abs(buffAmount) == 0.2f) {
-                    buffString += "!";
-                } else if (Mathf.Abs(buffAmount) == 0.4f) {
-                    buffString += " sharply!";
-                } else if (Mathf.Abs(buffAmount) == 0.6f) {
-                    buffString += " drastically!";
-                }
+                    } else if (buffAmount < 0) {
+                        buffString += "fell";
+                    }
 
-                if (attackingPokemon.currentBuffs[i] > 4) {
-                    attackingPokemon.currentBuffs[i] = 4;
+                    if (Mathf.Abs(buffAmount) == 0.1f) {
+                        buffString += " slightly!";
+                    } else if (Mathf.Abs(buffAmount) == 0.2f) {
+                        buffString += "!";
+                    } else if (Mathf.Abs(buffAmount) == 0.4f) {
+                        buffString += " sharply!";
+                    } else if (Mathf.Abs(buffAmount) == 0.6f) {
+                        buffString += " drastically!";
+                    }
 
-                } else if (attackingPokemon.currentBuffs[i] < -4) {
-                    attackingPokemon.currentBuffs[i] = -4;
-                } else {
-                    print(buffString);
+                    if (attackingPokemonController.currentPokemon.currentBuffs[i] > 4) {
+                        attackingPokemonController.currentPokemon.currentBuffs[i] = 4;
+
+                    } else if (attackingPokemonController.currentPokemon.currentBuffs[i] < -4) {
+                        attackingPokemonController.currentPokemon.currentBuffs[i] = -4;
+                    } else {
+                        StartCoroutine(HUDManager.BuffTextTimer(attackingPokemonController.buffTexts[0], buffString));
+                    }
                 }
             }
 
@@ -267,20 +294,63 @@ public class BattleManager : MonoBehaviour {
 
         float rdmOpp = Random.Range(0, 100);
         if (rdmOpp <= chargedMove.oppBuffChance) {
-            for (int i = 0; i < chargedMove.ownBuffs.Length; i++) {
+            string buffString = "";
+            for (int i = 0; i < chargedMove.oppBuffs.Length; i++) {
 
-                defendingPokemon.currentBuffs[i] += chargedMove.oppBuffs[i];
+                if (chargedMove.oppBuffs[i] != 0) {
 
-                if (defendingPokemon.currentBuffs[i] > 4) {
-                    defendingPokemon.currentBuffs[i] = 4;
+                    defendingPokemonController.currentPokemon.currentBuffs[i] += chargedMove.oppBuffs[i];
 
-                } else if (defendingPokemon.currentBuffs[i] < -4) {
-                    defendingPokemon.currentBuffs[i] = -4;
+                    if (i == 0) {
+                        buffString += "Attack ";
+                    } else if (i == 1) {
+                        buffString += "Defense ";
+                    } else if (i == 2) {
+                        buffString += "Special Attack ";
+                    } else if (i == 3) {
+                        buffString += "Special Defense ";
+                    }
+
+                    float buffAmount = chargedMove.oppBuffs[i];
+
+                    if (buffAmount > 0) {
+                        buffString += "rose";
+
+                    } else if (buffAmount < 0) {
+                        buffString += "fell";
+                    }
+
+                    if (Mathf.Abs(buffAmount) == 0.1f) {
+                        buffString += " slightly!";
+                    } else if (Mathf.Abs(buffAmount) == 0.2f) {
+                        buffString += "!";
+                    } else if (Mathf.Abs(buffAmount) == 0.4f) {
+                        buffString += " sharply!";
+                    } else if (Mathf.Abs(buffAmount) == 0.6f) {
+                        buffString += " drastically!";
+                    }
+
+                    if (defendingPokemonController.currentPokemon.currentBuffs[i] > 4) {
+                        defendingPokemonController.currentPokemon.currentBuffs[i] = 4;
+
+                    } else if (defendingPokemonController.currentPokemon.currentBuffs[i] < -4) {
+                        defendingPokemonController.currentPokemon.currentBuffs[i] = -4;
+                    } else {
+                        StartCoroutine(HUDManager.BuffTextTimer(defendingPokemonController.buffTexts[0], buffString));
+                    }
                 }
             }
         }
     }
-
+    string ConvertMultiplierToEffectivenessString(float effectivenessMultiplier) {
+        if (effectivenessMultiplier > 1) {
+            return "Super Effective!";
+        } else if (effectivenessMultiplier < 1) {
+            return "Not very effective...";
+        } else {
+            return "";
+        }
+    }
     #endregion
     #region Switching Pokemon
     public void SwitchPokemon(bool playerPokemon, int newPokemonIndex) {

@@ -8,11 +8,11 @@ public class ChargedMove : PokemonMove {
     public float ownBuffChance;
     public float[] oppBuffs;
     public float oppBuffChance;
+    public Type secondaryType;
     //public MoveEffect[] moveEffects;
     //public float[] moveEffectChances;
 
-    public float MoveInteractionsCheck(WeatherType currentWeather, TerrainType currentTerrain, StatusEffect ownStatus, StatusEffect oppStatus)
-    {
+    public float MoveInteractionsCheck(WeatherType currentWeather, TerrainType currentTerrain, StatusEffect ownStatus, StatusEffect oppStatus) {
         float mult = 1;
 
         return mult;

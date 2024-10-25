@@ -15,21 +15,12 @@ MonoBehaviour:
   moveName: Rock Tomb
   baseDamage: 70
   moveType: {fileID: 11400000, guid: b407d2ee6ef17974ea4c365e901c09f2, type: 2}
+  attackType: 0
   animationClips: []
   baseEnergyReq: 60
-  OwnBuff1: 0
-  ownBuff1Chances: 0
-  OwnBuff2: 0
-  ownBuff2Chances: 0
-  OppBuff1: 0
-  oppBuff1Chances: 0
-  OppBuff2: 0
-  oppBuff2Chances: 0
-  OwnDebuff1: 0
-  ownDebuff1Chances: 0
-  OwnDebuff2: 0
-  ownDebuff2Chances: 0
-  OppDebuff1: 2
-  oppDebuff1Chances: 100
-  OppDebuff2: 0
-  oppDebuff2Chances: 0
+  ownBuffs: []
+  ownBuffChance: 0
+  oppBuffs:
+  - -0.2
+  oppBuffChance: 100
+  secondaryType: {fileID: 0}

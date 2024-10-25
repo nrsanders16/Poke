@@ -10,21 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 54955fc3dffc6004092f1af538665382, type: 3}
-  m_Name: Seel
+  m_Name: Mega Charizard X
   m_EditorClassIdentifier: 
-  pokemonName: Seel
+  pokemonName: Charizard X
   pokemonBattleSprites:
-  - {fileID: 21300000, guid: 4536879184dce004683b873fd1a37b3f, type: 3}
+  - {fileID: 21300000, guid: b582ab302ae23c14ba17bcf479549a7d, type: 3}
   shinyPokemonBattleSprite: {fileID: 0}
-  primaryType: {fileID: 11400000, guid: 451868880cf910141b768e8456a1aefa, type: 2}
-  secondaryType: {fileID: 0}
-  baseHP: 65
-  baseAttack: 45
-  baseDefense: 55
-  baseSpAttack: 45
-  baseSpDefense: 70
-  baseSpeed: 45
-  learnableFastMoves:
-  - {fileID: 11400000, guid: 99ac136a521062b42976ea594fa9142f, type: 2}
+  primaryType: {fileID: 11400000, guid: e73f30425d2072f4ea34fac3bd752926, type: 2}
+  secondaryType: {fileID: 11400000, guid: 9e9a4023042c881469d6fe940718a30b, type: 2}
+  baseHP: 78
+  baseAttack: 130
+  baseDefense: 111
+  baseSpAttack: 130
+  baseSpDefense: 85
+  baseSpeed: 100
+  learnableFastMoves: []
   learnableChargedMoves: []
   possibleAbilities: 

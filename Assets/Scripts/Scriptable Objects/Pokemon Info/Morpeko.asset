@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 54955fc3dffc6004092f1af538665382, type: 3}
-  m_Name: Seel
+  m_Name: Morpeko
   m_EditorClassIdentifier: 
-  pokemonName: Seel
+  pokemonName: Morpeko
   pokemonBattleSprites:
-  - {fileID: 21300000, guid: 4536879184dce004683b873fd1a37b3f, type: 3}
+  - {fileID: 21300000, guid: b1922dcba7f940846a165fbf8cc3ed1f, type: 3}
+  - {fileID: 21300000, guid: d6ac1c7b0b8b8d441beabf2ab716e7d4, type: 3}
   shinyPokemonBattleSprite: {fileID: 0}
-  primaryType: {fileID: 11400000, guid: 451868880cf910141b768e8456a1aefa, type: 2}
-  secondaryType: {fileID: 0}
-  baseHP: 65
-  baseAttack: 45
-  baseDefense: 55
-  baseSpAttack: 45
-  baseSpDefense: 70
-  baseSpeed: 45
-  learnableFastMoves:
-  - {fileID: 11400000, guid: 99ac136a521062b42976ea594fa9142f, type: 2}
+  primaryType: {fileID: 11400000, guid: 21a33c0897328924089ccdd373175fe8, type: 2}
+  secondaryType: {fileID: 11400000, guid: d1b056634e501c94a866cdae4ebe6971, type: 2}
+  baseHP: 58
+  baseAttack: 95
+  baseDefense: 58
+  baseSpAttack: 70
+  baseSpDefense: 58
+  baseSpeed: 97
+  learnableFastMoves: []
   learnableChargedMoves: []
   possibleAbilities: 

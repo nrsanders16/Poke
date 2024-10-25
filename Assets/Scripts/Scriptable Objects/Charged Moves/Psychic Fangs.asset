@@ -15,21 +15,13 @@ MonoBehaviour:
   moveName: Psychic Fangs
   baseDamage: 40
   moveType: {fileID: 11400000, guid: 0bacd531cd4cab84d9ab24ab1a6eb752, type: 2}
+  attackType: 0
   animationClips: []
   baseEnergyReq: 35
-  OwnBuff1: 0
-  ownBuff1Chances: 0
-  OwnBuff2: 0
-  ownBuff2Chances: 0
-  OppBuff1: 0
-  oppBuff1Chances: 0
-  OppBuff2: 0
-  oppBuff2Chances: 0
-  OwnDebuff1: 0
-  ownDebuff1Chances: 0
-  OwnDebuff2: 0
-  ownDebuff2Chances: 0
-  OppDebuff1: 7
-  oppDebuff1Chances: 100
-  OppDebuff2: 0
-  oppDebuff2Chances: 0
+  ownBuffs: []
+  ownBuffChance: 0
+  oppBuffs:
+  - 0
+  - -0.2
+  oppBuffChance: 100
+  secondaryType: {fileID: 0}

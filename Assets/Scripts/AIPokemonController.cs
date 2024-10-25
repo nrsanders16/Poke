@@ -34,11 +34,13 @@ public class AIPokemonController : PokemonController {
                 //print("Battle AI Throw charged move");
 
             } else {
-                if (!battleManager.aiTrainerPokemonUsingFastMove) battleManager.StartFastAttack(this, currentPokemon.fastMove, false);
+                if (!battleManager.aiTrainerPokemonUsingFastMove && !(currentPokemon.currentHP <= 0 || battleManager.playerPokemonController.currentPokemon.currentHP <= 0)) {
+                    battleManager.StartFastAttack(this, currentPokemon.fastMove, false);
+                }
             }
         }
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
 
         StartCoroutine(BattleAI());
 

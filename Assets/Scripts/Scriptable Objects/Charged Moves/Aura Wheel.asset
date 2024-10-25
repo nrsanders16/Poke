@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 73360b506c309f545b6f8a71951ef427, type: 3}
-  m_Name: Sludge Bomb
+  m_Name: Aura Wheel
   m_EditorClassIdentifier: 
-  moveName: Sludge Bomb
-  baseDamage: 80
-  moveType: {fileID: 11400000, guid: d1b056634e501c94a866cdae4ebe6971, type: 2}
-  attackType: 1
+  moveName: Aura Wheel
+  baseDamage: 100
+  moveType: {fileID: 11400000, guid: 21a33c0897328924089ccdd373175fe8, type: 2}
+  attackType: 0
   animationClips: []
-  baseEnergyReq: 50
-  ownBuffs: []
-  ownBuffChance: 0
+  baseEnergyReq: 45
+  ownBuffs:
+  - 0.2
+  ownBuffChance: 100
   oppBuffs: []
   oppBuffChance: 0
-  secondaryType: {fileID: 11400000, guid: 6e91e213da8e9e441b8d22bd10b219a9, type: 2}
+  secondaryType: {fileID: 0}

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PokemonController : MonoBehaviour
@@ -12,6 +13,8 @@ public class PokemonController : MonoBehaviour
 
     public PokemonIndividual[] pokemonInParty;
     public float switchTimer;
+    public TMP_Text effectivenessText;
+    public TMP_Text[] buffTexts;
 
     public virtual void PostChargedMoves() { }
 

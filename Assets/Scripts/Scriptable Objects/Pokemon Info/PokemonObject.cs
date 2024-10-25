@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Pokemon Info", menuName = "Pokemon/Pokemon Info", order = 100)]
 public class PokemonObject : ScriptableObject{
     [SerializeField] string pokemonName;
-    [SerializeField] Sprite pokemonBattleSprite;
+    [SerializeField] Sprite[] pokemonBattleSprites;
     [SerializeField] Sprite shinyPokemonBattleSprite;
 
     [SerializeField] Type primaryType;
@@ -25,8 +25,11 @@ public class PokemonObject : ScriptableObject{
     public string PokemonName {
         get { return pokemonName; }
     }
-    public Sprite PokemonBattleSprite {
-        get { return pokemonBattleSprite; }
+    public Sprite PokemonBattleSpriteMain {
+        get { return pokemonBattleSprites[0]; }
+    }
+    public Sprite[] PokemonBattleSprites {
+        get { return pokemonBattleSprites; }
     }
     public Sprite ShinyPokemonBattleSprite {  
         get { return shinyPokemonBattleSprite; }

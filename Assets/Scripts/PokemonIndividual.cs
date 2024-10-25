@@ -4,6 +4,7 @@ using UnityEngine;
 public class PokemonIndividual : MonoBehaviour {
     public PokemonObject pokemonBaseInfo;
     public Sprite pokemonBattleSprite;
+    public bool shiny;
 
     public int level;
     int battlePower;

@@ -16,7 +16,7 @@ public enum Ability {
     Levitate
 }
 public static class BattleCalculations {
-    public static float CalculateAttackDamage(PokemonIndividual attackingPokemon, PokemonIndividual defendingPokemon, PokemonMove pokemonMove) {
+    public static Vector2 CalculateAttackDamage(PokemonIndividual attackingPokemon, PokemonIndividual defendingPokemon, PokemonMove pokemonMove) {
         float mult = 1;
         bool attackerHasScrappy = false;
         bool gravityInEffect = false;
@@ -59,6 +59,8 @@ public static class BattleCalculations {
             mult *= 0.5f;
         }
 
+        float typeMult = mult;
+
         float stab = 1.2f;
         if (attackingPokemon.pokemonBaseInfo.PrimaryType.typeName == pokemonMove.moveType.typeName) {
             mult *= stab;
@@ -67,15 +69,21 @@ public static class BattleCalculations {
             mult *= stab;
         }
 
+        float finalDamage = 0;
+
         if (pokemonMove.attackType == AttackType.Physical) {
-            return (0.64f * pokemonMove.baseDamage * (attackingPokemon.Attack * ConvertBuffLevelToMultiplier(attackingPokemon.currentBuffs[0])) / (defendingPokemon.Defense * ConvertBuffLevelToMultiplier(defendingPokemon.currentBuffs[1])) * mult) + 1;
+            finalDamage = (0.64f * pokemonMove.baseDamage * (attackingPokemon.Attack * ConvertBuffLevelToMultiplier(attackingPokemon.currentBuffs[0])) / (defendingPokemon.Defense * ConvertBuffLevelToMultiplier(defendingPokemon.currentBuffs[1])) * mult) + 1;
 
         } else if (pokemonMove.attackType == AttackType.Special) {
-            return (0.64f * pokemonMove.baseDamage * (attackingPokemon.SpecialAttack * ConvertBuffLevelToMultiplier(attackingPokemon.currentBuffs[2])) / (defendingPokemon.SpecialDefense * ConvertBuffLevelToMultiplier(attackingPokemon.currentBuffs[3])) * mult) + 1;
+            finalDamage = (0.64f * pokemonMove.baseDamage * (attackingPokemon.SpecialAttack * ConvertBuffLevelToMultiplier(attackingPokemon.currentBuffs[2])) / (defendingPokemon.SpecialDefense * ConvertBuffLevelToMultiplier(attackingPokemon.currentBuffs[3])) * mult) + 1;
 
         } else { // STATUS MOVES
-            return 0;
+            finalDamage = 0;
         }
+
+        Vector2 final = new Vector2(finalDamage, typeMult);
+
+        return final;
      
     }
     public static float ConvertBuffLevelToMultiplier(float buffLevel) {

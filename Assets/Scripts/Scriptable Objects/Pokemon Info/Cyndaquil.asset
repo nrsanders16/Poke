@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Cyndaquil
   m_EditorClassIdentifier: 
   pokemonName: Cyndaquil
-  pokemonBattleSprite: {fileID: 21300000, guid: 9eb601b8c706db84d872a52b2e07bf95, type: 3}
+  pokemonBattleSprites:
+  - {fileID: 21300000, guid: 9eb601b8c706db84d872a52b2e07bf95, type: 3}
   shinyPokemonBattleSprite: {fileID: 0}
   primaryType: {fileID: 11400000, guid: e73f30425d2072f4ea34fac3bd752926, type: 2}
   secondaryType: {fileID: 0}
@@ -25,3 +26,4 @@ MonoBehaviour:
   baseSpeed: 65
   learnableFastMoves: []
   learnableChargedMoves: []
+  possibleAbilities: 

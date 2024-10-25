@@ -14,7 +14,8 @@ public class HUDManager : MonoBehaviour {
     public TMP_Text playerPokemonText;
     public Image playerPokemonSprite;
     public TMP_Text playerPokemonHPText;
-    public TMP_Text playerPokemonEffectivenessText;
+    public TMP_Text playerPokemonBPText;
+    //public TMP_Text playerPokemonEffectivenessText;
     public TMP_Text playerChargedMove1NameText;
     public TMP_Text playerChargedMove2NameText;
     public Image playerEnergyOutline1;
@@ -36,6 +37,7 @@ public class HUDManager : MonoBehaviour {
     public TMP_Text aiTrainerPokemonText;
     public Image aiTrainerPokemonSprite;
     public TMP_Text aiTrainerPokemonHPText;
+    public TMP_Text aiTrainerPokemonBPText;
     public TMP_Text aiTrainerPokemonEffectivenessText;
     //public Image aiTrainerEnergyImage1Layer1;
     //public Image aiTrainerEnergyImage1layer2;
@@ -50,8 +52,11 @@ public class HUDManager : MonoBehaviour {
         playerPokemonText.text = playerPokemonController.currentPokemon.pokemonBaseInfo.PokemonName;
         aiTrainerPokemonText.text = aiTrainerPokemonController.currentPokemon.pokemonBaseInfo.PokemonName;
 
-        playerPokemonSprite.sprite = playerPokemonController.currentPokemon.pokemonBaseInfo.PokemonBattleSprite;
-        aiTrainerPokemonSprite.sprite = aiTrainerPokemonController.currentPokemon.pokemonBaseInfo.PokemonBattleSprite;
+        playerPokemonBPText.text = "BP " + playerPokemonController.currentPokemon.BattlePower.ToString();
+        aiTrainerPokemonBPText.text = "BP " + aiTrainerPokemonController.currentPokemon.BattlePower.ToString();
+
+        playerPokemonSprite.sprite = playerPokemonController.currentPokemon.pokemonBattleSprite;
+        aiTrainerPokemonSprite.sprite = aiTrainerPokemonController.currentPokemon.pokemonBattleSprite;
 
         playerChargedMove1NameText.text = playerPokemonController.currentPokemon.chargedMove1.moveName;
         playerEnergyBackground1.sprite = playerPokemonController.currentPokemon.chargedMove1.moveType.typeIcon;
@@ -90,7 +95,6 @@ public class HUDManager : MonoBehaviour {
         } else if (playerFill < 0.2f) {
             barFillImage.color = Color.red;
         }
-        print(playerFill);
     }
     public void UpdateHUD(PokemonController playerPokemonController, PokemonController aiTrainerPokemonController) {
         //playerPokemonHPText.text = playerPokemonIndividual.currentHP.ToString();
@@ -141,9 +145,18 @@ public class HUDManager : MonoBehaviour {
             playerEnergyOutline2.color = Color.black;
         }
     }
-    public IEnumerator EffectivenessTextTimer(TMP_Text text) {
+    public IEnumerator EffectivenessTextTimer(TMP_Text text, string effectiveness) {
+        text.text = effectiveness;
         text.enabled = true;
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(3f);
+        text.text = null;
+        text.enabled = false;
+    }
+    public IEnumerator BuffTextTimer(TMP_Text text, string buff) {
+        text.text = buff;
+        text.enabled = true;
+        yield return new WaitForSeconds(3f);
+        text.text = null;
         text.enabled = false;
     }
 

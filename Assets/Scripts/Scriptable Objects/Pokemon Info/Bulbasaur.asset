@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Bulbasaur
   m_EditorClassIdentifier: 
   pokemonName: Bulbasaur
-  pokemonBattleSprite: {fileID: 21300000, guid: ac3acf997508f82469d6c59a4d6ee723, type: 3}
+  pokemonBattleSprites:
+  - {fileID: 21300000, guid: ac3acf997508f82469d6c59a4d6ee723, type: 3}
   shinyPokemonBattleSprite: {fileID: 0}
   primaryType: {fileID: 11400000, guid: 796d0ba503e14fd49bafc3452c7777c1, type: 2}
   secondaryType: {fileID: 11400000, guid: 6e91e213da8e9e441b8d22bd10b219a9, type: 2}
@@ -25,3 +26,4 @@ MonoBehaviour:
   baseSpeed: 45
   learnableFastMoves: []
   learnableChargedMoves: []
+  possibleAbilities: 

@@ -15,4 +15,11 @@ MonoBehaviour:
   moveName: Body Slam
   baseDamage: 50
   moveType: {fileID: 11400000, guid: 311227a28169be640b31e6b4d062b6f0, type: 2}
+  attackType: 0
+  animationClips: []
   baseEnergyReq: 35
+  ownBuffs: []
+  ownBuffChance: 0
+  oppBuffs: []
+  oppBuffChance: 0
+  secondaryType: {fileID: 0}
