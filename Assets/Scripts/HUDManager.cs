@@ -28,6 +28,7 @@ public class HUDManager : MonoBehaviour {
     public Image playerEnergyImage2layer1;
     public Image playerEnergyImage2layer2;
     public Image playerEnergyImage2layer3;
+    public Image playerSwitchTimerImage;
 
     public GameObject playerHPBar;
     public Image playerHPFill;
@@ -39,6 +40,7 @@ public class HUDManager : MonoBehaviour {
     public TMP_Text aiTrainerPokemonHPText;
     public TMP_Text aiTrainerPokemonBPText;
     public TMP_Text aiTrainerPokemonEffectivenessText;
+    public Image aiTrainerSwitchTimerImage;
     //public Image aiTrainerEnergyImage1Layer1;
     //public Image aiTrainerEnergyImage1layer2;
     //public Image aiTrainerEnergyImage1layer3;
@@ -159,5 +161,12 @@ public class HUDManager : MonoBehaviour {
         text.text = null;
         text.enabled = false;
     }
-
+    public IEnumerator SwitchCountdownTimer(Image timerImage, PokemonController pokemonController) {
+        yield return new WaitForSeconds(0.1f);
+        timerImage.fillAmount = pokemonController.switchTimer / 10f;
+        pokemonController.switchTimer -= 0.1f;
+        if (pokemonController.switchTimer > 0) {
+            StartCoroutine(SwitchCountdownTimer(timerImage, pokemonController));
+        }
+    }
 }

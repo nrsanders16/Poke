@@ -158,15 +158,56 @@ public class AIPokemonController : PokemonController {
 
         return matchupQuality;
     }
-
     public void SwitchToBestMatchup() {
-        var list = partyMatchupQuality.ToList();
-        var ind = Mathf.Max(list.ToArray());
-        int newPokemonIndex = list.IndexOf(ind);
-        //int newPokemonIndex = List<float>.IndexOf(ind); //Wrong, sort list and choose index 0 of sorted list
-        //check if pokemon is fainted
-        //if so, newPokemonIndex++ and check again
-        battleManager.SwitchPokemon(false, newPokemonIndex);
-        //battleManager.SwitchPokemon(false, 1);
+        var l = new List<float>();
+        for (int i = 0; i < pokemonInParty.Length; i++) {
+            l.Add(pokemonInParty[i].currentHP);
+        }
+        var t = Mathf.Max(l.ToArray());
+
+        if (t <= 0) {
+
+            print("You win!");
+
+        } else {
+            var list = partyMatchupQuality.ToList();
+            var ind = Mathf.Max(list.ToArray());
+            int newPokemonIndex = list.IndexOf(ind);
+            //int newPokemonIndex = List<float>.IndexOf(ind); //Wrong, sort list and choose index 0 of sorted list
+            //check if pokemon is fainted
+            //if so, newPokemonIndex++ and check again
+            battleManager.SwitchPokemon(false, currentPokemon.currentHP <= 0, newPokemonIndex);
+            //battleManager.SwitchPokemon(false, 1);
+        }
+
+    }
+    public override IEnumerator PokemonSelectTimer(float timer) {
+
+        yield return new WaitForSeconds(0.1f);
+        battleManager.HUDManager.aiTrainerPokemonSprite.enabled = false;
+        battleManager.HUDManager.aiTrainerSwitchTimerImage.fillAmount = timer / 10f;
+        timer -= 0.1f;
+        if(timer < 5) {
+            SwitchToBestMatchup();
+            //print("Switch to best matchup");
+            StopCoroutine(PokemonSelectTimer(timer));
+        } else {
+            StartCoroutine(PokemonSelectTimer(timer));
+        }
+        /*
+        if (currentPokemon.currentHP <= 0) {
+
+            int nextHealthyPokemon = 0;
+
+            for (int i = 0; i < pokemonInParty.Length; i++) {
+                if (pokemonInParty[i].currentHP > 0) {
+                    battleManager.SwitchPokemon(false, true, nextHealthyPokemon);
+                    break;
+                } else {
+                    nextHealthyPokemon++;
+                }
+            }
+        }
+        */
     }
 }

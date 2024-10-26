@@ -197,6 +197,100 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &414734
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 414735}
+  - component: {fileID: 414738}
+  - component: {fileID: 414737}
+  - component: {fileID: 414736}
+  m_Layer: 5
+  m_Name: Player Pokemon Switch Timer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &414735
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414734}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1407760681}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -500, y: 80}
+  m_SizeDelta: {x: 50, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!111 &414736
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414734}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: b0ffb1ce2a45f0b48bc4b8e46a1b4289, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: b0ffb1ce2a45f0b48bc4b8e46a1b4289, type: 2}
+  - {fileID: 7400000, guid: f4082ba70058f034bbeaabc0f7eb049e, type: 2}
+  - {fileID: 7400000, guid: d76004a6ff8e48248a0e6d4c1698cfb1, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &414737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414734}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.6289307, g: 0.6289307, b: 0.6289307, a: 0.7058824}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 2
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &414738
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414734}
+  m_CullTransparentMesh: 1
 --- !u!1 &7566813
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,6 +559,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 17802536}
   m_CullTransparentMesh: 1
+--- !u!1 &27891630
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 27891631}
+  - component: {fileID: 27891632}
+  m_Layer: 0
+  m_Name: Aegislash
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &27891631
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27891630}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 994.58813, y: 498.59647, z: -5.5554466}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 767376739}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &27891632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27891630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9234ef2e58e64d844abe9366e4558771, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pokemonBaseInfo: {fileID: 11400000, guid: 3201efc6acdf57e4ba8b4fe47295b4e7, type: 2}
+  pokemonBattleSprite: {fileID: 21300000, guid: 8681f16d76db4274d85bc61f868f785e, type: 3}
+  shiny: 0
+  level: 40
+  currentHP: 100
+  currentEnergy: 0
+  currentStatus: 0
+  currentBuffs: []
+  IV_HP: 15
+  IV_Attack: 15
+  IV_Defense: 15
+  IV_SpAttack: 15
+  IV_SpDefense: 15
+  IV_Speed: 13
+  fastMove: {fileID: 11400000, guid: 95dcf32dcb7c2674c808d08341b8abbc, type: 2}
+  chargedMove1: {fileID: 11400000, guid: 249d37109badcab42bd632c0ea7f933d, type: 2}
+  chargedMove2: {fileID: 11400000, guid: 9ceb085644c1a474dbf5b46198490e3d, type: 2}
 --- !u!1 &86549452
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,6 +728,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonBaseInfo: {fileID: 11400000, guid: 9428e36d5fe0a6d4a91646a8523acce7, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 9eb601b8c706db84d872a52b2e07bf95, type: 3}
+  shiny: 0
   level: 40
   currentHP: 100
   currentEnergy: 0
@@ -1295,6 +1451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonBaseInfo: {fileID: 11400000, guid: c49ed883304fb104fafb11fe2663bc60, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 44f0fb22c748e1d4b96e3e2b3b414830, type: 3}
+  shiny: 0
   level: 40
   currentHP: 100
   currentEnergy: 0
@@ -1355,6 +1512,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonBaseInfo: {fileID: 11400000, guid: c49ed883304fb104fafb11fe2663bc60, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 44f0fb22c748e1d4b96e3e2b3b414830, type: 3}
+  shiny: 0
   level: 40
   currentHP: 100
   currentEnergy: 0
@@ -1563,6 +1721,7 @@ MonoBehaviour:
   - {fileID: 1806495317}
   - {fileID: 833929218}
   switchTimer: 0
+  postFaintTimer: 0
   effectivenessText: {fileID: 7566815}
   buffTexts:
   - {fileID: 1543727305}
@@ -1779,6 +1938,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonBaseInfo: {fileID: 11400000, guid: c9dfcb354ab9edc4a9df762d525b7898, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 474d73864b5ef8e48853fa58f6ed9243, type: 3}
+  shiny: 0
   level: 40
   currentHP: 100
   currentEnergy: 0
@@ -1990,6 +2150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonBaseInfo: {fileID: 11400000, guid: f0a71b6022694b04895fb9dd7130a553, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: ac3acf997508f82469d6c59a4d6ee723, type: 3}
+  shiny: 0
   level: 40
   currentHP: 100
   currentEnergy: 0
@@ -2337,13 +2498,14 @@ MonoBehaviour:
   throwingChargedMove: 0
   queuedChargedMove: {fileID: 0}
   pokemonInParty:
-  - {fileID: 1316300097}
+  - {fileID: 27891632}
   - {fileID: 635919060}
   - {fileID: 396781031}
   - {fileID: 971511832}
   - {fileID: 104867812}
   - {fileID: 1944447046}
   switchTimer: 0
+  postFaintTimer: 0
   effectivenessText: {fileID: 136208300}
   buffTexts:
   - {fileID: 1076229014}
@@ -2369,6 +2531,7 @@ Transform:
   - {fileID: 104867813}
   - {fileID: 1944447047}
   - {fileID: 1316300098}
+  - {fileID: 27891631}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &804304774
@@ -2402,6 +2565,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonBaseInfo: {fileID: 11400000, guid: 0b7ea78b37f49d64aa9b956fad8da952, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 4536879184dce004683b873fd1a37b3f, type: 3}
+  shiny: 0
   level: 40
   currentHP: 100
   currentEnergy: 0
@@ -2462,6 +2626,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonBaseInfo: {fileID: 11400000, guid: 1cb588eaec41993468ef7abda28e093e, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 4feb16c5ccdc01a44869a5f6b7fd7dae, type: 3}
+  shiny: 0
   level: 40
   currentHP: 100
   currentEnergy: 0
@@ -2673,6 +2838,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonBaseInfo: {fileID: 11400000, guid: 0b7ea78b37f49d64aa9b956fad8da952, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 4536879184dce004683b873fd1a37b3f, type: 3}
+  shiny: 0
   level: 40
   currentHP: 100
   currentEnergy: 0
@@ -3161,6 +3327,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonBaseInfo: {fileID: 11400000, guid: c9dfcb354ab9edc4a9df762d525b7898, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 474d73864b5ef8e48853fa58f6ed9243, type: 3}
+  shiny: 0
   level: 40
   currentHP: 100
   currentEnergy: 0
@@ -3911,6 +4078,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonBaseInfo: {fileID: 11400000, guid: a91ec2710c4dfdf4481afd55a805c795, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: b1922dcba7f940846a165fbf8cc3ed1f, type: 3}
+  shiny: 0
   level: 40
   currentHP: 100
   currentEnergy: 0
@@ -4126,6 +4294,7 @@ Transform:
   - {fileID: 1848729175}
   - {fileID: 991794447}
   - {fileID: 1615772228}
+  - {fileID: 414735}
   - {fileID: 1159444586}
   - {fileID: 17802537}
   - {fileID: 309105669}
@@ -4189,6 +4358,9 @@ MonoBehaviour:
   types:
   - {fileID: 11400000, guid: 21a33c0897328924089ccdd373175fe8, type: 2}
   - {fileID: 11400000, guid: d1b056634e501c94a866cdae4ebe6971, type: 2}
+  aegislashForms:
+  - {fileID: 11400000, guid: 3201efc6acdf57e4ba8b4fe47295b4e7, type: 2}
+  - {fileID: 11400000, guid: d056a886bb7d2da47bf0019c4f68d9cf, type: 2}
 --- !u!4 &1429222191
 Transform:
   m_ObjectHideFlags: 0
@@ -4688,6 +4860,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonBaseInfo: {fileID: 11400000, guid: f0a71b6022694b04895fb9dd7130a553, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: ac3acf997508f82469d6c59a4d6ee723, type: 3}
+  shiny: 0
   level: 40
   currentHP: 100
   currentEnergy: 0
@@ -5278,6 +5451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonBaseInfo: {fileID: 11400000, guid: 9428e36d5fe0a6d4a91646a8523acce7, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 9eb601b8c706db84d872a52b2e07bf95, type: 3}
+  shiny: 0
   level: 40
   currentHP: 100
   currentEnergy: 0
@@ -5553,6 +5727,7 @@ RectTransform:
   - {fileID: 1907958957}
   - {fileID: 278865059}
   - {fileID: 1443874139}
+  - {fileID: 1991178762}
   - {fileID: 1285113931}
   m_Father: {fileID: 1884095483}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6070,6 +6245,7 @@ MonoBehaviour:
   playerEnergyImage2layer1: {fileID: 268695396}
   playerEnergyImage2layer2: {fileID: 1280043506}
   playerEnergyImage2layer3: {fileID: 1469316426}
+  playerSwitchTimerImage: {fileID: 414737}
   playerHPBar: {fileID: 1848729174}
   playerHPFill: {fileID: 1876298743}
   aiTrainerHPBar: {fileID: 1236390483}
@@ -6079,6 +6255,7 @@ MonoBehaviour:
   aiTrainerPokemonHPText: {fileID: 0}
   aiTrainerPokemonBPText: {fileID: 1631712845}
   aiTrainerPokemonEffectivenessText: {fileID: 7566815}
+  aiTrainerSwitchTimerImage: {fileID: 1991178764}
   chargedMoveText: {fileID: 1285113932}
 --- !u!1 &1890433451
 GameObject:
@@ -6320,6 +6497,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonBaseInfo: {fileID: 11400000, guid: 1cb588eaec41993468ef7abda28e093e, type: 2}
   pokemonBattleSprite: {fileID: 21300000, guid: 4feb16c5ccdc01a44869a5f6b7fd7dae, type: 3}
+  shiny: 0
   level: 40
   currentHP: 100
   currentEnergy: 0
@@ -6483,6 +6661,100 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1987820252}
+  m_CullTransparentMesh: 1
+--- !u!1 &1991178761
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1991178762}
+  - component: {fileID: 1991178765}
+  - component: {fileID: 1991178764}
+  - component: {fileID: 1991178763}
+  m_Layer: 5
+  m_Name: AI Pokemon Switch Timer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1991178762
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991178761}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1855734923}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 500, y: 80}
+  m_SizeDelta: {x: 50, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!111 &1991178763
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991178761}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 9b6bcff4e0f515745bb49e58a23df0f4, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 9b6bcff4e0f515745bb49e58a23df0f4, type: 2}
+  - {fileID: 7400000, guid: ed480d2499d3e504ab802cb76281f6fe, type: 2}
+  - {fileID: 7400000, guid: 6135fdbe0f849a943899fde87b0a2698, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &1991178764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991178761}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.6289307, g: 0.6289307, b: 0.6289307, a: 0.7058824}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 2
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1991178765
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991178761}
   m_CullTransparentMesh: 1
 --- !u!1 &2039635793
 GameObject:
