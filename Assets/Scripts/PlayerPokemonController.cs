@@ -26,31 +26,38 @@ public class PlayerPokemonController : PokemonController {
     }
 
     private void Switch1(InputAction.CallbackContext context) {
+        if (switching) return;
         if (switchTimer > 0 && currentPokemon.currentHP > 0) return;
-        if (!throwingChargedMove && pokemonInParty[0].currentHP > 0) battleManager.SwitchPokemon(true, false, 0);
+        if (!throwingChargedMove && pokemonInParty[0].currentHP > 0) battleManager.SwitchPokemon(true, false, 0); switching = true;
     }
     private void Switch2(InputAction.CallbackContext context) {
+        if (switching) return;
         if (switchTimer > 0 && currentPokemon.currentHP > 0) return;
-        if (!throwingChargedMove && pokemonInParty[1].currentHP > 0) battleManager.SwitchPokemon(true, false, 1);
+        if (!throwingChargedMove && pokemonInParty[1].currentHP > 0) battleManager.SwitchPokemon(true, false, 1); switching = true;
     }
     private void Switch3(InputAction.CallbackContext context) {
+        if (switching) return;
         if (switchTimer > 0 && currentPokemon.currentHP > 0) return;
-        if (!throwingChargedMove && pokemonInParty[2].currentHP > 0) battleManager.SwitchPokemon(true, false, 2);
+        if (!throwingChargedMove && pokemonInParty[2].currentHP > 0) battleManager.SwitchPokemon(true, false, 2); switching = true;
     }
     private void Switch4(InputAction.CallbackContext context) {
+        if (switching) return;
         if (switchTimer > 0 && currentPokemon.currentHP > 0) return;
-        if (!throwingChargedMove && pokemonInParty[3].currentHP > 0) battleManager.SwitchPokemon(true, false, 3);
+        if (!throwingChargedMove && pokemonInParty[3].currentHP > 0) battleManager.SwitchPokemon(true, false, 3); switching = true;
     }
     private void Switch5(InputAction.CallbackContext context) {
+        if (switching) return;
         if (switchTimer > 0 && currentPokemon.currentHP > 0) return;
-        if (!throwingChargedMove && pokemonInParty[4].currentHP > 0) battleManager.SwitchPokemon(true, false, 4);
+        if (!throwingChargedMove && pokemonInParty[4].currentHP > 0) battleManager.SwitchPokemon(true, false, 4); switching = true;
     }
     private void Switch6(InputAction.CallbackContext context) {
+        if (switching) return;
         if (switchTimer > 0 && currentPokemon.currentHP > 0) return;
-        if (!throwingChargedMove && pokemonInParty[5].currentHP > 0) battleManager.SwitchPokemon(true, false, 5);
+        if (!throwingChargedMove && pokemonInParty[5].currentHP > 0) battleManager.SwitchPokemon(true, false, 5); switching = true;
     }
     private void PressFastAttack(InputAction.CallbackContext context) {
         autoFastAttack = true;
+        FastAttack(context);
     }
     private void ReleaseFastAttack(InputAction.CallbackContext context) {
         autoFastAttack = false;
@@ -81,7 +88,7 @@ public class PlayerPokemonController : PokemonController {
         queuedChargedMove = null;
     }
     public override void PostSwitch() {
-
+        switching = false;
     }
     public override IEnumerator PokemonSelectTimer(float timer) {
 

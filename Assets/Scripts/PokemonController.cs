@@ -17,6 +17,7 @@ public class PokemonController : MonoBehaviour
     public TMP_Text effectivenessText;
     public TMP_Text[] buffTexts;
     public Animation pokeballSwitchAnimation;
+    public bool switching;
 
     public virtual void PostChargedMoves() { }
     public virtual void PostSwitch() { }

@@ -1442,6 +1442,69 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 278865058}
   m_CullTransparentMesh: 1
+--- !u!1 &295722883
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 295722884}
+  - component: {fileID: 295722885}
+  m_Layer: 0
+  m_Name: Cherrim
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &295722884
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295722883}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 994.58813, y: 498.59647, z: -5.5554466}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 767376739}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &295722885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295722883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9234ef2e58e64d844abe9366e4558771, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pokemonBaseInfo: {fileID: 11400000, guid: 2b985a4ccb429514ebb0968679cb7681, type: 2}
+  pokemonBattleSprite: {fileID: 21300000, guid: ad69e9b492a99684d8620988f5c3eb3a, type: 3}
+  shiny: 0
+  shadow: 0
+  purified: 0
+  level: 40
+  currentHP: 100
+  currentEnergy: 0
+  currentStatus: 0
+  currentBuffs: []
+  IV_HP: 15
+  IV_Attack: 15
+  IV_Defense: 15
+  IV_SpAttack: 15
+  IV_SpDefense: 15
+  IV_Speed: 13
+  fastMove: {fileID: 11400000, guid: cf8b81d4d5cda3b43949c54c05bf0f90, type: 2}
+  chargedMove1: {fileID: 11400000, guid: 139debd895378d041b9cd04eeb6d6640, type: 2}
+  chargedMove2: {fileID: 11400000, guid: 0f88558b257500d4d8c3cf33f5cdc01a, type: 2}
 --- !u!1 &309105668
 GameObject:
   m_ObjectHideFlags: 0
@@ -1922,6 +1985,7 @@ MonoBehaviour:
   - {fileID: 1543727305}
   - {fileID: 1907958958}
   pokeballSwitchAnimation: {fileID: 1574074841}
+  switching: 0
   shouldThrowChargedMoves: 0
   currentMatchupQuality: 0
   partyMatchupQuality: []
@@ -1980,7 +2044,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 400}
+  m_AnchoredPosition: {x: 0, y: 390}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &582237680
@@ -2850,9 +2914,9 @@ MonoBehaviour:
   pokemonInParty:
   - {fileID: 27891632}
   - {fileID: 635919060}
-  - {fileID: 396781031}
+  - {fileID: 1316300097}
   - {fileID: 971511832}
-  - {fileID: 104867812}
+  - {fileID: 396781031}
   - {fileID: 1944447046}
   switchTimer: 0
   postFaintTimer: 0
@@ -2861,6 +2925,7 @@ MonoBehaviour:
   - {fileID: 1076229014}
   - {fileID: 757613156}
   pokeballSwitchAnimation: {fileID: 229493802}
+  switching: 0
   autoFastAttack: 0
 --- !u!4 &767376739
 Transform:
@@ -2883,6 +2948,7 @@ Transform:
   - {fileID: 1944447047}
   - {fileID: 1316300098}
   - {fileID: 27891631}
+  - {fileID: 295722884}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &804304774
@@ -3487,6 +3553,81 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 991794446}
+  m_CullTransparentMesh: 1
+--- !u!1 &1024753749
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1024753750}
+  - component: {fileID: 1024753752}
+  - component: {fileID: 1024753751}
+  m_Layer: 5
+  m_Name: Terrain Timer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1024753750
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024753749}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1884095483}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 390}
+  m_SizeDelta: {x: 90, y: 90}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1024753751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024753749}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 0.54901963}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 0
+  m_FillOrigin: 2
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1024753752
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024753749}
   m_CullTransparentMesh: 1
 --- !u!1 &1072938524
 GameObject:
@@ -4490,11 +4631,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1855734923}
+  m_Father: {fileID: 1884095483}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 330}
+  m_AnchoredPosition: {x: 0, y: 315}
   m_SizeDelta: {x: 1000, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1285113932
@@ -5001,7 +5142,9 @@ MonoBehaviour:
   aiTrainerSelectingPokemon: 0
   switchTimerLength: 50
   currentWeather: 0
+  weatherTimer: 0
   currentTerrain: 0
+  terrainTimer: 0
   types:
   - {fileID: 11400000, guid: 21a33c0897328924089ccdd373175fe8, type: 2}
   - {fileID: 11400000, guid: d1b056634e501c94a866cdae4ebe6971, type: 2}
@@ -6738,7 +6881,6 @@ RectTransform:
   - {fileID: 278865059}
   - {fileID: 1443874139}
   - {fileID: 1991178762}
-  - {fileID: 1285113931}
   m_Father: {fileID: 1884095483}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -6746,6 +6888,81 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -200}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1870405403
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1870405404}
+  - component: {fileID: 1870405406}
+  - component: {fileID: 1870405405}
+  m_Layer: 5
+  m_Name: Weather Timer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1870405404
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870405403}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1884095483}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 475}
+  m_SizeDelta: {x: 90, y: 90}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1870405405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870405403}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 0.54901963}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 0
+  m_FillOrigin: 2
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1870405406
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870405403}
+  m_CullTransparentMesh: 1
 --- !u!1 &1875883418
 GameObject:
   m_ObjectHideFlags: 0
@@ -7205,9 +7422,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2037873954}
+  - {fileID: 1285113931}
   - {fileID: 1407760681}
   - {fileID: 1855734923}
+  - {fileID: 1870405404}
   - {fileID: 1581237880}
+  - {fileID: 1024753750}
   - {fileID: 582237679}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7230,7 +7450,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPokemonController: {fileID: 0}
   weatherIcon: {fileID: 1581237881}
+  weatherTimerIcon: {fileID: 1870405405}
   terrainIcon: {fileID: 582237680}
+  terrainTimerIcon: {fileID: 1024753751}
   chargedMoveText: {fileID: 1285113932}
   playerPokemonText: {fileID: 1987820254}
   playerPokemonSprite: {fileID: 1615772229}

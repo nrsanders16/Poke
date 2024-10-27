@@ -7,7 +7,9 @@ public class HUDManager : MonoBehaviour {
     public PlayerPokemonController playerPokemonController;
 
     public Image weatherIcon;
+    public Image weatherTimerIcon;
     public Image terrainIcon;
+    public Image terrainTimerIcon;
     public TMP_Text chargedMoveText;
 
     [Header("Player HUD")]
@@ -105,36 +107,46 @@ public class HUDManager : MonoBehaviour {
     public void UpdateWeatherIcon(WeatherType currentWeather) {
         if (currentWeather == WeatherType.None) {
             weatherIcon.enabled = false;
+            weatherTimerIcon.enabled = false;
             weatherIcon.sprite = null;
         } else if (currentWeather == WeatherType.Rain) {
             weatherIcon.enabled = true;
+            weatherTimerIcon.enabled = true;
             weatherIcon.sprite = weatherIcons[0];
         } else if (currentWeather == WeatherType.Sun) {
             weatherIcon.enabled = true;
+            weatherTimerIcon.enabled = true;
             weatherIcon.sprite = weatherIcons[1];
         } else if (currentWeather == WeatherType.Sandstorm) {
             weatherIcon.enabled = true;
+            weatherTimerIcon.enabled = true;
             weatherIcon.sprite = weatherIcons[2];
         } else if (currentWeather == WeatherType.Snow) {
-            weatherIcon.enabled = true; 
+            weatherIcon.enabled = true;
+            weatherTimerIcon.enabled = true;
             weatherIcon.sprite = weatherIcons[3];
         }
     }
     public void UpdateTerrainIcon(TerrainType currentTerrain) {
         if (currentTerrain == TerrainType.None) {
             terrainIcon.enabled = false;
+            terrainTimerIcon.enabled = false;
             terrainIcon.sprite = null;
         } else if (currentTerrain == TerrainType.Grassy) {
             terrainIcon.enabled = true;
+            terrainTimerIcon.enabled = true;
             terrainIcon.sprite = terrainIcons[0];
         } else if (currentTerrain == TerrainType.Electric) {
             terrainIcon.enabled = true;
+            terrainTimerIcon.enabled = true;
             terrainIcon.sprite = terrainIcons[1];
         } else if (currentTerrain == TerrainType.Misty) {
             terrainIcon.enabled = true;
+            terrainTimerIcon.enabled = true;
             terrainIcon.sprite = terrainIcons[2];
         } else if (currentTerrain == TerrainType.Psychic) {
             terrainIcon.enabled = true;
+            terrainTimerIcon.enabled = true;
             terrainIcon.sprite = terrainIcons[3];
         }
     }
@@ -199,10 +211,10 @@ public class HUDManager : MonoBehaviour {
             playerEnergyOutline2.color = Color.black;
         }
     }
-    public IEnumerator EffectivenessTextTimer(TMP_Text text, string effectiveness) {
+    public IEnumerator TextTimer(TMP_Text text, string effectiveness, float timer) {
         text.text = effectiveness;
         text.enabled = true;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(timer);
         text.text = null;
         text.enabled = false;
     }

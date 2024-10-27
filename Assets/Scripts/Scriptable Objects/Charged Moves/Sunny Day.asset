@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 73360b506c309f545b6f8a71951ef427, type: 3}
-  m_Name: Rain Dance
+  m_Name: Sunny Day
   m_EditorClassIdentifier: 
-  moveName: Rain Dance
+  moveName: Sunny Day
   baseDamage: 0
-  moveType: {fileID: 11400000, guid: 451868880cf910141b768e8456a1aefa, type: 2}
+  moveType: {fileID: 11400000, guid: e73f30425d2072f4ea34fac3bd752926, type: 2}
   attackType: 2
   animationClips: []
   baseEnergyReq: 15
@@ -25,5 +25,5 @@ MonoBehaviour:
   secondaryType: {fileID: 0}
   moveEffects: 
   moveEffectChances: []
-  weatherEffect: 1
+  weatherEffect: 2
   terrainEffect: 0

@@ -12,7 +12,8 @@ public class AIPokemonController : PokemonController {
     int currentPokemonIndex = 0;
 
     private void Awake() {
-        currentPokemon = pokemonInParty[0];
+        int rdm = UnityEngine.Random.Range(0, pokemonInParty.Length - 1);
+        currentPokemon = pokemonInParty[rdm];
         currentPokemonIndex = 0;
         battleManager.aiTrainerPokemonIndividual = currentPokemon;
     }
@@ -26,7 +27,7 @@ public class AIPokemonController : PokemonController {
 
         yield return new WaitForEndOfFrame();
 
-        if (!battleManager.playerSelectingPokemon && !battleManager.aiTrainerSelectingPokemon) {
+        if (!battleManager.playerSelectingPokemon && !battleManager.aiTrainerSelectingPokemon && !switching) {
 
             if (currentMatchupQuality > 0) {
 
@@ -66,8 +67,10 @@ public class AIPokemonController : PokemonController {
 
                 } else {
 
-                    if (switchTimer <= 0) {
+                    if (switchTimer <= 0 && !switching) {
+                        switching = true;
                         SwitchToBestMatchup();
+
                     } else {
                         if (currentPokemon.currentEnergy >= currentPokemon.chargedMove1.baseEnergyReq && shouldThrowChargedMoves && !battleManager.aiTrainerPokemonUsingChargedMove) {
                             throwingChargedMove = true;
@@ -96,6 +99,7 @@ public class AIPokemonController : PokemonController {
     }
     public override void PostSwitch() {
         //evaluate AI options
+        switching = false;
         if (currentPokemon && battleManager.playerPokemonIndividual) AssessPartyMatchupQuality();
         battleManager.StartFastAttack(this, currentPokemon.fastMove, false);
     }
@@ -206,7 +210,7 @@ public class AIPokemonController : PokemonController {
     public void SwitchToBestMatchup() {
         var l = new List<float>();
         for (int i = 0; i < pokemonInParty.Length; i++) {
-            l.Add(pokemonInParty[i].currentHP);
+            if(pokemonInParty[i] != currentPokemon) l.Add(pokemonInParty[i].currentHP);
         }
         var t = Mathf.Max(l.ToArray());
 

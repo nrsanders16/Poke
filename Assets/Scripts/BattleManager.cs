@@ -31,7 +31,9 @@ public class BattleManager : MonoBehaviour {
     public float switchTimerLength;
 
     public WeatherType currentWeather;
+    public float weatherTimer;
     public TerrainType currentTerrain;
+    public float terrainTimer;
 
     public Type[] types;
     public PokemonObject[] aegislashForms;
@@ -256,7 +258,7 @@ public class BattleManager : MonoBehaviour {
         damage *= BattleCalculations.CalculateWeatherMultiplier(pokemonMove, currentWeather);
         damage *= BattleCalculations.CalculateTerrainMultiplier(pokemonMove, currentTerrain);
 
-        if(!defendingPokemonController.effectivenessText.enabled && damage > 0) StartCoroutine(HUDManager.EffectivenessTextTimer(defendingPokemonController.effectivenessText, ConvertMultiplierToEffectivenessString(calc.y)));
+        if(!defendingPokemonController.effectivenessText.enabled && damage > 0) StartCoroutine(HUDManager.TextTimer(defendingPokemonController.effectivenessText, BattleCalculations.ConvertMultiplierToEffectivenessString(calc.y), 3f));
         defendingPokemonController.currentPokemon.currentHP -= Mathf.RoundToInt(damage);
         HUDManager.UpdateHUD(playerPokemonController, aiTrainerPokemonController);
     }
@@ -364,40 +366,44 @@ public class BattleManager : MonoBehaviour {
         if (chargedMove.weatherEffect != WeatherType.None) {
             currentWeather = chargedMove.weatherEffect;
             HUDManager.UpdateWeatherIcon(currentWeather);
-            StartCoroutine(WeatherTimer(switchTimerLength));
+            weatherTimer = switchTimerLength;
+            StartCoroutine(HUDManager.TextTimer(HUDManager.chargedMoveText, "It started to " + currentWeather.ToString() + "!", 3f));
+            StopCoroutine(WeatherTimer());
+            StartCoroutine(WeatherTimer());
         }
 
         if (chargedMove.terrainEffect != TerrainType.None) {
             currentTerrain = chargedMove.terrainEffect;
             HUDManager.UpdateTerrainIcon(currentTerrain);
+            terrainTimer = switchTimerLength;
+            StopCoroutine(TerrainTimer(switchTimerLength));
             StartCoroutine(TerrainTimer(switchTimerLength));
         }
     }
-    IEnumerator WeatherTimer(float timerLength) {
+    #endregion
+    #region Effects
+    IEnumerator WeatherTimer() {
         yield return new WaitForSeconds(0.1f);
-        timerLength -= 0.1f;
-        if (timerLength <= 0) {
+        HUDManager.weatherTimerIcon.fillAmount = weatherTimer / switchTimerLength;
+        weatherTimer -= 0.1f;
+        if (weatherTimer <= 0) {
             currentWeather = WeatherType.None;
+            weatherTimer = switchTimerLength;
+            HUDManager.UpdateWeatherIcon(currentWeather);
         } else {
-            StartCoroutine(WeatherTimer(timerLength));
+            StartCoroutine(WeatherTimer());
         }
     }
     IEnumerator TerrainTimer(float timerLength) {
         yield return new WaitForSeconds(0.1f);
-        timerLength -= 0.1f;
-        if (timerLength <= 0) {
+        HUDManager.terrainTimerIcon.fillAmount = terrainTimer / switchTimerLength;
+        terrainTimer -= 0.1f;
+        if (terrainTimer <= 0) {
             currentTerrain = TerrainType.None;
+            terrainTimer = switchTimerLength;
+            HUDManager.UpdateTerrainIcon(currentTerrain);
         } else {
-            StartCoroutine(TerrainTimer(timerLength));
-        }
-    }
-    string ConvertMultiplierToEffectivenessString(float effectivenessMultiplier) {
-        if (effectivenessMultiplier > 1) {
-            return "Super Effective!";
-        } else if (effectivenessMultiplier < 1) {
-            return "Not very effective...";
-        } else {
-            return "";
+            StartCoroutine(TerrainTimer(terrainTimer));
         }
     }
     #endregion
@@ -501,7 +507,6 @@ public class BattleManager : MonoBehaviour {
             StartCoroutine(aiTrainerPokemonController.PokemonSelectTimer(timer));
         }      
     }
-
     #endregion
     #region Fainting
     void OnPokemonFaint(bool playerPokemon) {

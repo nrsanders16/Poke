@@ -174,6 +174,15 @@ public static class BattleCalculations {
                 return 1;
         }
     }
+    public static string ConvertMultiplierToEffectivenessString(float effectivenessMultiplier) {
+        if (effectivenessMultiplier > 1) {
+            return "Super Effective!";
+        } else if (effectivenessMultiplier < 1) {
+            return "Not very effective...";
+        } else {
+            return "";
+        }
+    }
     public static float CheckForAttackBuffsAndDebuffs(AttackType attackType, PokemonIndividual pokemonToCheck) {
         if (attackType == AttackType.Physical) {
             return 1f;
