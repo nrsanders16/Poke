@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class HUDManager : MonoBehaviour {
-
     public PlayerPokemonController playerPokemonController;
 
-    public Image[] playerPartyPokemonSprites;
-    public Image[] playerPartyPokemonTimerImages;
+    public Image weatherIcon;
+    public Image terrainIcon;
+    public TMP_Text chargedMoveText;
 
+    [Header("Player HUD")]
     public TMP_Text playerPokemonText;
     public Image playerPokemonSprite;
-    public TMP_Text playerPokemonHPText;
+    public Image playerPokemonShadowSprite;
+    public GameObject playerHPBar;
+    public Image playerHPFill;
+    //public TMP_Text playerPokemonHPText;
     public TMP_Text playerPokemonBPText;
     //public TMP_Text playerPokemonEffectivenessText;
     public TMP_Text playerChargedMove1NameText;
@@ -29,26 +32,23 @@ public class HUDManager : MonoBehaviour {
     public Image playerEnergyImage2layer2;
     public Image playerEnergyImage2layer3;
     public Image playerSwitchTimerImage;
+    public Image[] playerPartyPokemonSprites;
+    public Image[] playerPartyPokemonTimerImages;
+    public Image[] playerPartyPokemonShadowSprites;
 
-    public GameObject playerHPBar;
-    public Image playerHPFill;
-    public GameObject aiTrainerHPBar;
-    public Image aiTrainerHPFill;
-
+    [Header("AI Trainer HUD")]
     public TMP_Text aiTrainerPokemonText;
     public Image aiTrainerPokemonSprite;
-    public TMP_Text aiTrainerPokemonHPText;
+    //public TMP_Text aiTrainerPokemonHPText;
     public TMP_Text aiTrainerPokemonBPText;
     public TMP_Text aiTrainerPokemonEffectivenessText;
     public Image aiTrainerSwitchTimerImage;
-    //public Image aiTrainerEnergyImage1Layer1;
-    //public Image aiTrainerEnergyImage1layer2;
-    //public Image aiTrainerEnergyImage1layer3;
-    //public Image aiTrainerEnergyImage2layer1;
-    //public Image aiTrainerEnergyImage2layer2;
-    //public Image aiTrainerEnergyImage2layer3;
+    public Image aiTrainerPokemonShadowSprite;
+    public GameObject aiTrainerHPBar;
+    public Image aiTrainerHPFill;
 
-    public TMP_Text chargedMoveText;
+    public Sprite[] weatherIcons;
+    public Sprite[] terrainIcons;
 
     public void SetHUD(PokemonController playerPokemonController, PokemonController aiTrainerPokemonController) {
         playerPokemonText.text = playerPokemonController.currentPokemon.pokemonBaseInfo.PokemonName;
@@ -59,6 +59,17 @@ public class HUDManager : MonoBehaviour {
 
         playerPokemonSprite.sprite = playerPokemonController.currentPokemon.pokemonBattleSprite;
         aiTrainerPokemonSprite.sprite = aiTrainerPokemonController.currentPokemon.pokemonBattleSprite;
+
+        if(playerPokemonController.currentPokemon.shadow) {
+            playerPokemonShadowSprite.enabled = true;
+        } else {
+            playerPokemonShadowSprite.enabled = false;
+        }
+        if (aiTrainerPokemonController.currentPokemon.shadow) {
+            aiTrainerPokemonShadowSprite.enabled = true;
+        } else {
+            aiTrainerPokemonShadowSprite.enabled = false;
+        }
 
         playerChargedMove1NameText.text = playerPokemonController.currentPokemon.chargedMove1.moveName;
         playerEnergyBackground1.sprite = playerPokemonController.currentPokemon.chargedMove1.moveType.typeIcon;
@@ -83,7 +94,48 @@ public class HUDManager : MonoBehaviour {
         for (int i = 0; i < playerPartyPokemonSprites.Length; i++) {
             if (playerPartyPokemonSprites[i] != null) {
                 playerPartyPokemonSprites[i].sprite = playerPokemonController.pokemonInParty[i].pokemonBattleSprite;
+                if (playerPokemonController.pokemonInParty[i].shadow) {
+                    playerPartyPokemonShadowSprites[i].enabled = true;
+                } else {
+                    playerPartyPokemonShadowSprites[i].enabled = false;
+                }
             }
+        }
+    }
+    public void UpdateWeatherIcon(WeatherType currentWeather) {
+        if (currentWeather == WeatherType.None) {
+            weatherIcon.enabled = false;
+            weatherIcon.sprite = null;
+        } else if (currentWeather == WeatherType.Rain) {
+            weatherIcon.enabled = true;
+            weatherIcon.sprite = weatherIcons[0];
+        } else if (currentWeather == WeatherType.Sun) {
+            weatherIcon.enabled = true;
+            weatherIcon.sprite = weatherIcons[1];
+        } else if (currentWeather == WeatherType.Sandstorm) {
+            weatherIcon.enabled = true;
+            weatherIcon.sprite = weatherIcons[2];
+        } else if (currentWeather == WeatherType.Snow) {
+            weatherIcon.enabled = true; 
+            weatherIcon.sprite = weatherIcons[3];
+        }
+    }
+    public void UpdateTerrainIcon(TerrainType currentTerrain) {
+        if (currentTerrain == TerrainType.None) {
+            terrainIcon.enabled = false;
+            terrainIcon.sprite = null;
+        } else if (currentTerrain == TerrainType.Grassy) {
+            terrainIcon.enabled = true;
+            terrainIcon.sprite = terrainIcons[0];
+        } else if (currentTerrain == TerrainType.Electric) {
+            terrainIcon.enabled = true;
+            terrainIcon.sprite = terrainIcons[1];
+        } else if (currentTerrain == TerrainType.Misty) {
+            terrainIcon.enabled = true;
+            terrainIcon.sprite = terrainIcons[2];
+        } else if (currentTerrain == TerrainType.Psychic) {
+            terrainIcon.enabled = true;
+            terrainIcon.sprite = terrainIcons[3];
         }
     }
     public void UpdateHPBar(PokemonController pokemonController, Image barFillImage) {

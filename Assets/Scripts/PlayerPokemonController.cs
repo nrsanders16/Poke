@@ -58,13 +58,13 @@ public class PlayerPokemonController : PokemonController {
     private void FastAttack(InputAction.CallbackContext context) {
         if (battleManager.playerSelectingPokemon || battleManager.aiTrainerSelectingPokemon) return;
         if (throwingChargedMove) { return; }
-        battleManager.StartFastAttack(this, currentPokemon.fastMove, true);
+        if (currentPokemon.currentHP > 0) battleManager.StartFastAttack(this, currentPokemon.fastMove, true);
     }
     private void ChargedAttack1(InputAction.CallbackContext context) {
-        ChargedAttack(currentPokemon.chargedMove1);
+        if(currentPokemon.currentHP > 0) ChargedAttack(currentPokemon.chargedMove1);
     }
     private void ChargedAttack2(InputAction.CallbackContext context) {
-        if (currentPokemon.chargedMove2) ChargedAttack(currentPokemon.chargedMove2);
+        if (currentPokemon.currentHP > 0 && currentPokemon.chargedMove2) ChargedAttack(currentPokemon.chargedMove2);
     }
     private void ChargedAttack(ChargedMove chargedMove) {
         if (battleManager.playerSelectingPokemon || battleManager.aiTrainerSelectingPokemon) return;
@@ -87,23 +87,23 @@ public class PlayerPokemonController : PokemonController {
 
         yield return new WaitForSeconds(0.1f);
         timer -= 0.1f;
-        battleManager.HUDManager.playerPokemonSprite.enabled = false;
-        battleManager.HUDManager.playerSwitchTimerImage.fillAmount = timer / 10f;
 
-        if (currentPokemon.currentHP <= 0 && timer <= 0) {
+        if (battleManager.playerSelectingPokemon) {
+            if (timer <= 0) {
+                int nextHealthyPokemon = 0;
 
-            int nextHealthyPokemon = 0;
-
-            for (int i = 0; i < pokemonInParty.Length; i++) {
-                if (pokemonInParty[i].currentHP > 0) {
-                    battleManager.SwitchPokemon(true, true, nextHealthyPokemon);
-                    break;
-                } else {
-                    nextHealthyPokemon++;
+                for (int i = 0; i < pokemonInParty.Length; i++) {
+                    if (pokemonInParty[i].currentHP > 0) {
+                        battleManager.SwitchPokemon(true, true, nextHealthyPokemon);
+                        break;
+                    } else {
+                        nextHealthyPokemon++;
+                    }
                 }
+            } else {
+                battleManager.HUDManager.playerSwitchTimerImage.fillAmount = timer / 10f;
+                StartCoroutine(PokemonSelectTimer(timer));
             }
-        } else {
-            StartCoroutine(PokemonSelectTimer(timer));
         }
     }
 }

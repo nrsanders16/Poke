@@ -70,12 +70,16 @@ public static class BattleCalculations {
         }
 
         float finalDamage = 0;
+        float shadowBoost = 1f;
+        float shadowPenalty = 1f;
+        if (attackingPokemon.shadow) shadowBoost = 1.2f;
+        if (defendingPokemon.shadow) shadowPenalty = 0.8f; 
 
         if (pokemonMove.attackType == AttackType.Physical) {
-            finalDamage = (0.64f * pokemonMove.baseDamage * (attackingPokemon.Attack * ConvertBuffLevelToMultiplier(attackingPokemon.currentBuffs[0])) / (defendingPokemon.Defense * ConvertBuffLevelToMultiplier(defendingPokemon.currentBuffs[1])) * mult) + 1;
+            finalDamage = (0.64f * (pokemonMove.baseDamage * shadowBoost) * (attackingPokemon.Attack * ConvertBuffLevelToMultiplier(attackingPokemon.currentBuffs[0])) / ((defendingPokemon.Defense * ConvertBuffLevelToMultiplier(defendingPokemon.currentBuffs[1])) * shadowPenalty) * mult) + 1;
 
         } else if (pokemonMove.attackType == AttackType.Special) {
-            finalDamage = (0.64f * pokemonMove.baseDamage * (attackingPokemon.SpecialAttack * ConvertBuffLevelToMultiplier(attackingPokemon.currentBuffs[2])) / (defendingPokemon.SpecialDefense * ConvertBuffLevelToMultiplier(attackingPokemon.currentBuffs[3])) * mult) + 1;
+            finalDamage = (0.64f * (pokemonMove.baseDamage * shadowBoost) * (attackingPokemon.SpecialAttack * ConvertBuffLevelToMultiplier(attackingPokemon.currentBuffs[2])) / ((defendingPokemon.SpecialDefense * ConvertBuffLevelToMultiplier(attackingPokemon.currentBuffs[3])) * shadowPenalty) * mult) + 1;
 
         } else { // STATUS MOVES
             finalDamage = 0;
@@ -85,6 +89,50 @@ public static class BattleCalculations {
 
         return final;
      
+    }
+    public static float CalculateWeatherMultiplier(PokemonMove pokemonMove, WeatherType currentWeather) {
+        float mult = 1;
+        if (currentWeather == WeatherType.Rain) {
+            if (pokemonMove.moveType.typeName == TypeName.Water) {
+                mult = 1.1f;
+            } else if (pokemonMove.moveType.typeName == TypeName.Fire) {
+                mult = 0.9f;
+            }
+        } else if (currentWeather == WeatherType.Sun) {
+            if (pokemonMove.moveType.typeName == TypeName.Water) {
+                mult = 0.9f;
+            } else if (pokemonMove.moveType.typeName == TypeName.Fire) {
+                mult = 1.1f;
+            }
+        } else if (currentWeather == WeatherType.Sandstorm) {
+
+        } else if (currentWeather == WeatherType.Snow) {
+
+        }
+        return mult;
+    }
+    public static float CalculateTerrainMultiplier(PokemonMove pokemonMove, TerrainType currentTerrain) {
+        float mult = 1;
+        if (currentTerrain == TerrainType.Electric) {
+            if (pokemonMove.moveType.typeName == TypeName.Electric) {
+                mult = 1.1f;
+            }
+        } else if (currentTerrain == TerrainType.Grassy) {
+            if (pokemonMove.moveType.typeName == TypeName.Grass) {
+                mult = 1.1f;
+            }
+        } else if (currentTerrain == TerrainType.Misty) {
+            if (pokemonMove.moveType.typeName == TypeName.Fairy) {
+                mult = 1.1f;
+            } else if (pokemonMove.moveType.typeName == TypeName.Fairy) {
+                mult = 0.9f;
+            }
+        } else if (currentTerrain == TerrainType.Psychic) {
+            if (pokemonMove.moveType.typeName == TypeName.Psychic) {
+                mult = 1.1f;
+            }
+        }
+        return mult;
     }
     public static float ConvertBuffLevelToMultiplier(float buffLevel) {
         switch (buffLevel) {

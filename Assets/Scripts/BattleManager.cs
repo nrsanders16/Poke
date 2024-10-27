@@ -30,6 +30,9 @@ public class BattleManager : MonoBehaviour {
     //[SerializeField] bool chargedMoveTie;
     public float switchTimerLength;
 
+    public WeatherType currentWeather;
+    public TerrainType currentTerrain;
+
     public Type[] types;
     public PokemonObject[] aegislashForms;
 
@@ -248,9 +251,13 @@ public class BattleManager : MonoBehaviour {
     }
     void ApplyAttackDamage(PokemonController attackingPokemonController, PokemonController defendingPokemonController, PokemonMove pokemonMove) {
         Vector2 calc = BattleCalculations.CalculateAttackDamage(attackingPokemonController.currentPokemon, defendingPokemonController.currentPokemon, pokemonMove);
-        int damage = Mathf.RoundToInt(calc.x);
-        if(!defendingPokemonController.effectivenessText.enabled) StartCoroutine(HUDManager.EffectivenessTextTimer(defendingPokemonController.effectivenessText, ConvertMultiplierToEffectivenessString(calc.y)));
-        defendingPokemonController.currentPokemon.currentHP -= damage;
+        float damage = calc.x;
+
+        damage *= BattleCalculations.CalculateWeatherMultiplier(pokemonMove, currentWeather);
+        damage *= BattleCalculations.CalculateTerrainMultiplier(pokemonMove, currentTerrain);
+
+        if(!defendingPokemonController.effectivenessText.enabled && damage > 0) StartCoroutine(HUDManager.EffectivenessTextTimer(defendingPokemonController.effectivenessText, ConvertMultiplierToEffectivenessString(calc.y)));
+        defendingPokemonController.currentPokemon.currentHP -= Mathf.RoundToInt(damage);
         HUDManager.UpdateHUD(playerPokemonController, aiTrainerPokemonController);
     }
     void ApplyAttackEffects(PokemonController attackingPokemonController, PokemonController defendingPokemonController, ChargedMove chargedMove) {
@@ -353,6 +360,36 @@ public class BattleManager : MonoBehaviour {
                 }
             }
         }
+
+        if (chargedMove.weatherEffect != WeatherType.None) {
+            currentWeather = chargedMove.weatherEffect;
+            HUDManager.UpdateWeatherIcon(currentWeather);
+            StartCoroutine(WeatherTimer(switchTimerLength));
+        }
+
+        if (chargedMove.terrainEffect != TerrainType.None) {
+            currentTerrain = chargedMove.terrainEffect;
+            HUDManager.UpdateTerrainIcon(currentTerrain);
+            StartCoroutine(TerrainTimer(switchTimerLength));
+        }
+    }
+    IEnumerator WeatherTimer(float timerLength) {
+        yield return new WaitForSeconds(0.1f);
+        timerLength -= 0.1f;
+        if (timerLength <= 0) {
+            currentWeather = WeatherType.None;
+        } else {
+            StartCoroutine(WeatherTimer(timerLength));
+        }
+    }
+    IEnumerator TerrainTimer(float timerLength) {
+        yield return new WaitForSeconds(0.1f);
+        timerLength -= 0.1f;
+        if (timerLength <= 0) {
+            currentTerrain = TerrainType.None;
+        } else {
+            StartCoroutine(TerrainTimer(timerLength));
+        }
     }
     string ConvertMultiplierToEffectivenessString(float effectivenessMultiplier) {
         if (effectivenessMultiplier > 1) {
@@ -366,13 +403,12 @@ public class BattleManager : MonoBehaviour {
     #endregion
     #region Switching Pokemon
     public void SwitchPokemon(bool playerPokemon, bool pokemonFainted, int newPokemonIndex) {
-        if(playerPokemon) {
-            StopCoroutine(playerPokemonController.PokemonSelectTimer(0));
-        } else {
-            StopCoroutine(aiTrainerPokemonController.PokemonSelectTimer(0));
+        if (playerPokemon) { playerSelectingPokemon = false; } else { aiTrainerSelectingPokemon = false; }
+        if (playerPokemon) { 
+            playerPokemonController.pokeballSwitchAnimation.Play(); 
+        } else { 
+            aiTrainerPokemonController.pokeballSwitchAnimation.Play(); 
         }
-
-        if(playerPokemon) { playerSelectingPokemon = false; } else { aiTrainerSelectingPokemon = false; }
         StartCoroutine(PokemonSwitch(playerPokemon, pokemonFainted, newPokemonIndex));
     }
     IEnumerator PokemonSwitch(bool playerPokemon, bool pokemonFainted, int newPokemonIndex) {
@@ -381,7 +417,6 @@ public class BattleManager : MonoBehaviour {
             playerPokemonController.queuedChargedMove = null;
             HUDManager.playerPokemonSprite.sprite = null;
             HUDManager.playerPokemonSprite.enabled = false;
-
         } else {
             HUDManager.aiTrainerSwitchTimerImage.enabled = false;
             aiTrainerPokemonController.queuedChargedMove = null;
@@ -401,6 +436,8 @@ public class BattleManager : MonoBehaviour {
 
         yield return new WaitForSeconds(0.5f);
 
+        SendOutPokemon(playerPokemon);
+
         if (playerPokemon) {
             playerPokemonController.currentPokemon = playerPokemonController.pokemonInParty[newPokemonIndex];
             playerPokemonIndividual = playerPokemonController.currentPokemon;
@@ -419,6 +456,8 @@ public class BattleManager : MonoBehaviour {
         aiTrainerPokemonController.PostSwitch();
         HUDManager.SetHUD(playerPokemonController, aiTrainerPokemonController);
         HUDManager.UpdateHUD(playerPokemonController, aiTrainerPokemonController);
+
+        // check for switch-in abilities
     }
     public IEnumerator SwitchCountdownTimer(bool playerPokemon, PokemonController pokemonController) {
         yield return new WaitForSeconds(0.1f);
@@ -436,8 +475,12 @@ public class BattleManager : MonoBehaviour {
 
         if (pokemonController.switchTimer >= 0) StartCoroutine(SwitchCountdownTimer(playerPokemon, pokemonController));
     }
-    public void SendOutPokemon() {
-
+    public void SendOutPokemon(bool playerPokemon) {
+        if (playerPokemon) {
+            StopCoroutine(playerPokemonController.PokemonSelectTimer(0));
+        } else {
+            StopCoroutine(aiTrainerPokemonController.PokemonSelectTimer(0));
+        }
     }
     void StartPokemonSelectTimer(bool pokemonFainted, bool playerPokemon) {  // timer for selecting pokemon after pokemon faints
         int timer = 5;
@@ -447,9 +490,13 @@ public class BattleManager : MonoBehaviour {
         aiTrainerPokemonUsingFastMove = false;
         playerPokemonUsingFastMove = false;
         if(!playerPokemon) {
+            HUDManager.playerPokemonSprite.enabled = false;
+            HUDManager.playerPokemonShadowSprite.enabled = false;
             HUDManager.playerSwitchTimerImage.enabled = true;
             StartCoroutine(playerPokemonController.PokemonSelectTimer(timer));
         } else {
+            HUDManager.aiTrainerPokemonSprite.enabled = false;
+            HUDManager.aiTrainerPokemonShadowSprite.enabled = false;
             HUDManager.aiTrainerSwitchTimerImage.enabled = true;
             StartCoroutine(aiTrainerPokemonController.PokemonSelectTimer(timer));
         }      

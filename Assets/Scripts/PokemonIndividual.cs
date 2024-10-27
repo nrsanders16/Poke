@@ -5,6 +5,8 @@ public class PokemonIndividual : MonoBehaviour {
     public PokemonObject pokemonBaseInfo;
     public Sprite pokemonBattleSprite;
     public bool shiny;
+    public bool shadow;
+    public bool purified;
 
     public int level;
     int battlePower;

@@ -16,6 +16,7 @@ public class PokemonController : MonoBehaviour
     public float postFaintTimer;
     public TMP_Text effectivenessText;
     public TMP_Text[] buffTexts;
+    public Animation pokeballSwitchAnimation;
 
     public virtual void PostChargedMoves() { }
     public virtual void PostSwitch() { }

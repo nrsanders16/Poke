@@ -27,15 +27,60 @@ public class AIPokemonController : PokemonController {
         yield return new WaitForEndOfFrame();
 
         if (!battleManager.playerSelectingPokemon && !battleManager.aiTrainerSelectingPokemon) {
-            if (currentPokemon.currentEnergy >= currentPokemon.chargedMove1.baseEnergyReq && shouldThrowChargedMoves && !battleManager.aiTrainerPokemonUsingChargedMove) {
-                throwingChargedMove = true;
-                queuedChargedMove = currentPokemon.chargedMove1;
-                battleManager.ThrowChargedMove(false);
-                //print("Battle AI Throw charged move");
+
+            if (currentMatchupQuality > 0) {
+
+                if (currentPokemon.currentEnergy >= currentPokemon.chargedMove1.baseEnergyReq && shouldThrowChargedMoves && !battleManager.aiTrainerPokemonUsingChargedMove) {
+                    throwingChargedMove = true;
+                    queuedChargedMove = currentPokemon.chargedMove1;
+                    battleManager.ThrowChargedMove(false);
+                    //print("Battle AI Throw charged move");
+
+                } else {
+                    if (!battleManager.playerSelectingPokemon && !battleManager.aiTrainerPokemonUsingFastMove && !(currentPokemon.currentHP <= 0 || battleManager.playerPokemonController.currentPokemon.currentHP <= 0)) {
+                        battleManager.StartFastAttack(this, currentPokemon.fastMove, false);
+                    }
+                }
 
             } else {
-                if (!battleManager.aiTrainerPokemonUsingFastMove && !(currentPokemon.currentHP <= 0 || battleManager.playerPokemonController.currentPokemon.currentHP <= 0)) {
-                    battleManager.StartFastAttack(this, currentPokemon.fastMove, false);
+
+                var l = new List<float>();
+                for (int i = 0; i < pokemonInParty.Length; i++) {
+                    if (pokemonInParty[i] != currentPokemon) l.Add(pokemonInParty[i].currentHP);
+                }
+                var t = Mathf.Max(l.ToArray());
+
+                if (t <= 0) { //if all other pokemon are fainted
+
+                    if (currentPokemon.currentEnergy >= currentPokemon.chargedMove1.baseEnergyReq && shouldThrowChargedMoves && !battleManager.aiTrainerPokemonUsingChargedMove) {
+                        throwingChargedMove = true;
+                        queuedChargedMove = currentPokemon.chargedMove1;
+                        battleManager.ThrowChargedMove(false);
+                        //print("Battle AI Throw charged move");
+
+                    } else {
+                        if (!battleManager.playerSelectingPokemon && !battleManager.aiTrainerPokemonUsingFastMove && !(currentPokemon.currentHP <= 0 || battleManager.playerPokemonController.currentPokemon.currentHP <= 0)) {
+                            battleManager.StartFastAttack(this, currentPokemon.fastMove, false);
+                        }
+                    }
+
+                } else {
+
+                    if (switchTimer <= 0) {
+                        SwitchToBestMatchup();
+                    } else {
+                        if (currentPokemon.currentEnergy >= currentPokemon.chargedMove1.baseEnergyReq && shouldThrowChargedMoves && !battleManager.aiTrainerPokemonUsingChargedMove) {
+                            throwingChargedMove = true;
+                            queuedChargedMove = currentPokemon.chargedMove1;
+                            battleManager.ThrowChargedMove(false);
+                            //print("Battle AI Throw charged move");
+
+                        } else {
+                            if (!battleManager.playerSelectingPokemon && !battleManager.aiTrainerPokemonUsingFastMove && !(currentPokemon.currentHP <= 0 || battleManager.playerPokemonController.currentPokemon.currentHP <= 0)) {
+                                battleManager.StartFastAttack(this, currentPokemon.fastMove, false);
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73360b506c309f545b6f8a71951ef427, type: 3}
+  m_Name: Psychic Terrain
+  m_EditorClassIdentifier: 
+  moveName: Psychic Terrain
+  baseDamage: 0
+  moveType: {fileID: 11400000, guid: 0bacd531cd4cab84d9ab24ab1a6eb752, type: 2}
+  attackType: 2
+  animationClips: []
+  baseEnergyReq: 45
+  ownBuffs: []
+  ownBuffChance: 0
+  oppBuffs: []
+  oppBuffChance: 0
+  secondaryType: {fileID: 0}
+  moveEffects: 
+  moveEffectChances: []
+  weatherEffect: 0
+  terrainEffect: 3
