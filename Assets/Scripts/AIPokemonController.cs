@@ -12,6 +12,8 @@ public class AIPokemonController : PokemonController {
     int currentPokemonIndex = 0;
 
     private void Awake() {
+        pokemonImageRt = pokemonBattleImage.GetComponent<RectTransform>();
+        shadowImageRt = pokemonBattleImage.gameObject.transform.GetChild(0).GetComponent<RectTransform>();
         int rdm = UnityEngine.Random.Range(0, pokemonInParty.Length - 1);
         currentPokemon = pokemonInParty[rdm];
         currentPokemonIndex = 0;
@@ -225,7 +227,7 @@ public class AIPokemonController : PokemonController {
             //int newPokemonIndex = List<float>.IndexOf(ind); //Wrong, sort list and choose index 0 of sorted list
             //check if pokemon is fainted
             //if so, newPokemonIndex++ and check again
-            battleManager.SwitchPokemon(false, currentPokemon.currentHP <= 0, newPokemonIndex);
+            battleManager.SwitchPokemon(this, currentPokemon.currentHP <= 0, newPokemonIndex);
             //battleManager.SwitchPokemon(false, 1);
         }
 
@@ -233,7 +235,7 @@ public class AIPokemonController : PokemonController {
     public override IEnumerator PokemonSelectTimer(float timer) {
 
         yield return new WaitForSeconds(0.1f);
-        battleManager.HUDManager.aiTrainerPokemonSprite.enabled = false;
+        pokemonBattleImage.enabled = false;
         battleManager.HUDManager.aiTrainerSwitchTimerImage.fillAmount = timer / 10f;
         timer -= 0.1f;
         if(timer < 5) {

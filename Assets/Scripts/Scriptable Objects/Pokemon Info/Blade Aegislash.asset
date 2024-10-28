@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Blade Aegislash
   m_EditorClassIdentifier: 
   pokemonName: Aegislash
-  pokemonBattleSprites:
-  - {fileID: 21300000, guid: 2bf683a6691254a4aade0417acc4010c, type: 3}
+  pokemonBattleSprite: {fileID: 21300000, guid: 2bf683a6691254a4aade0417acc4010c, type: 3}
   shinyPokemonBattleSprite: {fileID: 0}
+  alternateFormSprites: []
+  shinyAlternateFormSprites: []
   primaryType: {fileID: 11400000, guid: 21449e62349af914e81b2870270f3165, type: 2}
   secondaryType: {fileID: 11400000, guid: d2946ee60a217d64bb2b67feba9493c8, type: 2}
   baseHP: 60
@@ -27,3 +28,4 @@ MonoBehaviour:
   learnableFastMoves: []
   learnableChargedMoves: []
   possibleAbilities: 
+  spriteSize: 300

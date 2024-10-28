@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Cherrim
   m_EditorClassIdentifier: 
   pokemonName: Cherrim
-  pokemonBattleSprites:
-  - {fileID: 21300000, guid: ad69e9b492a99684d8620988f5c3eb3a, type: 3}
+  pokemonBattleSprite: {fileID: 21300000, guid: ad69e9b492a99684d8620988f5c3eb3a, type: 3}
+  shinyPokemonBattleSprite: {fileID: 21300000, guid: 5995145bec75bbc4a8c14ad21df1bf9c, type: 3}
+  alternateFormSprites:
   - {fileID: 21300000, guid: ffbbf3eb1d9ef484db9cfaef3a0f49f1, type: 3}
-  shinyPokemonBattleSprite: {fileID: 0}
+  shinyAlternateFormSprites:
+  - {fileID: 21300000, guid: c4b4c941ce8376846a8010b0b07491fa, type: 3}
   primaryType: {fileID: 11400000, guid: 796d0ba503e14fd49bafc3452c7777c1, type: 2}
   secondaryType: {fileID: 0}
   baseHP: 70
@@ -28,3 +30,4 @@ MonoBehaviour:
   learnableFastMoves: []
   learnableChargedMoves: []
   possibleAbilities: 
+  spriteSize: 200

@@ -7,6 +7,8 @@ public class PlayerPokemonController : PokemonController {
     public PlayerInputController playerInput;
     public bool autoFastAttack;
     private void Awake() {
+        pokemonImageRt = pokemonBattleImage.GetComponent<RectTransform>();
+        shadowImageRt = pokemonBattleImage.gameObject.transform.GetChild(0).GetComponent<RectTransform>();
         currentPokemon = pokemonInParty[0];
         battleManager.playerPokemonIndividual = currentPokemon;
         playerInput = new PlayerInputController();
@@ -28,32 +30,38 @@ public class PlayerPokemonController : PokemonController {
     private void Switch1(InputAction.CallbackContext context) {
         if (switching) return;
         if (switchTimer > 0 && currentPokemon.currentHP > 0) return;
-        if (!throwingChargedMove && pokemonInParty[0].currentHP > 0) battleManager.SwitchPokemon(true, false, 0); switching = true;
+        if (pokemonInParty[0].currentHP <= 0) return;
+        if (!throwingChargedMove && pokemonInParty[0].currentHP > 0) battleManager.SwitchPokemon(this, false, 0); switching = true;
     }
     private void Switch2(InputAction.CallbackContext context) {
         if (switching) return;
         if (switchTimer > 0 && currentPokemon.currentHP > 0) return;
-        if (!throwingChargedMove && pokemonInParty[1].currentHP > 0) battleManager.SwitchPokemon(true, false, 1); switching = true;
+        if (pokemonInParty[1].currentHP <= 0) return;
+        if (!throwingChargedMove && pokemonInParty[1].currentHP > 0) battleManager.SwitchPokemon(this, false, 1); switching = true;
     }
     private void Switch3(InputAction.CallbackContext context) {
         if (switching) return;
         if (switchTimer > 0 && currentPokemon.currentHP > 0) return;
-        if (!throwingChargedMove && pokemonInParty[2].currentHP > 0) battleManager.SwitchPokemon(true, false, 2); switching = true;
+        if (pokemonInParty[2].currentHP <= 0) return;
+        if (!throwingChargedMove && pokemonInParty[2].currentHP > 0) battleManager.SwitchPokemon(this, false, 2); switching = true;
     }
     private void Switch4(InputAction.CallbackContext context) {
         if (switching) return;
         if (switchTimer > 0 && currentPokemon.currentHP > 0) return;
-        if (!throwingChargedMove && pokemonInParty[3].currentHP > 0) battleManager.SwitchPokemon(true, false, 3); switching = true;
+        if (pokemonInParty[3].currentHP <= 0) return;
+        if (!throwingChargedMove && pokemonInParty[3].currentHP > 0) battleManager.SwitchPokemon(this, false, 3); switching = true;
     }
     private void Switch5(InputAction.CallbackContext context) {
         if (switching) return;
         if (switchTimer > 0 && currentPokemon.currentHP > 0) return;
-        if (!throwingChargedMove && pokemonInParty[4].currentHP > 0) battleManager.SwitchPokemon(true, false, 4); switching = true;
+        if (pokemonInParty[4].currentHP <= 0) return;
+        if (!throwingChargedMove && pokemonInParty[4].currentHP > 0) battleManager.SwitchPokemon(this, false, 4); switching = true;
     }
     private void Switch6(InputAction.CallbackContext context) {
         if (switching) return;
         if (switchTimer > 0 && currentPokemon.currentHP > 0) return;
-        if (!throwingChargedMove && pokemonInParty[5].currentHP > 0) battleManager.SwitchPokemon(true, false, 5); switching = true;
+        if (pokemonInParty[5].currentHP <= 0) return;
+        if (!throwingChargedMove && pokemonInParty[5].currentHP > 0) battleManager.SwitchPokemon(this, false, 5); switching = true;
     }
     private void PressFastAttack(InputAction.CallbackContext context) {
         autoFastAttack = true;
@@ -101,7 +109,7 @@ public class PlayerPokemonController : PokemonController {
 
                 for (int i = 0; i < pokemonInParty.Length; i++) {
                     if (pokemonInParty[i].currentHP > 0) {
-                        battleManager.SwitchPokemon(true, true, nextHealthyPokemon);
+                        battleManager.SwitchPokemon(this, true, nextHealthyPokemon);
                         break;
                     } else {
                         nextHealthyPokemon++;

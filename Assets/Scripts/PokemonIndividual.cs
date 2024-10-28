@@ -4,17 +4,25 @@ using UnityEngine;
 public class PokemonIndividual : MonoBehaviour {
     public PokemonObject pokemonBaseInfo;
     public Sprite pokemonBattleSprite;
+    public Sprite[] alternateFormSprites;
     public bool shiny;
     public bool shadow;
     public bool purified;
+    public bool mega;
+    public bool dynamax;
+    public bool tera;
 
     public int level;
     int battlePower;
     int currentExp;
+
     public int currentHP;
     public int currentEnergy;
     public StatusEffect currentStatus;
     public float[] currentBuffs;
+    public bool formChanged;
+
+    public TypeName teraType;
 
     public int IV_HP;
     public int IV_Attack;
@@ -29,6 +37,13 @@ public class PokemonIndividual : MonoBehaviour {
 
     private void Awake() {
         currentBuffs = new float[4];
+        if(shiny) {
+            pokemonBattleSprite = pokemonBaseInfo.ShinyPokemonBattleSprite;
+            alternateFormSprites = pokemonBaseInfo.ShinyAlternateFormSprites;
+        } else {
+            pokemonBattleSprite = pokemonBaseInfo.PokemonBattleSprite;
+            alternateFormSprites = pokemonBaseInfo.AlternateFormSprites;
+        }
     }
 
     public int BattlePower {

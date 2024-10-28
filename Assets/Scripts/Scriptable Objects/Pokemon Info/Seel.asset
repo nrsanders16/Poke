@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Seel
   m_EditorClassIdentifier: 
   pokemonName: Seel
-  pokemonBattleSprites:
-  - {fileID: 21300000, guid: 4536879184dce004683b873fd1a37b3f, type: 3}
+  pokemonBattleSprite: {fileID: 21300000, guid: 4536879184dce004683b873fd1a37b3f, type: 3}
   shinyPokemonBattleSprite: {fileID: 0}
+  alternateFormSprites: []
+  shinyAlternateFormSprites: []
   primaryType: {fileID: 11400000, guid: 451868880cf910141b768e8456a1aefa, type: 2}
   secondaryType: {fileID: 0}
   baseHP: 65
@@ -28,3 +29,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 99ac136a521062b42976ea594fa9142f, type: 2}
   learnableChargedMoves: []
   possibleAbilities: 
+  spriteSize: 200

@@ -41,6 +41,10 @@ public class BattleManager : MonoBehaviour {
     private void Start() {
         playerPokemonController.currentPokemon.currentEnergy = 0;
         aiTrainerPokemonController.currentPokemon.currentEnergy = 0;
+
+        playerPokemonController.currentPokemonBattleSprite = playerPokemonController.currentPokemon.pokemonBattleSprite;
+        aiTrainerPokemonController.currentPokemonBattleSprite = aiTrainerPokemonController.currentPokemon.pokemonBattleSprite;
+
         HUDManager.SetHUD(playerPokemonController, aiTrainerPokemonController);
         HUDManager.UpdateHUD(playerPokemonController, aiTrainerPokemonController);
 
@@ -115,7 +119,7 @@ public class BattleManager : MonoBehaviour {
 
         if (defendingPokemonController.currentPokemon.currentHP <= 0) {
 
-            StartPokemonSelectTimer(true, playerPokemon);
+            OnPokemonFaint(playerPokemon);
 
         } else {
             if (playerPokemon) {
@@ -210,35 +214,15 @@ public class BattleManager : MonoBehaviour {
             aiTrainerPokemonUsingChargedMove = false;
         }
 
-        if (attackingPokemonController.queuedChargedMove.moveName == "Aura Wheel") {
-            if (attackingPokemonController.currentPokemon.chargedMove1.moveType == types[0]) {
-                attackingPokemonController.currentPokemon.chargedMove1.moveType = types[1];
-                attackingPokemonController.currentPokemon.pokemonBattleSprite = attackingPokemonController.currentPokemon.pokemonBaseInfo.PokemonBattleSprites[1];
-            } else {
-                attackingPokemonController.currentPokemon.chargedMove1.moveType = types[0];
-                attackingPokemonController.currentPokemon.pokemonBattleSprite = attackingPokemonController.currentPokemon.pokemonBaseInfo.PokemonBattleSprites[0];
-            }
-            //HUDManager.playerPokemonSprite.sprite = attackingPokemonController.currentPokemon.pokemonBattleSprite; // only works for player
-            HUDManager.SetHUD(playerPokemonController, aiTrainerPokemonController);
-
-        } else if (attackingPokemonController.queuedChargedMove.moveName == "King's Shield") {
-            if (attackingPokemonController.currentPokemon.pokemonBaseInfo == aegislashForms[0]) {
-                attackingPokemonController.currentPokemon.pokemonBaseInfo = aegislashForms[1];
-                attackingPokemonController.currentPokemon.pokemonBattleSprite = attackingPokemonController.currentPokemon.pokemonBaseInfo.PokemonBattleSprites[0];
-            } else {
-                attackingPokemonController.currentPokemon.pokemonBaseInfo = aegislashForms[0];
-                attackingPokemonController.currentPokemon.pokemonBattleSprite = attackingPokemonController.currentPokemon.pokemonBaseInfo.PokemonBattleSprites[0];
-            }
-            //HUDManager.playerPokemonSprite.sprite = attackingPokemonController.currentPokemon.pokemonBattleSprite; // only works for player
-            HUDManager.SetHUD(playerPokemonController, aiTrainerPokemonController);
-        }
+        HandleFormChanges(attackingPokemonController);
+        HandleFormChanges(defendingPokemonController);
 
         if (defendingPokemonController.currentPokemon.currentHP <= 0) {
             // start coroutine for switch screen
             playerPokemonUsingFastMove = false;
             aiTrainerPokemonUsingFastMove = false;
-            StartPokemonSelectTimer(true, playerPokemon);
-            print(defendingPokemonController.currentPokemon.pokemonBaseInfo.PokemonName + " fainted!");
+            OnPokemonFaint(playerPokemon);
+
 
         } else {
             if (defendingPokemonController.throwingChargedMove) {
@@ -408,62 +392,93 @@ public class BattleManager : MonoBehaviour {
     }
     #endregion
     #region Switching Pokemon
-    public void SwitchPokemon(bool playerPokemon, bool pokemonFainted, int newPokemonIndex) {
-        if (playerPokemon) { playerSelectingPokemon = false; } else { aiTrainerSelectingPokemon = false; }
-        if (playerPokemon) { 
-            playerPokemonController.pokeballSwitchAnimation.Play(); 
-        } else { 
-            aiTrainerPokemonController.pokeballSwitchAnimation.Play(); 
-        }
-        StartCoroutine(PokemonSwitch(playerPokemon, pokemonFainted, newPokemonIndex));
+    public void SwitchPokemon(PokemonController pokemonController, bool pokemonFainted, int newPokemonIndex) {
+        if (pokemonController == playerPokemonController) { playerSelectingPokemon = false; } else { aiTrainerSelectingPokemon = false; }
+
+        pokemonController.pokeballSwitchAnimation.Play(); 
+
+        StartCoroutine(PokemonSwitch(pokemonController, pokemonFainted, newPokemonIndex));
     }
-    IEnumerator PokemonSwitch(bool playerPokemon, bool pokemonFainted, int newPokemonIndex) {
-        if (playerPokemon) {
+    IEnumerator PokemonSwitch(PokemonController pokemonController, bool pokemonFainted, int newPokemonIndex) {
+        if (pokemonController == playerPokemonController) {
             HUDManager.playerSwitchTimerImage.enabled = false;
-            playerPokemonController.queuedChargedMove = null;
-            HUDManager.playerPokemonSprite.sprite = null;
-            HUDManager.playerPokemonSprite.enabled = false;
         } else {
             HUDManager.aiTrainerSwitchTimerImage.enabled = false;
-            aiTrainerPokemonController.queuedChargedMove = null;
-            HUDManager.aiTrainerPokemonSprite.sprite = null;
-            HUDManager.aiTrainerPokemonSprite.enabled = false;
         }
+        pokemonController.pokemonBattleImage.sprite = null;
+        pokemonController.pokemonBattleImage.enabled = false;
+        pokemonController.queuedChargedMove = null;
 
         if (!pokemonFainted) {
-            if (playerPokemon) {
-                if (playerPokemonController.currentPokemon.currentHP >= 0) playerPokemonController.switchTimer = switchTimerLength;
-                StartCoroutine(SwitchCountdownTimer(playerPokemon, playerPokemonController));
-            } else {
-                if (aiTrainerPokemonController.currentPokemon.currentHP >= 0) aiTrainerPokemonController.switchTimer = switchTimerLength;
-                StartCoroutine(SwitchCountdownTimer(playerPokemon, aiTrainerPokemonController));
-            }
+            if (pokemonController.currentPokemon.currentHP >= 0) pokemonController.switchTimer = switchTimerLength;
+            StartCoroutine(SwitchCountdownTimer(pokemonController == playerPokemonController, pokemonController));
         }
 
         yield return new WaitForSeconds(0.5f);
 
-        SendOutPokemon(playerPokemon);
+        pokemonController.currentPokemon = pokemonController.pokemonInParty[newPokemonIndex];
 
-        if (playerPokemon) {
-            playerPokemonController.currentPokemon = playerPokemonController.pokemonInParty[newPokemonIndex];
-            playerPokemonIndividual = playerPokemonController.currentPokemon;
-            HUDManager.playerPokemonSprite.sprite = playerPokemonIndividual.pokemonBattleSprite;
-            HUDManager.playerPokemonSprite.enabled = true;
-        } else {
-            aiTrainerPokemonController.currentPokemon = aiTrainerPokemonController.pokemonInParty[newPokemonIndex];
-            aiTrainerPokemonIndividual = aiTrainerPokemonController.currentPokemon;
-            HUDManager.aiTrainerPokemonSprite.sprite = aiTrainerPokemonIndividual.pokemonBattleSprite;
-            HUDManager.aiTrainerPokemonSprite.enabled = true;
-        }
+        playerPokemonController.currentPokemonBattleSprite = playerPokemonController.currentPokemon.pokemonBattleSprite;
+        aiTrainerPokemonController.currentPokemonBattleSprite = aiTrainerPokemonController.currentPokemon.pokemonBattleSprite;
+
+        //pokemonController.pokemonBattleImage.sprite = pokemonController.currentPokemon.pokemonBattleSprite;
+
+        playerPokemonIndividual = playerPokemonController.currentPokemon;
+        aiTrainerPokemonIndividual = aiTrainerPokemonController.currentPokemon;
+
+        SendOutPokemon(pokemonController);
 
         yield return new WaitForEndOfFrame();
 
-        playerPokemonController.PostSwitch();
-        aiTrainerPokemonController.PostSwitch();
-        HUDManager.SetHUD(playerPokemonController, aiTrainerPokemonController);
-        HUDManager.UpdateHUD(playerPokemonController, aiTrainerPokemonController);
+        pokemonController.PostSwitch();
 
         // check for switch-in abilities
+        HandleFormChanges(pokemonController);
+        // check for switch-in form changes
+
+        pokemonController.pokemonBattleImage.enabled = true;
+
+        HUDManager.SetHUD(playerPokemonController, aiTrainerPokemonController);
+        HUDManager.UpdateHUD(playerPokemonController, aiTrainerPokemonController);
+    }
+    public void HandleFormChanges(PokemonController pokemonController) {
+        var currentPokemon = pokemonController.currentPokemon;
+        if (currentPokemon.pokemonBaseInfo.PokemonName == "Cherrim") { // CHANGE THIS TO CHECK FOR ABILITY RATHER THAN NAME
+            if (currentWeather == WeatherType.Sun) {
+                if (!currentPokemon.formChanged) {
+                    currentPokemon.formChanged = true;
+                    pokemonController.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[0];
+                }
+            } else {
+                if (currentPokemon.formChanged) {
+                    currentPokemon.formChanged = false;
+                    pokemonController.currentPokemonBattleSprite = currentPokemon.pokemonBattleSprite;
+                }
+            }
+        }
+        if (pokemonController.queuedChargedMove == null) return;
+
+        if (pokemonController.queuedChargedMove.moveName == "Aura Wheel") {
+            if (pokemonController.currentPokemon.chargedMove1.moveType == types[0]) {
+                pokemonController.currentPokemon.formChanged = true;
+                pokemonController.currentPokemon.chargedMove1.moveType = types[1];
+                pokemonController.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[0];
+            } else {
+                pokemonController.currentPokemon.formChanged = false;
+                pokemonController.currentPokemon.chargedMove1.moveType = types[0];
+                pokemonController.currentPokemonBattleSprite = currentPokemon.pokemonBattleSprite;
+            }
+        } else if (pokemonController.queuedChargedMove.moveName == "King's Shield") {
+
+            if (pokemonController.currentPokemon.pokemonBaseInfo == aegislashForms[0]) {
+                pokemonController.currentPokemon.formChanged = true;
+                pokemonController.currentPokemon.pokemonBaseInfo = aegislashForms[1];
+            } else {
+                pokemonController.currentPokemon.formChanged = false;
+                pokemonController.currentPokemon.pokemonBaseInfo = aegislashForms[0];
+           }
+        }
+        HUDManager.SetHUD(playerPokemonController, aiTrainerPokemonController);
     }
     public IEnumerator SwitchCountdownTimer(bool playerPokemon, PokemonController pokemonController) {
         yield return new WaitForSeconds(0.1f);
@@ -484,8 +499,10 @@ public class BattleManager : MonoBehaviour {
     public void SendOutPokemon(bool playerPokemon) {
         if (playerPokemon) {
             StopCoroutine(playerPokemonController.PokemonSelectTimer(0));
+            //enable charged move hud , name text and bp text
         } else {
             StopCoroutine(aiTrainerPokemonController.PokemonSelectTimer(0));
+            //enable charged move hud , name text and bp text
         }
     }
     void StartPokemonSelectTimer(bool pokemonFainted, bool playerPokemon) {  // timer for selecting pokemon after pokemon faints
@@ -495,13 +512,14 @@ public class BattleManager : MonoBehaviour {
         aiTrainerSelectingPokemon = playerPokemon;
         aiTrainerPokemonUsingFastMove = false;
         playerPokemonUsingFastMove = false;
+
         if(!playerPokemon) {
-            HUDManager.playerPokemonSprite.enabled = false;
+            //playerPokemonController.pokemonBattleImage.enabled = false;
             HUDManager.playerPokemonShadowSprite.enabled = false;
             HUDManager.playerSwitchTimerImage.enabled = true;
             StartCoroutine(playerPokemonController.PokemonSelectTimer(timer));
         } else {
-            HUDManager.aiTrainerPokemonSprite.enabled = false;
+            //aiTrainerPokemonController.pokemonBattleImage.enabled = false;
             HUDManager.aiTrainerPokemonShadowSprite.enabled = false;
             HUDManager.aiTrainerSwitchTimerImage.enabled = true;
             StartCoroutine(aiTrainerPokemonController.PokemonSelectTimer(timer));
@@ -511,10 +529,27 @@ public class BattleManager : MonoBehaviour {
     #region Fainting
     void OnPokemonFaint(bool playerPokemon) {
         if (playerPokemon) {
+            print(aiTrainerPokemonController.currentPokemon.pokemonBaseInfo.PokemonName + " fainted!");
+            StartCoroutine(FaintAnimation(aiTrainerPokemonController));
+            //disable charged move hud , name text and bp text
             //bring up switch countdown timer
         } else {
+            print(playerPokemonController.currentPokemon.pokemonBaseInfo.PokemonName + " fainted!");
+            StartCoroutine(FaintAnimation(playerPokemonController));
+            //disable charged move hud , name text and bp text
             //give exp to winning pokemon based on defeated pokemon
         }
+        StartPokemonSelectTimer(true, playerPokemon);
+    }
+    IEnumerator FaintAnimation(PokemonController pokemonController) {
+        print("Faint Animation");
+        yield return new WaitForSeconds(0.05f);
+        var t = new Vector2(pokemonController.pokemonImageRt.sizeDelta.x - pokemonController.currentPokemon.pokemonBaseInfo.SpriteSize / 10, pokemonController.pokemonImageRt.sizeDelta.y - pokemonController.currentPokemon.pokemonBaseInfo.SpriteSize / 10);
+        pokemonController.pokemonImageRt.sizeDelta = t;
+        print(t);
+        if (pokemonController.pokemonImageRt.sizeDelta.x >= 0) {
+            StartCoroutine(FaintAnimation(pokemonController));
+        } 
     }
     #endregion
     #region Battle Beginning

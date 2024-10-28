@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Mega Charizard X
   m_EditorClassIdentifier: 
   pokemonName: Charizard X
-  pokemonBattleSprites:
-  - {fileID: 21300000, guid: b582ab302ae23c14ba17bcf479549a7d, type: 3}
+  pokemonBattleSprite: {fileID: 21300000, guid: 5fc19d62d24d40f48bae5291a7163a8f, type: 3}
   shinyPokemonBattleSprite: {fileID: 0}
+  alternateFormSprites: []
+  shinyAlternateFormSprites: []
   primaryType: {fileID: 11400000, guid: e73f30425d2072f4ea34fac3bd752926, type: 2}
   secondaryType: {fileID: 11400000, guid: 9e9a4023042c881469d6fe940718a30b, type: 2}
   baseHP: 78
@@ -27,3 +28,4 @@ MonoBehaviour:
   learnableFastMoves: []
   learnableChargedMoves: []
   possibleAbilities: 
+  spriteSize: 450

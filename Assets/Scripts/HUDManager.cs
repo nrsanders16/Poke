@@ -4,7 +4,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 public class HUDManager : MonoBehaviour {
-    public PlayerPokemonController playerPokemonController;
 
     public Image weatherIcon;
     public Image weatherTimerIcon;
@@ -13,14 +12,12 @@ public class HUDManager : MonoBehaviour {
     public TMP_Text chargedMoveText;
 
     [Header("Player HUD")]
+    //public Sprite currentPlayerPokemonSprite;
     public TMP_Text playerPokemonText;
-    public Image playerPokemonSprite;
     public Image playerPokemonShadowSprite;
     public GameObject playerHPBar;
     public Image playerHPFill;
-    //public TMP_Text playerPokemonHPText;
     public TMP_Text playerPokemonBPText;
-    //public TMP_Text playerPokemonEffectivenessText;
     public TMP_Text playerChargedMove1NameText;
     public TMP_Text playerChargedMove2NameText;
     public Image playerEnergyOutline1;
@@ -34,13 +31,14 @@ public class HUDManager : MonoBehaviour {
     public Image playerEnergyImage2layer2;
     public Image playerEnergyImage2layer3;
     public Image playerSwitchTimerImage;
+    public Image playerTechIcon;
     public Image[] playerPartyPokemonSprites;
     public Image[] playerPartyPokemonTimerImages;
     public Image[] playerPartyPokemonShadowSprites;
 
     [Header("AI Trainer HUD")]
     public TMP_Text aiTrainerPokemonText;
-    public Image aiTrainerPokemonSprite;
+    //public Sprite currentAITrainerPokemonSprite;
     //public TMP_Text aiTrainerPokemonHPText;
     public TMP_Text aiTrainerPokemonBPText;
     public TMP_Text aiTrainerPokemonEffectivenessText;
@@ -48,7 +46,9 @@ public class HUDManager : MonoBehaviour {
     public Image aiTrainerPokemonShadowSprite;
     public GameObject aiTrainerHPBar;
     public Image aiTrainerHPFill;
+    public Image aiTechIcon;
 
+    public Sprite[] techIcons;
     public Sprite[] weatherIcons;
     public Sprite[] terrainIcons;
 
@@ -59,8 +59,15 @@ public class HUDManager : MonoBehaviour {
         playerPokemonBPText.text = "BP " + playerPokemonController.currentPokemon.BattlePower.ToString();
         aiTrainerPokemonBPText.text = "BP " + aiTrainerPokemonController.currentPokemon.BattlePower.ToString();
 
-        playerPokemonSprite.sprite = playerPokemonController.currentPokemon.pokemonBattleSprite;
-        aiTrainerPokemonSprite.sprite = aiTrainerPokemonController.currentPokemon.pokemonBattleSprite;
+        var p = new Vector2(playerPokemonController.currentPokemon.pokemonBaseInfo.SpriteSize, playerPokemonController.currentPokemon.pokemonBaseInfo.SpriteSize);
+        playerPokemonController.pokemonImageRt.sizeDelta = p;
+        playerPokemonController.shadowImageRt.sizeDelta = new Vector2(p.x * 0.875f, p.y * 0.875f);
+        playerPokemonController.pokemonBattleImage.sprite = playerPokemonController.currentPokemonBattleSprite;
+
+        var a = new Vector2(aiTrainerPokemonController.currentPokemon.pokemonBaseInfo.SpriteSize, aiTrainerPokemonController.currentPokemon.pokemonBaseInfo.SpriteSize);
+        aiTrainerPokemonController.pokemonImageRt.sizeDelta = a;
+        aiTrainerPokemonController.shadowImageRt.sizeDelta = new Vector2(a.x * 0.875f, a.y * 0.875f);
+        aiTrainerPokemonController.pokemonBattleImage.sprite = aiTrainerPokemonController.currentPokemonBattleSprite;
 
         if(playerPokemonController.currentPokemon.shadow) {
             playerPokemonShadowSprite.enabled = true;
@@ -71,6 +78,40 @@ public class HUDManager : MonoBehaviour {
             aiTrainerPokemonShadowSprite.enabled = true;
         } else {
             aiTrainerPokemonShadowSprite.enabled = false;
+        }
+
+        if (playerPokemonController.currentPokemon.mega) {
+            playerTechIcon.enabled = true;
+            playerTechIcon.sprite = techIcons[0];
+
+        } else if (playerPokemonController.currentPokemon.dynamax) { 
+            playerTechIcon.enabled = true;
+            playerTechIcon.sprite = techIcons[1];
+
+        } else if (playerPokemonController.currentPokemon.tera) {
+            playerTechIcon.enabled = true;
+            playerTechIcon.sprite = techIcons[2];
+
+        } else {
+            playerTechIcon.enabled = false;
+            playerTechIcon.sprite = null;
+        }
+
+        if (aiTrainerPokemonController.currentPokemon.mega) {
+            aiTechIcon.enabled = true;
+            aiTechIcon.sprite = techIcons[0];
+
+        } else if (aiTrainerPokemonController.currentPokemon.dynamax) {
+            aiTechIcon.enabled = true;
+            aiTechIcon.sprite = techIcons[1];
+
+        } else if (aiTrainerPokemonController.currentPokemon.tera) {
+            aiTechIcon.enabled = true;
+            aiTechIcon.sprite = techIcons[2];
+
+        } else {
+            aiTechIcon.enabled = false;
+            aiTechIcon.sprite = null;
         }
 
         playerChargedMove1NameText.text = playerPokemonController.currentPokemon.chargedMove1.moveName;

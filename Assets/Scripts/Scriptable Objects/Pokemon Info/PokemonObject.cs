@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(fileName = "New Pokemon Info", menuName = "Pokemon/Pokemon Info", order = 100)]
-public class PokemonObject : ScriptableObject{
+public class PokemonObject : ScriptableObject {
     [SerializeField] string pokemonName;
-    [SerializeField] Sprite[] pokemonBattleSprites;
+    [SerializeField] Sprite pokemonBattleSprite;
     [SerializeField] Sprite shinyPokemonBattleSprite;
+    [SerializeField] Sprite[] alternateFormSprites;
+    [SerializeField] Sprite[] shinyAlternateFormSprites;
 
     [SerializeField] Type primaryType;
     [SerializeField] Type secondaryType;
@@ -22,17 +24,22 @@ public class PokemonObject : ScriptableObject{
     [SerializeField] ChargedMove[] learnableChargedMoves;
     [SerializeField] Ability[] possibleAbilities;
 
+    [SerializeField] int spriteSize;
+
     public string PokemonName {
         get { return pokemonName; }
     }
-    public Sprite PokemonBattleSpriteMain {
-        get { return pokemonBattleSprites[0]; }
+    public Sprite PokemonBattleSprite {
+        get { return pokemonBattleSprite; }
     }
-    public Sprite[] PokemonBattleSprites {
-        get { return pokemonBattleSprites; }
-    }
-    public Sprite ShinyPokemonBattleSprite {  
+    public Sprite ShinyPokemonBattleSprite {
         get { return shinyPokemonBattleSprite; }
+    }
+    public Sprite[] AlternateFormSprites {
+        get { return alternateFormSprites; }
+    }
+    public Sprite[] ShinyAlternateFormSprites {  
+        get { return shinyAlternateFormSprites; }
     }
     public Type PrimaryType {
         get { return primaryType; }
@@ -66,5 +73,8 @@ public class PokemonObject : ScriptableObject{
     }
     public Ability[] PossibleAbilities {
         get { return possibleAbilities; }
+    }
+    public int SpriteSize {
+        get { return spriteSize; }
     }
 }
