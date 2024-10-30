@@ -21,6 +21,7 @@ public class PokemonIndividual : MonoBehaviour {
     public StatusEffect currentStatus;
     public float[] currentBuffs;
     public bool formChanged;
+    public Type[] battleType;
 
     public TypeName teraType;
 
@@ -44,6 +45,14 @@ public class PokemonIndividual : MonoBehaviour {
             pokemonBattleSprite = pokemonBaseInfo.PokemonBattleSprite;
             alternateFormSprites = pokemonBaseInfo.AlternateFormSprites;
         }
+
+        if (pokemonBaseInfo.SecondaryType != null) {
+            battleType = new Type[2];
+            battleType[1] = pokemonBaseInfo.SecondaryType;
+        } else {
+            battleType = new Type[1];
+        }
+        battleType[0] = pokemonBaseInfo.PrimaryType;
     }
 
     public int BattlePower {

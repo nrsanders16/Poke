@@ -21,8 +21,8 @@ public static class BattleCalculations {
         bool attackerHasScrappy = false;
         bool gravityInEffect = false;
         bool defendingPokemonHasLevitate = false;
-        bool scrappyAppliesPrimary = attackerHasScrappy && defendingPokemon.pokemonBaseInfo.PrimaryType.typeName == TypeName.Ghost && (pokemonMove.moveType.typeName == TypeName.Normal || pokemonMove.moveType.typeName == TypeName.Fighting);
-        bool gravityAppliesPrimary = gravityInEffect && defendingPokemon.pokemonBaseInfo.PrimaryType.typeName == TypeName.Flying && pokemonMove.moveType.typeName == TypeName.Ground;
+        bool scrappyAppliesPrimary = attackerHasScrappy && defendingPokemon.battleType[0].typeName == TypeName.Ghost && (pokemonMove.moveType.typeName == TypeName.Normal || pokemonMove.moveType.typeName == TypeName.Fighting);
+        bool gravityAppliesPrimary = gravityInEffect && defendingPokemon.battleType[0].typeName == TypeName.Flying && pokemonMove.moveType.typeName == TypeName.Ground;
 
         if (scrappyAppliesPrimary) {
             mult = 1;
@@ -34,12 +34,12 @@ public static class BattleCalculations {
             mult = 1;
 
         } else {
-            mult = CalculateTypeEffectiveness(pokemonMove.moveType.typeName, defendingPokemon.pokemonBaseInfo.PrimaryType);
+            mult = CalculateTypeEffectiveness(pokemonMove.moveType.typeName, defendingPokemon.battleType[0]);
         }
 
-        if (defendingPokemon.pokemonBaseInfo.SecondaryType) {
-            bool scrappyAppliesSecondary = attackerHasScrappy && defendingPokemon.pokemonBaseInfo.SecondaryType.typeName == TypeName.Ghost && (pokemonMove.moveType.typeName == TypeName.Normal || pokemonMove.moveType.typeName == TypeName.Fighting);
-            bool gravityAppliesSecondary = gravityInEffect && defendingPokemon.pokemonBaseInfo.SecondaryType.typeName == TypeName.Flying && pokemonMove.moveType.typeName == TypeName.Ground;
+        if (defendingPokemon.battleType[1] != null) {
+            bool scrappyAppliesSecondary = attackerHasScrappy && defendingPokemon.battleType[1].typeName == TypeName.Ghost && (pokemonMove.moveType.typeName == TypeName.Normal || pokemonMove.moveType.typeName == TypeName.Fighting);
+            bool gravityAppliesSecondary = gravityInEffect && defendingPokemon.battleType[1].typeName == TypeName.Flying && pokemonMove.moveType.typeName == TypeName.Ground;
 
             if (scrappyAppliesSecondary) {
                 mult *= 1;
@@ -51,7 +51,7 @@ public static class BattleCalculations {
                 mult *= 1;
 
             } else {
-                mult *= CalculateTypeEffectiveness(pokemonMove.moveType.typeName, defendingPokemon.pokemonBaseInfo.SecondaryType);
+                mult *= CalculateTypeEffectiveness(pokemonMove.moveType.typeName, defendingPokemon.battleType[1]);
             }
         }
 
@@ -62,10 +62,10 @@ public static class BattleCalculations {
         float typeMult = mult;
 
         float stab = 1.2f;
-        if (attackingPokemon.pokemonBaseInfo.PrimaryType.typeName == pokemonMove.moveType.typeName) {
+        if (attackingPokemon.battleType[0].typeName == pokemonMove.moveType.typeName) {
             mult *= stab;
         }
-        if (attackingPokemon.pokemonBaseInfo.SecondaryType != null && attackingPokemon.pokemonBaseInfo.SecondaryType.typeName == pokemonMove.moveType.typeName) {
+        if (attackingPokemon.battleType[1] != null && attackingPokemon.pokemonBaseInfo.SecondaryType.typeName == pokemonMove.moveType.typeName) {
             mult *= stab;
         }
 

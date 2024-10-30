@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 54955fc3dffc6004092f1af538665382, type: 3}
-  m_Name: Blade Aegislash
+  m_Name: Wishiwashi Solo
   m_EditorClassIdentifier: 
-  pokemonName: Aegislash
-  pokemonBattleSprite: {fileID: 21300000, guid: 2bf683a6691254a4aade0417acc4010c, type: 3}
-  shinyPokemonBattleSprite: {fileID: 0}
+  pokemonName: Wishiwashi
+  pokemonBattleSprite: {fileID: 21300000, guid: 80f254d97f50a6f41b52e5c17233d222, type: 3}
+  shinyPokemonBattleSprite: {fileID: 21300000, guid: 61ccb25298c1c7d44885b63adf6e15eb, type: 3}
   alternateFormSprites: []
   shinyAlternateFormSprites: []
-  primaryType: {fileID: 11400000, guid: 21449e62349af914e81b2870270f3165, type: 2}
-  secondaryType: {fileID: 11400000, guid: d2946ee60a217d64bb2b67feba9493c8, type: 2}
-  baseHP: 60
-  baseAttack: 150
-  baseDefense: 50
-  baseSpAttack: 150
-  baseSpDefense: 50
-  baseSpeed: 60
+  primaryType: {fileID: 11400000, guid: 451868880cf910141b768e8456a1aefa, type: 2}
+  secondaryType: {fileID: 0}
+  baseHP: 45
+  baseAttack: 20
+  baseDefense: 20
+  baseSpAttack: 25
+  baseSpDefense: 25
+  baseSpeed: 40
   learnableFastMoves: []
   learnableChargedMoves: []
   possibleAbilities: 
-  spriteSize: 300
+  spriteSize: 150

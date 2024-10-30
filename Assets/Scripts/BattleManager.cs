@@ -52,7 +52,6 @@ public class BattleManager : MonoBehaviour {
             if (playerPokemonController.pokemonInParty[i].currentHP > 0) {
                 HUDManager.playerPartyPokemonTimerImages[i].fillAmount = playerPokemonController.switchTimer / switchTimerLength;
                 playerPokemonController.pokemonInParty[i].currentHP = playerPokemonController.pokemonInParty[i].MaxHP;
-                print(playerPokemonController.pokemonInParty[i].BattlePower);
             }
         }
 
@@ -455,11 +454,38 @@ public class BattleManager : MonoBehaviour {
                     pokemonController.currentPokemonBattleSprite = currentPokemon.pokemonBattleSprite;
                 }
             }
+        } else if (currentPokemon.pokemonBaseInfo.PokemonName == "Castform") { // CHANGE THIS TO CHECK FOR ABILITY RATHER THAN NAME
+            if (currentWeather == WeatherType.Sun) {
+                if (!currentPokemon.formChanged) {
+                    currentPokemon.formChanged = true;
+                    pokemonController.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[0];
+                    pokemonController.currentPokemon.battleType[0] = types[3];
+                }
+            } else if (currentWeather == WeatherType.Rain) {
+                if (!currentPokemon.formChanged) {
+                    currentPokemon.formChanged = true;
+                    pokemonController.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[1];
+                    pokemonController.currentPokemon.battleType[0] = types[4];
+                }
+            } else if (currentWeather == WeatherType.Snow) {
+                if (!currentPokemon.formChanged) {
+                    currentPokemon.formChanged = true;
+                    pokemonController.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[2];
+                    pokemonController.currentPokemon.battleType[0] = types[5];
+                }
+            } else {
+                if (currentPokemon.formChanged) {
+                    currentPokemon.formChanged = false;
+                    pokemonController.currentPokemonBattleSprite = currentPokemon.pokemonBattleSprite;
+                    pokemonController.currentPokemon.battleType[0] = types[6];
+                }
+            }
         }
+
         if (pokemonController.queuedChargedMove == null) return;
 
         if (pokemonController.queuedChargedMove.moveName == "Aura Wheel") {
-            if (pokemonController.currentPokemon.chargedMove1.moveType == types[0]) {
+            if (!pokemonController.currentPokemon.formChanged) {
                 pokemonController.currentPokemon.formChanged = true;
                 pokemonController.currentPokemon.chargedMove1.moveType = types[1];
                 pokemonController.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[0];
@@ -470,7 +496,7 @@ public class BattleManager : MonoBehaviour {
             }
         } else if (pokemonController.queuedChargedMove.moveName == "King's Shield") {
 
-            if (pokemonController.currentPokemon.pokemonBaseInfo == aegislashForms[0]) {
+            if (!pokemonController.currentPokemon.formChanged) {
                 pokemonController.currentPokemon.formChanged = true;
                 pokemonController.currentPokemon.pokemonBaseInfo = aegislashForms[1];
             } else {
@@ -542,11 +568,11 @@ public class BattleManager : MonoBehaviour {
         StartPokemonSelectTimer(true, playerPokemon);
     }
     IEnumerator FaintAnimation(PokemonController pokemonController) {
-        print("Faint Animation");
+        //print("Faint Animation");
         yield return new WaitForSeconds(0.05f);
         var t = new Vector2(pokemonController.pokemonImageRt.sizeDelta.x - pokemonController.currentPokemon.pokemonBaseInfo.SpriteSize / 10, pokemonController.pokemonImageRt.sizeDelta.y - pokemonController.currentPokemon.pokemonBaseInfo.SpriteSize / 10);
         pokemonController.pokemonImageRt.sizeDelta = t;
-        print(t);
+        //print(t);
         if (pokemonController.pokemonImageRt.sizeDelta.x >= 0) {
             StartCoroutine(FaintAnimation(pokemonController));
         } 

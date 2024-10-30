@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54955fc3dffc6004092f1af538665382, type: 3}
+  m_Name: Castform
+  m_EditorClassIdentifier: 
+  pokemonName: Castform
+  pokemonBattleSprite: {fileID: 21300000, guid: ad0d96ff58fb882489f1d9f2ea7cace9, type: 3}
+  shinyPokemonBattleSprite: {fileID: 21300000, guid: 13054d982eb95e942bb6b6430339fdb3, type: 3}
+  alternateFormSprites:
+  - {fileID: 21300000, guid: 35c2b303d206a8a44af29052b7a91eef, type: 3}
+  - {fileID: 21300000, guid: 912a1a827d6468e48af9771de4a6c0b8, type: 3}
+  - {fileID: 21300000, guid: 87cc32ce017113240a3f9d6d51906e8a, type: 3}
+  shinyAlternateFormSprites:
+  - {fileID: 21300000, guid: d7c8541b065466d4db7455b3e1fdf82c, type: 3}
+  - {fileID: 21300000, guid: 518d8ea14eecbe44d8de99bfe220c886, type: 3}
+  - {fileID: 21300000, guid: 3d250a74d44a58f4f86778acf9e9aedb, type: 3}
+  primaryType: {fileID: 11400000, guid: 311227a28169be640b31e6b4d062b6f0, type: 2}
+  secondaryType: {fileID: 0}
+  baseHP: 70
+  baseAttack: 70
+  baseDefense: 70
+  baseSpAttack: 70
+  baseSpDefense: 70
+  baseSpeed: 70
+  learnableFastMoves: []
+  learnableChargedMoves: []
+  possibleAbilities: 
+  spriteSize: 0

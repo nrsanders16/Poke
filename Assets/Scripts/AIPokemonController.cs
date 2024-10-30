@@ -31,7 +31,7 @@ public class AIPokemonController : PokemonController {
 
         if (!battleManager.playerSelectingPokemon && !battleManager.aiTrainerSelectingPokemon && !switching) {
 
-            if (currentMatchupQuality > 0) {
+            if (currentMatchupQuality >= 0) {
 
                 if (currentPokemon.currentEnergy >= currentPokemon.chargedMove1.baseEnergyReq && shouldThrowChargedMoves && !battleManager.aiTrainerPokemonUsingChargedMove) {
                     throwingChargedMove = true;
@@ -214,23 +214,24 @@ public class AIPokemonController : PokemonController {
         for (int i = 0; i < pokemonInParty.Length; i++) {
             if(pokemonInParty[i] != currentPokemon) l.Add(pokemonInParty[i].currentHP);
         }
-        var t = Mathf.Max(l.ToArray());
+        var t = Mathf.Max(l.ToArray()); // highest HP value in party
 
         if (t <= 0) {
-
             print("You win!");
 
         } else {
-            var list = partyMatchupQuality.ToList();
+            //var list = partyMatchupQuality.ToList();
+            var list = new List<float>();
+            for (int i = 0; i < pokemonInParty.Length; i++) {
+                if (pokemonInParty[i] != currentPokemon && pokemonInParty[i].currentHP > 0) { list.Add(partyMatchupQuality[i]); } else { list.Add(-100f); }
+            }
             var ind = Mathf.Max(list.ToArray());
             int newPokemonIndex = list.IndexOf(ind);
-            //int newPokemonIndex = List<float>.IndexOf(ind); //Wrong, sort list and choose index 0 of sorted list
-            //check if pokemon is fainted
-            //if so, newPokemonIndex++ and check again
-            battleManager.SwitchPokemon(this, currentPokemon.currentHP <= 0, newPokemonIndex);
-            //battleManager.SwitchPokemon(false, 1);
-        }
 
+            battleManager.SwitchPokemon(this, currentPokemon.currentHP <= 0, newPokemonIndex);
+            print(ind);
+            print(newPokemonIndex);
+        }
     }
     public override IEnumerator PokemonSelectTimer(float timer) {
 
