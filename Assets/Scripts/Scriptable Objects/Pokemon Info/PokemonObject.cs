@@ -4,6 +4,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Pokemon Info", menuName = "Pokemon/Pokemon Info", order = 100)]
 public class PokemonObject : ScriptableObject {
     [SerializeField] string pokemonName;
+    [SerializeField] int dexNumber;
+    [SerializeField] string description;
+    [SerializeField] float height;
+    [SerializeField] float weight;
+    [SerializeField] string dexEntry;
+    [SerializeField] [Range(0,100)] float M_FGenderSplit;
+    [SerializeField] bool genderless;
+    [SerializeField] int baseExp;
+    [SerializeField] GrowthRate growthRate;
+    [SerializeField] float catchRate;
     [SerializeField] Sprite pokemonBattleSprite;
     [SerializeField] Sprite shinyPokemonBattleSprite;
     [SerializeField] Sprite[] alternateFormSprites;
@@ -77,4 +87,13 @@ public class PokemonObject : ScriptableObject {
     public int SpriteSize {
         get { return spriteSize; }
     }
+}
+
+public enum GrowthRate {
+    Erratic,
+    Fast,
+    MediumFast,
+    MediumSlow,
+    Slow,
+    Fluctuating
 }

@@ -23,4 +23,8 @@ MonoBehaviour:
   ownBuffChance: 100
   oppBuffs: []
   oppBuffChance: 0
-  secondaryType: {fileID: 0}
+  secondaryType: {fileID: 11400000, guid: d1b056634e501c94a866cdae4ebe6971, type: 2}
+  moveEffects: 
+  moveEffectChances: []
+  weatherEffect: 0
+  terrainEffect: 0

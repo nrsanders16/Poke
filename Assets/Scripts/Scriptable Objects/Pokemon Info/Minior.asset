@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54955fc3dffc6004092f1af538665382, type: 3}
+  m_Name: Minior
+  m_EditorClassIdentifier: 
+  pokemonName: Minior
+  dexNumber: 774
+  description: "Meteor Pok\xE9mon"
+  height: 0.3
+  weight: 40
+  dexEntry: "Strong impacts can knock it out of its shell. This Pok\xE9mon was born
+    from mutated nanoparticles."
+  M_FGenderSplit: 0
+  genderless: 1
+  baseExp: 154
+  growthRate: 3
+  catchRate: 0.3
+  pokemonBattleSprite: {fileID: 21300000, guid: 57bedf47982327f4dbcd22f582f2fed7, type: 3}
+  shinyPokemonBattleSprite: {fileID: 21300000, guid: 57bedf47982327f4dbcd22f582f2fed7, type: 3}
+  alternateFormSprites:
+  - {fileID: 21300000, guid: b0dd71866dafd6c4b99aa89913c698e3, type: 3}
+  - {fileID: 21300000, guid: f74a2001c4f447c4b9f44e7a016fada1, type: 3}
+  - {fileID: 21300000, guid: 0852bbe8a257df44aa06b75e86f9db0d, type: 3}
+  - {fileID: 21300000, guid: 16cd555206a51974eb9ca3fa596efc43, type: 3}
+  - {fileID: 21300000, guid: 0ac7ea4414a3a034e9a0becf550fa5ce, type: 3}
+  - {fileID: 21300000, guid: 1f93f3a0d4177874b8773349292a3e91, type: 3}
+  - {fileID: 21300000, guid: e8bb6b34e3017c748b1ca22eeea347e9, type: 3}
+  shinyAlternateFormSprites:
+  - {fileID: 21300000, guid: b473dd7766469c847afaa773995bedbd, type: 3}
+  - {fileID: 21300000, guid: b473dd7766469c847afaa773995bedbd, type: 3}
+  - {fileID: 21300000, guid: b473dd7766469c847afaa773995bedbd, type: 3}
+  - {fileID: 21300000, guid: b473dd7766469c847afaa773995bedbd, type: 3}
+  - {fileID: 21300000, guid: b473dd7766469c847afaa773995bedbd, type: 3}
+  - {fileID: 21300000, guid: b473dd7766469c847afaa773995bedbd, type: 3}
+  - {fileID: 21300000, guid: b473dd7766469c847afaa773995bedbd, type: 3}
+  primaryType: {fileID: 11400000, guid: b407d2ee6ef17974ea4c365e901c09f2, type: 2}
+  secondaryType: {fileID: 11400000, guid: c856c1c11eb9b7b44855fe0996a7afa4, type: 2}
+  baseHP: 60
+  baseAttack: 60
+  baseDefense: 100
+  baseSpAttack: 60
+  baseSpDefense: 100
+  baseSpeed: 60
+  learnableFastMoves: []
+  learnableChargedMoves: []
+  possibleAbilities: 
+  spriteSize: 200

@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 73360b506c309f545b6f8a71951ef427, type: 3}
-  m_Name: Snowscape
+  m_Name: Weather Ball
   m_EditorClassIdentifier: 
-  moveName: Snowscape
-  baseDamage: 0
-  moveType: {fileID: 11400000, guid: 8ce1954c72f50134a8480a7a193570cc, type: 2}
-  attackType: 2
+  moveName: Weather Ball
+  baseDamage: 55
+  moveType: {fileID: 11400000, guid: 311227a28169be640b31e6b4d062b6f0, type: 2}
+  attackType: 1
   animationClips: []
-  baseEnergyReq: 25
+  baseEnergyReq: 35
   ownBuffs: []
   ownBuffChance: 0
   oppBuffs: []
@@ -25,5 +25,5 @@ MonoBehaviour:
   secondaryType: {fileID: 0}
   moveEffects: 
   moveEffectChances: []
-  weatherEffect: 3
+  weatherEffect: 0
   terrainEffect: 0

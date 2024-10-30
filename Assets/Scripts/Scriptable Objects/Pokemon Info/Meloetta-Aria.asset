@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54955fc3dffc6004092f1af538665382, type: 3}
+  m_Name: Meloetta-Aria
+  m_EditorClassIdentifier: 
+  pokemonName: Meloetta
+  dexNumber: 648
+  description: "Melody Pok\xE9mon"
+  height: 0.6
+  weight: 6.5
+  dexEntry: Many famous songs have been inspired by the melodies that Meloetta plays.
+  M_FGenderSplit: 0
+  genderless: 1
+  baseExp: 300
+  growthRate: 4
+  catchRate: 3
+  pokemonBattleSprite: {fileID: 21300000, guid: 0d394191242962c47b874964fee449b1, type: 3}
+  shinyPokemonBattleSprite: {fileID: 21300000, guid: 34e5738a9240de446989788e1f487a79, type: 3}
+  alternateFormSprites: []
+  shinyAlternateFormSprites: []
+  primaryType: {fileID: 11400000, guid: 311227a28169be640b31e6b4d062b6f0, type: 2}
+  secondaryType: {fileID: 11400000, guid: 0bacd531cd4cab84d9ab24ab1a6eb752, type: 2}
+  baseHP: 100
+  baseAttack: 77
+  baseDefense: 77
+  baseSpAttack: 128
+  baseSpDefense: 128
+  baseSpeed: 90
+  learnableFastMoves: []
+  learnableChargedMoves: []
+  possibleAbilities: 
+  spriteSize: 300

@@ -17,7 +17,7 @@ MonoBehaviour:
   moveType: {fileID: 11400000, guid: 451868880cf910141b768e8456a1aefa, type: 2}
   attackType: 2
   animationClips: []
-  baseEnergyReq: 15
+  baseEnergyReq: 25
   ownBuffs: []
   ownBuffChance: 0
   oppBuffs: []
