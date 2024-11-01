@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 73360b506c309f545b6f8a71951ef427, type: 3}
-  m_Name: Aura Wheel
+  m_Name: E Aura Wheel
   m_EditorClassIdentifier: 
   moveName: Aura Wheel
   baseDamage: 100
@@ -23,7 +23,7 @@ MonoBehaviour:
   ownBuffChance: 100
   oppBuffs: []
   oppBuffChance: 0
-  secondaryType: {fileID: 11400000, guid: d1b056634e501c94a866cdae4ebe6971, type: 2}
+  secondaryType: {fileID: 0}
   moveEffects: 
   moveEffectChances: []
   weatherEffect: 0

@@ -5401,6 +5401,10 @@ MonoBehaviour:
   wishiwashiForms:
   - {fileID: 11400000, guid: afdaf406e46004e4b82b43cc0ae460b9, type: 2}
   - {fileID: 11400000, guid: 880d08fc4e7df96429e7e8629e1f970d, type: 2}
+  weatherBall: {fileID: 11400000, guid: ad418d66ecf9f884db0da94157f636bd, type: 2}
+  auraWheels:
+  - {fileID: 11400000, guid: 1c528fbdf4e9828489d5e6ad2a04e3dc, type: 2}
+  - {fileID: 11400000, guid: 5fb87b76bc6b4954f88d05980d558571, type: 2}
 --- !u!4 &1429222191
 Transform:
   m_ObjectHideFlags: 0
