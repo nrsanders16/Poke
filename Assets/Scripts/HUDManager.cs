@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,9 @@ public class HUDManager : MonoBehaviour {
 
     [Header("Player HUD")]
     //public Sprite currentPlayerPokemonSprite;
+    public GameObject playerHUD;
+    public RectTransform chargedMove1RectTransform;
+    public RectTransform chargedMove2RectTransform;
     public TMP_Text playerPokemonText;
     public Image playerPokemonShadowSprite;
     public GameObject playerHPBar;
@@ -37,6 +41,7 @@ public class HUDManager : MonoBehaviour {
     public Image[] playerPartyPokemonShadowSprites;
 
     [Header("AI Trainer HUD")]
+    public GameObject aiTrainerHUD;
     public TMP_Text aiTrainerPokemonText;
     //public Sprite currentAITrainerPokemonSprite;
     //public TMP_Text aiTrainerPokemonHPText;
@@ -62,12 +67,12 @@ public class HUDManager : MonoBehaviour {
         var p = new Vector2(playerPokemonController.currentPokemon.pokemonBaseInfo.SpriteSize, playerPokemonController.currentPokemon.pokemonBaseInfo.SpriteSize);
         playerPokemonController.pokemonImageRt.sizeDelta = p;
         playerPokemonController.shadowImageRt.sizeDelta = new Vector2(p.x * 0.875f, p.y * 0.875f);
-        playerPokemonController.pokemonBattleImage.sprite = playerPokemonController.currentPokemonBattleSprite;
+        playerPokemonController.pokemonBattleImage.sprite = playerPokemonController.currentPokemon.currentPokemonBattleSprite;
 
         var a = new Vector2(aiTrainerPokemonController.currentPokemon.pokemonBaseInfo.SpriteSize, aiTrainerPokemonController.currentPokemon.pokemonBaseInfo.SpriteSize);
         aiTrainerPokemonController.pokemonImageRt.sizeDelta = a;
         aiTrainerPokemonController.shadowImageRt.sizeDelta = new Vector2(a.x * 0.875f, a.y * 0.875f);
-        aiTrainerPokemonController.pokemonBattleImage.sprite = aiTrainerPokemonController.currentPokemonBattleSprite;
+        aiTrainerPokemonController.pokemonBattleImage.sprite = aiTrainerPokemonController.currentPokemon.currentPokemonBattleSprite;
 
         if(playerPokemonController.currentPokemon.shadow) {
             playerPokemonShadowSprite.enabled = true;
@@ -124,6 +129,8 @@ public class HUDManager : MonoBehaviour {
         playerEnergyImage1layer3.sprite = playerPokemonController.currentPokemon.chargedMove1.moveType.typeIcon;
 
         if (playerPokemonController.currentPokemon.chargedMove2 != null) {
+            chargedMove2RectTransform.gameObject.SetActive(true);
+            chargedMove1RectTransform.transform.localPosition = new Vector3(-620, chargedMove1RectTransform.transform.localPosition.y, chargedMove1RectTransform.transform.localPosition.z);
             playerChargedMove2NameText.text = playerPokemonController.currentPokemon.chargedMove2.moveName;
             playerEnergyBackground2.sprite = playerPokemonController.currentPokemon.chargedMove2.moveType.typeIcon;
             playerEnergyImage2layer1.color = playerPokemonController.currentPokemon.chargedMove2.moveType.typeColor;
@@ -132,17 +139,31 @@ public class HUDManager : MonoBehaviour {
             playerEnergyImage2layer2.sprite = playerPokemonController.currentPokemon.chargedMove2.moveType.typeIcon;
             playerEnergyImage2layer3.color = playerPokemonController.currentPokemon.chargedMove2.moveType.typeColor;
             playerEnergyImage2layer3.sprite = playerPokemonController.currentPokemon.chargedMove2.moveType.typeIcon;
+        } else {
+            chargedMove2RectTransform.gameObject.SetActive(false);
+            chargedMove1RectTransform.transform.localPosition = new Vector3(-500, chargedMove1RectTransform.transform.localPosition.y, chargedMove1RectTransform.transform.localPosition.z);
         }
 
         for (int i = 0; i < playerPartyPokemonSprites.Length; i++) {
             if (playerPartyPokemonSprites[i] != null) {
-                playerPartyPokemonSprites[i].sprite = playerPokemonController.pokemonInParty[i].pokemonBattleSprite;
+                playerPartyPokemonSprites[i].sprite = playerPokemonController.pokemonInParty[i].currentPokemonBattleSprite;
                 if (playerPokemonController.pokemonInParty[i].shadow) {
                     playerPartyPokemonShadowSprites[i].enabled = true;
                 } else {
                     playerPartyPokemonShadowSprites[i].enabled = false;
                 }
             }
+        }
+    }
+    public void ClearPokemonHUD(bool playerPokemon) {
+        if(playerPokemon) {
+            //playerPokemonText.enabled = false;
+            //playerPokemonBPText.enabled = false;
+            playerHUD.SetActive(false);
+        } else {
+            //aiTrainerPokemonText.enabled = false;
+            //aiTrainerPokemonBPText.enabled = false;
+            aiTrainerHUD.SetActive(false);
         }
     }
     public void UpdateWeatherIcon(WeatherType currentWeather) {

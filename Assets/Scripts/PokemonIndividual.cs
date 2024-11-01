@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 public class PokemonIndividual : MonoBehaviour {
     public PokemonObject pokemonBaseInfo;
-    public Sprite pokemonBattleSprite;
+    public Sprite currentPokemonBattleSprite;
+    public Sprite basePokemonBattleSprite;
     public Sprite[] alternateFormSprites;
     public bool shiny;
     public bool shadow;
@@ -38,13 +39,7 @@ public class PokemonIndividual : MonoBehaviour {
 
     private void Awake() {
         currentBuffs = new float[4];
-        if(shiny) {
-            pokemonBattleSprite = pokemonBaseInfo.ShinyPokemonBattleSprite;
-            alternateFormSprites = pokemonBaseInfo.ShinyAlternateFormSprites;
-        } else {
-            pokemonBattleSprite = pokemonBaseInfo.PokemonBattleSprite;
-            alternateFormSprites = pokemonBaseInfo.AlternateFormSprites;
-        }
+        SetBattleSprite();
 
         if (pokemonBaseInfo.SecondaryType != null) {
             battleType = new Type[2];
@@ -53,6 +48,16 @@ public class PokemonIndividual : MonoBehaviour {
             battleType = new Type[1];
         }
         battleType[0] = pokemonBaseInfo.PrimaryType;
+    }
+
+    public void SetBattleSprite() {
+        if (shiny) {
+            basePokemonBattleSprite = pokemonBaseInfo.ShinyPokemonBattleSprite;
+            alternateFormSprites = pokemonBaseInfo.ShinyAlternateFormSprites;
+        } else {
+            basePokemonBattleSprite = pokemonBaseInfo.PokemonBattleSprite;
+            alternateFormSprites = pokemonBaseInfo.AlternateFormSprites;
+        }
     }
 
     public int BattlePower {

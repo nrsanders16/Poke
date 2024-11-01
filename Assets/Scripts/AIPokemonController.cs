@@ -24,6 +24,8 @@ public class AIPokemonController : PokemonController {
     }
     IEnumerator BattleAI() {
 
+        yield return new WaitForEndOfFrame();
+
         //Analyze effectiveness of each move against opponent
         if (currentPokemon && battleManager.playerPokemonIndividual) AssessPartyMatchupQuality();
 
@@ -69,7 +71,7 @@ public class AIPokemonController : PokemonController {
 
                 } else {
 
-                    if (switchTimer <= 0 && !switching) {
+                    if (switchTimer <= 0 && !switching && !throwingChargedMove && !battleManager.playerPokemonUsingChargedMove) {
                         switching = true;
                         SwitchToBestMatchup();
 
@@ -229,8 +231,8 @@ public class AIPokemonController : PokemonController {
             int newPokemonIndex = list.IndexOf(ind);
 
             battleManager.SwitchPokemon(this, currentPokemon.currentHP <= 0, newPokemonIndex);
-            print(ind);
-            print(newPokemonIndex);
+            //print(ind);
+            //print(newPokemonIndex);
         }
     }
     public override IEnumerator PokemonSelectTimer(float timer) {

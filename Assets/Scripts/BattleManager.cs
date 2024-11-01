@@ -9,12 +9,13 @@ using UnityEngine;
 using UnityEngine.UI;
 public class BattleManager : MonoBehaviour {
     public HUDManager HUDManager;
+    BattleReferences battleReferences;
 
-    public PokemonIndividual playerPokemonIndividual;
+    [HideInInspector] public PokemonIndividual playerPokemonIndividual;
     public PlayerPokemonController playerPokemonController;
     public Animation playerPokemonAnimation;
 
-    public PokemonIndividual aiTrainerPokemonIndividual;
+    [HideInInspector] public PokemonIndividual aiTrainerPokemonIndividual;
     public AIPokemonController aiTrainerPokemonController;
     public Animation aiTrainerPokemonAnimation;
 
@@ -35,46 +36,45 @@ public class BattleManager : MonoBehaviour {
     public TerrainType currentTerrain;
     public float terrainTimer;
 
-    public Type[] types;
-    public PokemonObject[] aegislashForms;
-    public PokemonObject[] meloettaForms;
-    public PokemonObject[] darmanitanForms;
-    public PokemonObject[] wishiwashiForms;
-    public ChargedMove weatherBall;
-    public ChargedMove[] auraWheels;
+    private void Awake() {
+        battleReferences = GetComponentInChildren<BattleReferences>();
+    }
 
     private void Start() {
         playerPokemonController.currentPokemon.currentEnergy = 0;
         aiTrainerPokemonController.currentPokemon.currentEnergy = 0;
 
-        playerPokemonController.currentPokemonBattleSprite = playerPokemonController.currentPokemon.pokemonBattleSprite;
-        aiTrainerPokemonController.currentPokemonBattleSprite = aiTrainerPokemonController.currentPokemon.pokemonBattleSprite;
-
-        HUDManager.SetHUD(playerPokemonController, aiTrainerPokemonController);
-        HUDManager.UpdateHUD(playerPokemonController, aiTrainerPokemonController);
-
         for (int i = 0; i < playerPokemonController.pokemonInParty.Length; i++) {
             if (playerPokemonController.pokemonInParty[i].currentHP > 0) {
                 HUDManager.playerPartyPokemonTimerImages[i].fillAmount = playerPokemonController.switchTimer / switchTimerLength;
                 playerPokemonController.pokemonInParty[i].currentHP = playerPokemonController.pokemonInParty[i].MaxHP;
+                playerPokemonController.pokemonInParty[i].currentPokemonBattleSprite = playerPokemonController.pokemonInParty[i].basePokemonBattleSprite;
             }
         }
 
         for (int i = 0; i < aiTrainerPokemonController.pokemonInParty.Length; i++) {
             if (aiTrainerPokemonController.pokemonInParty[i].currentHP > 0) {
                 aiTrainerPokemonController.pokemonInParty[i].currentHP = aiTrainerPokemonController.pokemonInParty[i].MaxHP;
+                aiTrainerPokemonController.pokemonInParty[i].currentPokemonBattleSprite = aiTrainerPokemonController.pokemonInParty[i].basePokemonBattleSprite;
             }
         }
+
+        battleReferences.weatherBall.moveType = battleReferences.normalType;
+
+        HUDManager.SetHUD(playerPokemonController, aiTrainerPokemonController);
+        HUDManager.UpdateHUD(playerPokemonController, aiTrainerPokemonController);
     }
     private void OnDisable() {
         foreach (PokemonIndividual poke in playerPokemonController.pokemonInParty) {
             if(poke.chargedMove1.moveName == "Aura Wheel") {
-                poke.chargedMove1.moveType = types[0];
+                poke.chargedMove1 = battleReferences.auraWheels[0];
             }
             if (poke.chargedMove2 != null && poke.chargedMove2.moveName == "Aura Wheel") {
-                poke.chargedMove2.moveType = types[0];
+                poke.chargedMove2 = battleReferences.auraWheels[0];
             }
         }
+
+        battleReferences.weatherBall.moveType = battleReferences.normalType;
     }
     #region Fast Attack
     public void StartFastAttack(PokemonController attackingPokemonController, FastMove fastMove, bool playerPokemon) {
@@ -162,7 +162,7 @@ public class BattleManager : MonoBehaviour {
         if (playerPokemon) {
             playerPokemonUsingChargedMove = true;
             if (!playerPokemonUsingFastMove) ChargedAttackSetup();
-
+            print("Throw Charged Move");
         } else {
 
             //if (!aiTrainerPokemonController.shouldThrowChargedMoves) return;
@@ -171,6 +171,7 @@ public class BattleManager : MonoBehaviour {
         }
     }
     public void ChargedAttackSetup() {
+        print("Charged Move Setup");
         //disable attack inputs
         //change camera
         playerPokemonUsingChargedMove = playerPokemonController.throwingChargedMove;
@@ -194,6 +195,7 @@ public class BattleManager : MonoBehaviour {
     }
     IEnumerator ChargedAttack(PokemonController attackingPokemonController, PokemonController defendingPokemonController, bool playerPokemon) {
         //This is where trainer would decide to use shield 
+        print("Charged Attack");
         HUDManager.chargedMoveText.enabled = true;
         HUDManager.chargedMoveText.text = attackingPokemonController.currentPokemon.pokemonBaseInfo.PokemonName + " is unleashing energy!";
 
@@ -229,7 +231,6 @@ public class BattleManager : MonoBehaviour {
             playerPokemonUsingFastMove = false;
             aiTrainerPokemonUsingFastMove = false;
             OnPokemonFaint(playerPokemon);
-
 
         } else {
             if (defendingPokemonController.throwingChargedMove) {
@@ -355,42 +356,48 @@ public class BattleManager : MonoBehaviour {
             }
         }
         // STATUS EFFECTS
-        /*
         float rdmOppStatus = Random.Range(0, 100);
-        if (rdmOppStatus <= chargedMove.moveEffectChances[0]) {
+        if (rdmOppStatus <= chargedMove.moveEffectChance) {
             string effectString = "";
 
-            effectString += defendingPokemonController.currentPokemon.pokemonBaseInfo.PokemonName";
+            effectString += defendingPokemonController.currentPokemon.pokemonBaseInfo.PokemonName;
 
-            if (i == 0) {
-                effectString += "Attack ";
-            } else if (i == 1) {
-                effectString += "Defense ";
-            } else if (i == 2) {
-                effectString += "Special Attack ";
-            } else if (i == 3) {
-                effectString += "Special Defense ";
+            if(chargedMove.moveName == "Dire Claw") {
+                float rdmDC = Random.Range(0, 3);
+                if (rdmDC < 1) {
+                    chargedMove.moveEffect = StatusEffect.Paralysis;
+                } else if (rdmDC >= 1 && rdmDC < 2) {
+                    chargedMove.moveEffect = StatusEffect.Poison;
+                } else if (rdmDC >= 2 && rdmDC < 3) {
+                    chargedMove.moveEffect = StatusEffect.Sleep;
+                }
             }
+            
+            if (chargedMove.moveEffect == StatusEffect.Attraction) {
+                effectString += " fell in love!";
+                defendingPokemonController.currentPokemon.currentStatus = StatusEffect.Attraction;
 
-            float buffAmount = chargedMove.oppBuffs[i];
+            } else if (chargedMove.moveEffect == StatusEffect.Burn) {
+                effectString += " was burned!";
+                defendingPokemonController.currentPokemon.currentStatus = StatusEffect.Burn;
 
-            if (buffAmount > 0) {
-                effectString += "rose";
+            } else if (chargedMove.moveEffect == StatusEffect.Confusion) {
+                effectString += " got confused!";
+                defendingPokemonController.currentPokemon.currentStatus = StatusEffect.Confusion;
 
-            } else if (buffAmount < 0) {
-                effectString += "fell";
+            } else if (chargedMove.moveEffect == StatusEffect.Paralysis) {
+                effectString += " was paralyzed!";
+                defendingPokemonController.currentPokemon.currentStatus = StatusEffect.Paralysis;
+
+            } else if (chargedMove.moveEffect == StatusEffect.Poison) {
+                effectString += " was poisoned!";
+                defendingPokemonController.currentPokemon.currentStatus = StatusEffect.Poison;
+
+            } else if (chargedMove.moveEffect == StatusEffect.Sleep) {
+                effectString += " fell asleep!";
+                defendingPokemonController.currentPokemon.currentStatus = StatusEffect.Sleep;
             }
-
-            if (Mathf.Abs(buffAmount) == 0.1f) {
-                effectString += " slightly!";
-            } else if (Mathf.Abs(buffAmount) == 0.2f) {
-                effectString += "!";
-            } else if (Mathf.Abs(buffAmount) == 0.4f) {
-                effectString += " sharply!";
-            } else if (Mathf.Abs(buffAmount) == 0.6f) {
-                effectString += " drastically!";
-            }
-
+            /*
             if (defendingPokemonController.currentPokemon.currentBuffs[i] > 4) {
                 defendingPokemonController.currentPokemon.currentBuffs[i] = 4;
 
@@ -399,9 +406,10 @@ public class BattleManager : MonoBehaviour {
             } else {
                 StartCoroutine(HUDManager.BuffTextTimer(defendingPokemonController.buffTexts[0], effectString));
             }
-
+            */
+            print(effectString);
         }
-        */
+
         if (chargedMove.weatherEffect != WeatherType.None) {
             currentWeather = chargedMove.weatherEffect;
             HUDManager.UpdateWeatherIcon(currentWeather);
@@ -451,41 +459,42 @@ public class BattleManager : MonoBehaviour {
             if (currentWeather == WeatherType.Sun) {
                 if (!currentPokemon.formChanged) {
                     currentPokemon.formChanged = true;
-                    pokemonController.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[0];
+                    currentPokemon.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[0];
                 }
             } else {
                 if (currentPokemon.formChanged) {
                     currentPokemon.formChanged = false;
-                    pokemonController.currentPokemonBattleSprite = currentPokemon.pokemonBattleSprite;
+                    currentPokemon.currentPokemonBattleSprite = currentPokemon.basePokemonBattleSprite;
                 }
             }
         } else if (currentPokemon.pokemonBaseInfo.PokemonName == "Castform") { // CHANGE THIS TO CHECK FOR ABILITY RATHER THAN NAME
             if (currentWeather == WeatherType.Sun) {
-                if (currentPokemon.battleType[0] != types[2]) {
+                if (currentPokemon.battleType[0] != battleReferences.fireType) {
                     currentPokemon.formChanged = true;
-                    pokemonController.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[0];
-                    currentPokemon.battleType[0] = types[2];
+                    currentPokemon.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[0];
+                    currentPokemon.battleType[0] = battleReferences.fireType;
                 }
             } else if (currentWeather == WeatherType.Rain) {
-                if (currentPokemon.battleType[0] != types[3]) {
+                if (currentPokemon.battleType[0] != battleReferences.waterType) {
                     currentPokemon.formChanged = true;
-                    pokemonController.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[1];
-                    currentPokemon.battleType[0] = types[3];
+                    currentPokemon.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[1];
+                    currentPokemon.battleType[0] = battleReferences.waterType;
                 }
             } else if (currentWeather == WeatherType.Snow) {
-                if (currentPokemon.battleType[0] != types[4]) {
+                if (currentPokemon.battleType[0] != battleReferences.iceType) {
                     currentPokemon.formChanged = true;
-                    pokemonController.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[2];
-                    currentPokemon.battleType[0] = types[4];
+                    currentPokemon.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[2];
+                    currentPokemon.battleType[0] = battleReferences.iceType;
                 }
             } else {
-                if (currentPokemon.battleType[0] != types[5]) {
+                if (currentPokemon.battleType[0] != battleReferences.normalType) {
                     currentPokemon.formChanged = false;
-                    pokemonController.currentPokemonBattleSprite = currentPokemon.pokemonBattleSprite;
-                    currentPokemon.battleType[0] = types[5];
+                    currentPokemon.currentPokemonBattleSprite = currentPokemon.basePokemonBattleSprite;
+                    currentPokemon.battleType[0] = battleReferences.normalType;
                 }
             }
         }
+        pokemonController.pokemonBattleImage.sprite = currentPokemon.currentPokemonBattleSprite;
     }
     public void PostChargedMoveFormChanges(PokemonController pokemonController) {
         var currentPokemon = pokemonController.currentPokemon;
@@ -493,59 +502,63 @@ public class BattleManager : MonoBehaviour {
         if (pokemonController.queuedChargedMove == null) return;
 
         if (pokemonController.queuedChargedMove.moveName == "Aura Wheel") {
-            if (!currentPokemon.formChanged) {
+            if (!currentPokemon.formChanged) { // HANGRY MODE
                 currentPokemon.formChanged = true;
                 if (pokemonController.queuedChargedMove == currentPokemon.chargedMove1) {
-                    currentPokemon.chargedMove1 = auraWheels[0];
+                    currentPokemon.chargedMove1 = battleReferences.auraWheels[1];
                 } else if (currentPokemon.chargedMove2 && pokemonController.queuedChargedMove == currentPokemon.chargedMove2) {
-                    currentPokemon.chargedMove2 = auraWheels[0];
+                    currentPokemon.chargedMove2 = battleReferences.auraWheels[1];
                 }
-                pokemonController.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[0];
-                currentPokemon.pokemonBattleSprite = currentPokemon.pokemonBaseInfo.AlternateFormSprites[0];
-            } else {
+                currentPokemon.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[0];
+
+            } else {  // FULL BELLY MODE
                 currentPokemon.formChanged = false;
                 if (pokemonController.queuedChargedMove == currentPokemon.chargedMove1) {
-                    currentPokemon.chargedMove1 = auraWheels[1];
+                    currentPokemon.chargedMove1 = battleReferences.auraWheels[0];
                 } else if (currentPokemon.chargedMove2 && pokemonController.queuedChargedMove == currentPokemon.chargedMove2) {
-                    currentPokemon.chargedMove2 = auraWheels[1];
+                    currentPokemon.chargedMove2 = battleReferences.auraWheels[0];
                 }
-                currentPokemon.pokemonBattleSprite = currentPokemon.pokemonBaseInfo.PokemonBattleSprite;
-                pokemonController.currentPokemonBattleSprite = currentPokemon.pokemonBattleSprite;
+                currentPokemon.currentPokemonBattleSprite = currentPokemon.basePokemonBattleSprite;
             }
         } else if (pokemonController.queuedChargedMove.moveName == "King's Shield") {
 
-            if (!currentPokemon.formChanged) {
+            if (!currentPokemon.formChanged) { // SWORD FORM
                 currentPokemon.formChanged = true;
-                currentPokemon.pokemonBaseInfo = aegislashForms[1];
-            } else {
+                currentPokemon.pokemonBaseInfo = battleReferences.aegislashForms[1];
+
+            } else { // SHIELD FORM
                 currentPokemon.formChanged = false;
-                currentPokemon.pokemonBaseInfo = aegislashForms[0];
+                currentPokemon.pokemonBaseInfo = battleReferences.aegislashForms[0];
             }
-            currentPokemon.pokemonBattleSprite = currentPokemon.pokemonBaseInfo.PokemonBattleSprite;
-            pokemonController.currentPokemonBattleSprite = currentPokemon.pokemonBattleSprite;
+            currentPokemon.SetBattleSprite();
+            currentPokemon.currentPokemonBattleSprite = currentPokemon.basePokemonBattleSprite;
+
         } else if (pokemonController.queuedChargedMove.moveName == "Relic Song") {
 
-            if (!currentPokemon.formChanged) {
+            if (!currentPokemon.formChanged) { // PIROUETTE FORM
                 currentPokemon.formChanged = true;
-                currentPokemon.pokemonBaseInfo = meloettaForms[1];
-            } else {
+                currentPokemon.pokemonBaseInfo = battleReferences.meloettaForms[1];
+
+            } else { // ARIA FORM
                 currentPokemon.formChanged = false;
-                currentPokemon.pokemonBaseInfo = meloettaForms[0];
+                currentPokemon.pokemonBaseInfo = battleReferences.meloettaForms[0];
             }
-            currentPokemon.pokemonBattleSprite = currentPokemon.pokemonBaseInfo.PokemonBattleSprite;
-            pokemonController.currentPokemonBattleSprite = currentPokemon.pokemonBattleSprite;
+            currentPokemon.SetBattleSprite();
+            currentPokemon.currentPokemonBattleSprite = currentPokemon.basePokemonBattleSprite;
         }
 
         if (currentWeather == WeatherType.Sun) {
-            weatherBall.moveType = types[2];
+            battleReferences.weatherBall.moveType = battleReferences.fireType;
         } else if (currentWeather == WeatherType.Rain) {
-            weatherBall.moveType = types[3];
+            battleReferences.weatherBall.moveType = battleReferences.waterType;
         } else if (currentWeather == WeatherType.Snow) {
-            weatherBall.moveType = types[4];
+            battleReferences.weatherBall.moveType = battleReferences.iceType;
+        } else if (currentWeather == WeatherType.Sandstorm) {
+            battleReferences.weatherBall.moveType = battleReferences.rockType;
         } else {
-            weatherBall.moveType = types[5];
+            battleReferences.weatherBall.moveType = battleReferences.normalType;
         }
-
+        //pokemonController.pokemonBattleImage.sprite = currentPokemon.currentPokemonBattleSprite;
         HUDManager.SetHUD(playerPokemonController, aiTrainerPokemonController);
     }
     public void PostSwitchFormChanges(PokemonController pokemonController) {
@@ -554,41 +567,42 @@ public class BattleManager : MonoBehaviour {
             if (currentWeather == WeatherType.Sun) {
                 if (!currentPokemon.formChanged) {
                     currentPokemon.formChanged = true;
-                    pokemonController.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[0];
+                    currentPokemon.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[0];
                 }
             } else {
                 if (currentPokemon.formChanged) {
                     currentPokemon.formChanged = false;
-                    pokemonController.currentPokemonBattleSprite = currentPokemon.pokemonBattleSprite;
+                    currentPokemon.currentPokemonBattleSprite = currentPokemon.basePokemonBattleSprite;
                 }
             }
         } else if (currentPokemon.pokemonBaseInfo.PokemonName == "Castform") { // CHANGE THIS TO CHECK FOR ABILITY RATHER THAN NAME
             if (currentWeather == WeatherType.Sun) {
-                if (currentPokemon.battleType[0] != types[2]) {
+                if (currentPokemon.battleType[0] != battleReferences.fireType) {
                     currentPokemon.formChanged = true;
-                    pokemonController.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[0];
-                    currentPokemon.battleType[0] = types[2];
+                    currentPokemon.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[0];
+                    currentPokemon.battleType[0] = battleReferences.fireType;
                 }
             } else if (currentWeather == WeatherType.Rain) {
-                if (currentPokemon.battleType[0] != types[3]) {
+                if (currentPokemon.battleType[0] != battleReferences.waterType) {
                     currentPokemon.formChanged = true;
-                    pokemonController.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[1];
-                    currentPokemon.battleType[0] = types[3];
+                    currentPokemon.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[1];
+                    currentPokemon.battleType[0] = battleReferences.waterType;
                 }
             } else if (currentWeather == WeatherType.Snow) {
-                if (currentPokemon.battleType[0] != types[4]) {
+                if (currentPokemon.battleType[0] != battleReferences.iceType) {
                     currentPokemon.formChanged = true;
-                    pokemonController.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[2];
-                    currentPokemon.battleType[0] = types[4];
+                    currentPokemon.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[2];
+                    currentPokemon.battleType[0] = battleReferences.iceType;
                 }
             } else {
-                if (currentPokemon.battleType[0] != types[5]) {
+                if (currentPokemon.battleType[0] != battleReferences.normalType) {
                     currentPokemon.formChanged = false;
-                    pokemonController.currentPokemonBattleSprite = currentPokemon.pokemonBattleSprite;
-                    currentPokemon.battleType[0] = types[5];
+                    currentPokemon.currentPokemonBattleSprite = currentPokemon.basePokemonBattleSprite;
+                    currentPokemon.battleType[0] = battleReferences.normalType;
                 }
             }
         }
+        //pokemonController.pokemonBattleImage.sprite = currentPokemon.currentPokemonBattleSprite;
         HUDManager.SetHUD(playerPokemonController, aiTrainerPokemonController);
     }
     public void PostDamageFormChanges(PokemonController defendingPokemonController) {
@@ -596,12 +610,13 @@ public class BattleManager : MonoBehaviour {
         if (currentPokemon.pokemonBaseInfo.PokemonName == "Mimikyu") {
             if (!currentPokemon.formChanged) {
                 currentPokemon.formChanged = true;
-                defendingPokemonController.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[0];
+                currentPokemon.currentPokemonBattleSprite = currentPokemon.alternateFormSprites[0];
             }
         }
         if (currentPokemon.currentHP <= Mathf.Floor(currentPokemon.MaxHP * 0.25f)) {
 
         }
+
         HUDManager.SetHUD(playerPokemonController, aiTrainerPokemonController);
     }
     #endregion
@@ -632,15 +647,15 @@ public class BattleManager : MonoBehaviour {
 
         pokemonController.currentPokemon = pokemonController.pokemonInParty[newPokemonIndex];
 
-        playerPokemonController.currentPokemonBattleSprite = playerPokemonController.currentPokemon.pokemonBattleSprite;
-        aiTrainerPokemonController.currentPokemonBattleSprite = aiTrainerPokemonController.currentPokemon.pokemonBattleSprite;
+        //playerPokemonController.currentPokemonBattleSprite = playerPokemonController.currentPokemon.pokemonBattleSprite;
+        //aiTrainerPokemonController.currentPokemonBattleSprite = aiTrainerPokemonController.currentPokemon.pokemonBattleSprite;
 
         //pokemonController.pokemonBattleImage.sprite = pokemonController.currentPokemon.pokemonBattleSprite;
 
         playerPokemonIndividual = playerPokemonController.currentPokemon;
         aiTrainerPokemonIndividual = aiTrainerPokemonController.currentPokemon;
 
-        SendOutPokemon(pokemonController);
+        SendOutPokemon(pokemonController == playerPokemonController);
 
         yield return new WaitForEndOfFrame();
 
@@ -674,16 +689,20 @@ public class BattleManager : MonoBehaviour {
     }
     public void SendOutPokemon(bool playerPokemon) {
         if (playerPokemon) {
+            HUDManager.playerHUD.SetActive(true);
             StopCoroutine(playerPokemonController.PokemonSelectTimer(0));
-            //enable charged move hud , name text and bp text
+
         } else {
+            HUDManager.aiTrainerHUD.SetActive(true);
             StopCoroutine(aiTrainerPokemonController.PokemonSelectTimer(0));
-            //enable charged move hud , name text and bp text
+            print("Send out pokemon");
         }
     }
     void StartPokemonSelectTimer(bool pokemonFainted, bool playerPokemon) {  // timer for selecting pokemon after pokemon faints
         int timer = 5;
-        if (pokemonFainted) timer = 10;
+        if (pokemonFainted) {
+            timer = 10;
+        }
         playerSelectingPokemon = !playerPokemon;
         aiTrainerSelectingPokemon = playerPokemon;
         aiTrainerPokemonUsingFastMove = false;
@@ -715,6 +734,7 @@ public class BattleManager : MonoBehaviour {
             //disable charged move hud , name text and bp text
             //give exp to winning pokemon based on defeated pokemon
         }
+        HUDManager.ClearPokemonHUD(!playerPokemon);
         StartPokemonSelectTimer(true, playerPokemon);
     }
     IEnumerator FaintAnimation(PokemonController pokemonController) {

@@ -16,6 +16,7 @@ public class PlayerPokemonController : PokemonController {
         playerInput.Enable();
         playerInput.Battle.FastAttack.performed += FastAttack;
         playerInput.Battle.ChargedMove1.performed += ChargedAttack1;
+        playerInput.Battle.ChargedMove2.performed += ChargedAttack2;
         playerInput.Battle.PressFastAttack.performed += PressFastAttack;
         playerInput.Battle.ReleaseFastAttack.performed += ReleaseFastAttack;
         playerInput.Battle.Switch1.performed += Switch1;
@@ -24,7 +25,6 @@ public class PlayerPokemonController : PokemonController {
         playerInput.Battle.Switch4.performed += Switch4;
         playerInput.Battle.Switch5.performed += Switch5;
         playerInput.Battle.Switch6.performed += Switch6;
-        if (currentPokemon.chargedMove2 != null) playerInput.Battle.ChargedMove2.performed += ChargedAttack2;
     }
 
     private void Switch1(InputAction.CallbackContext context) {
@@ -79,12 +79,14 @@ public class PlayerPokemonController : PokemonController {
         if(currentPokemon.currentHP > 0) ChargedAttack(currentPokemon.chargedMove1);
     }
     private void ChargedAttack2(InputAction.CallbackContext context) {
-        if (currentPokemon.currentHP > 0 && currentPokemon.chargedMove2) ChargedAttack(currentPokemon.chargedMove2);
+        print("S key");
+        if (currentPokemon.currentHP > 0 && currentPokemon.chargedMove2 != null) ChargedAttack(currentPokemon.chargedMove2); print("pkmn ctrl Charged Attack2");
     }
     private void ChargedAttack(ChargedMove chargedMove) {
         if (battleManager.playerSelectingPokemon || battleManager.aiTrainerSelectingPokemon) return;
         if (throwingChargedMove) return;
         if (currentPokemon.currentEnergy < chargedMove.baseEnergyReq) return;
+        print("pkmn ctrl Charged Attack");
         throwingChargedMove = true;
         queuedChargedMove = chargedMove;
         if (battleManager.aiTrainerPokemonUsingChargedMove) return;
