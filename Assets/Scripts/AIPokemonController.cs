@@ -93,16 +93,16 @@ public class AIPokemonController : PokemonController {
         }
 
         yield return new WaitForSeconds(0.25f);
-
         StartCoroutine(BattleAI());
 
     }
     public override void PostChargedMoves() {
         //evaluate AI options
-        battleManager.StartFastAttack(this, currentPokemon.fastMove, false);
+        if (!battleManager.playerSelectingPokemon && !battleManager.aiTrainerSelectingPokemon && !switching) battleManager.StartFastAttack(this, currentPokemon.fastMove, false);
     }
     public override void PostSwitch() {
         //evaluate AI options
+        pokemonBattleImage.enabled = true;
         switching = false;
         if (currentPokemon && battleManager.playerPokemonIndividual) AssessPartyMatchupQuality();
         battleManager.StartFastAttack(this, currentPokemon.fastMove, false);

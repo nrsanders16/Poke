@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class BattleReferences : MonoBehaviour {
     [Header("Pokemon Forms")]
     public PokemonObject[] aegislashForms;
     public PokemonObject[] meloettaForms;
     public PokemonObject[] darmanitanForms;
     public PokemonObject[] wishiwashiForms;
+    public PokemonObject[] palafinForms;
+    public PokemonObject[] miniorForms;
+    public Sprite[] miniorCoreSprites;
 
     [Header("Moves")]
     public ChargedMove[] auraWheels;

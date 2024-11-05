@@ -10,9 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 54955fc3dffc6004092f1af538665382, type: 3}
-  m_Name: Cubone
+  m_Name: 0104 Cubone
   m_EditorClassIdentifier: 
   pokemonName: Cubone
+  dexNumber: 104
+  description: "Lonely Pok\xE9mon"
+  height: 0.4
+  weight: 6.5
+  dexEntry: "This Pok\xE9mon wears the skull of its deceased mother. Sometimes Cubone\u2019s
+    dreams make it cry, but each tear Cubone sheds makes it stronger."
+  M_FGenderSplit: 50
+  genderless: 0
+  baseExp: 64
+  growthRate: 2
+  catchRate: 190
   pokemonBattleSprite: {fileID: 21300000, guid: 474d73864b5ef8e48853fa58f6ed9243, type: 3}
   shinyPokemonBattleSprite: {fileID: 0}
   alternateFormSprites: []

@@ -26,7 +26,6 @@ public class PlayerPokemonController : PokemonController {
         playerInput.Battle.Switch5.performed += Switch5;
         playerInput.Battle.Switch6.performed += Switch6;
     }
-
     private void Switch1(InputAction.CallbackContext context) {
         if (switching) return;
         if (switchTimer > 0 && currentPokemon.currentHP > 0) return;
@@ -79,8 +78,7 @@ public class PlayerPokemonController : PokemonController {
         if(currentPokemon.currentHP > 0) ChargedAttack(currentPokemon.chargedMove1);
     }
     private void ChargedAttack2(InputAction.CallbackContext context) {
-        print("S key");
-        if (currentPokemon.currentHP > 0 && currentPokemon.chargedMove2 != null) ChargedAttack(currentPokemon.chargedMove2); print("pkmn ctrl Charged Attack2");
+        if (currentPokemon.currentHP > 0 && currentPokemon.chargedMove2 != null) ChargedAttack(currentPokemon.chargedMove2);
     }
     private void ChargedAttack(ChargedMove chargedMove) {
         if (battleManager.playerSelectingPokemon || battleManager.aiTrainerSelectingPokemon) return;
@@ -98,6 +96,7 @@ public class PlayerPokemonController : PokemonController {
         queuedChargedMove = null;
     }
     public override void PostSwitch() {
+        pokemonBattleImage.enabled = true;
         switching = false;
     }
     public override IEnumerator PokemonSelectTimer(float timer) {

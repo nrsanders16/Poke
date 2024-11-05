@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54955fc3dffc6004092f1af538665382, type: 3}
+  m_Name: Hawlucha
+  m_EditorClassIdentifier: 
+  pokemonName: Hawlucha
+  dexNumber: 701
+  description: "Wrestling Pok\xE9mon"
+  height: 0.8
+  weight: 21.5
+  dexEntry: It always strikes a pose before going for its finishing move. Sometimes
+    opponents take advantage of that time to counterattack.
+  M_FGenderSplit: 50
+  genderless: 0
+  baseExp: 175
+  growthRate: 2
+  catchRate: 100
+  pokemonBattleSprite: {fileID: 21300000, guid: 4d379d44e2cbd5a4292d10d634315181, type: 3}
+  shinyPokemonBattleSprite: {fileID: 21300000, guid: 5dccdbbccf387fc468e106bc2f8f781a, type: 3}
+  alternateFormSprites: []
+  shinyAlternateFormSprites: []
+  primaryType: {fileID: 11400000, guid: 2b50d6631b5ca514da5cbe036ac561aa, type: 2}
+  secondaryType: {fileID: 11400000, guid: c856c1c11eb9b7b44855fe0996a7afa4, type: 2}
+  baseHP: 78
+  baseAttack: 92
+  baseDefense: 75
+  baseSpAttack: 74
+  baseSpDefense: 63
+  baseSpeed: 118
+  learnableFastMoves: []
+  learnableChargedMoves: []
+  possibleAbilities: 
+  spriteSize: 300

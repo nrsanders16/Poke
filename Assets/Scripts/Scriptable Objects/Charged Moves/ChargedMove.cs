@@ -8,7 +8,6 @@ public class ChargedMove : PokemonMove {
     public float ownBuffChance;
     public float[] oppBuffs;
     public float oppBuffChance;
-    public Type secondaryType;
     public StatusEffect moveEffect;
     public float moveEffectChance;
     public WeatherType weatherEffect;

@@ -6,6 +6,7 @@ public class PokemonIndividual : MonoBehaviour {
     public Sprite currentPokemonBattleSprite;
     public Sprite basePokemonBattleSprite;
     public Sprite[] alternateFormSprites;
+    public string pokemonNickname;
     public bool shiny;
     public bool shadow;
     public bool purified;
@@ -38,7 +39,7 @@ public class PokemonIndividual : MonoBehaviour {
     public ChargedMove chargedMove2;
 
     private void Awake() {
-        currentBuffs = new float[4];
+        currentBuffs = new float[5];
         SetBattleSprite();
 
         if (pokemonBaseInfo.SecondaryType != null) {
@@ -48,6 +49,8 @@ public class PokemonIndividual : MonoBehaviour {
             battleType = new Type[1];
         }
         battleType[0] = pokemonBaseInfo.PrimaryType;
+
+        pokemonNickname = pokemonBaseInfo.PokemonName; // TEMPORARY
     }
 
     public void SetBattleSprite() {

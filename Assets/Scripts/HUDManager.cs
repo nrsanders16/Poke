@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 public class HUDManager : MonoBehaviour {
@@ -13,15 +14,11 @@ public class HUDManager : MonoBehaviour {
     public TMP_Text chargedMoveText;
 
     [Header("Player HUD")]
-    //public Sprite currentPlayerPokemonSprite;
     public GameObject playerHUD;
     public RectTransform chargedMove1RectTransform;
     public RectTransform chargedMove2RectTransform;
-    public TMP_Text playerPokemonText;
-    public Image playerPokemonShadowSprite;
     public GameObject playerHPBar;
     public Image playerHPFill;
-    public TMP_Text playerPokemonBPText;
     public TMP_Text playerChargedMove1NameText;
     public TMP_Text playerChargedMove2NameText;
     public Image playerEnergyOutline1;
@@ -35,89 +32,190 @@ public class HUDManager : MonoBehaviour {
     public Image playerEnergyImage2layer2;
     public Image playerEnergyImage2layer3;
     public Image playerSwitchTimerImage;
-    public Image playerTechIcon;
+
     public Image[] playerPartyPokemonSprites;
     public Image[] playerPartyPokemonTimerImages;
     public Image[] playerPartyPokemonShadowSprites;
 
     [Header("AI Trainer HUD")]
     public GameObject aiTrainerHUD;
-    public TMP_Text aiTrainerPokemonText;
-    //public Sprite currentAITrainerPokemonSprite;
-    //public TMP_Text aiTrainerPokemonHPText;
-    public TMP_Text aiTrainerPokemonBPText;
     public TMP_Text aiTrainerPokemonEffectivenessText;
     public Image aiTrainerSwitchTimerImage;
-    public Image aiTrainerPokemonShadowSprite;
     public GameObject aiTrainerHPBar;
     public Image aiTrainerHPFill;
-    public Image aiTechIcon;
 
     public Sprite[] techIcons;
     public Sprite[] weatherIcons;
     public Sprite[] terrainIcons;
+    public Sprite[] statusIcons;
 
     public void SetHUD(PokemonController playerPokemonController, PokemonController aiTrainerPokemonController) {
-        playerPokemonText.text = playerPokemonController.currentPokemon.pokemonBaseInfo.PokemonName;
-        aiTrainerPokemonText.text = aiTrainerPokemonController.currentPokemon.pokemonBaseInfo.PokemonName;
 
-        playerPokemonBPText.text = "BP " + playerPokemonController.currentPokemon.BattlePower.ToString();
-        aiTrainerPokemonBPText.text = "BP " + aiTrainerPokemonController.currentPokemon.BattlePower.ToString();
+        SetPokemonBattleSprite(playerPokemonController, aiTrainerPokemonController);
+        SetPokemonBattleSprite(aiTrainerPokemonController, playerPokemonController);
 
-        var p = new Vector2(playerPokemonController.currentPokemon.pokemonBaseInfo.SpriteSize, playerPokemonController.currentPokemon.pokemonBaseInfo.SpriteSize);
-        playerPokemonController.pokemonImageRt.sizeDelta = p;
-        playerPokemonController.shadowImageRt.sizeDelta = new Vector2(p.x * 0.875f, p.y * 0.875f);
-        playerPokemonController.pokemonBattleImage.sprite = playerPokemonController.currentPokemon.currentPokemonBattleSprite;
+        SetBattleHUD(playerPokemonController, aiTrainerPokemonController);
+        SetBattleHUD(aiTrainerPokemonController, playerPokemonController);
 
-        var a = new Vector2(aiTrainerPokemonController.currentPokemon.pokemonBaseInfo.SpriteSize, aiTrainerPokemonController.currentPokemon.pokemonBaseInfo.SpriteSize);
-        aiTrainerPokemonController.pokemonImageRt.sizeDelta = a;
-        aiTrainerPokemonController.shadowImageRt.sizeDelta = new Vector2(a.x * 0.875f, a.y * 0.875f);
-        aiTrainerPokemonController.pokemonBattleImage.sprite = aiTrainerPokemonController.currentPokemon.currentPokemonBattleSprite;
+        SetDittoTransformInfo(playerPokemonController, aiTrainerPokemonController);
+        SetDittoTransformInfo(aiTrainerPokemonController, playerPokemonController);
 
-        if(playerPokemonController.currentPokemon.shadow) {
-            playerPokemonShadowSprite.enabled = true;
-        } else {
-            playerPokemonShadowSprite.enabled = false;
+        SetPlayerChargedMoveHUD(playerPokemonController);
+
+        SetFormChangedBool(playerPokemonController);
+        SetFormChangedBool(aiTrainerPokemonController);
+
+        for (int i = 0; i < playerPartyPokemonSprites.Length; i++) {
+            if (playerPartyPokemonSprites[i] != null) {
+                playerPartyPokemonSprites[i].sprite = playerPokemonController.pokemonInParty[i].currentPokemonBattleSprite;
+                if (playerPokemonController.pokemonInParty[i].shadow) {
+                    playerPartyPokemonShadowSprites[i].enabled = true;
+                } else {
+                    playerPartyPokemonShadowSprites[i].enabled = false;
+                }
+            }
         }
-        if (aiTrainerPokemonController.currentPokemon.shadow) {
-            aiTrainerPokemonShadowSprite.enabled = true;
+    }
+    public void SetBattleHUD(PokemonController pokemonController, PokemonController opposingPokemonController) {
+        
+        if (pokemonController.currentPokemon.pokemonBaseInfo.PokemonName == "Zorua" || pokemonController.currentPokemon.pokemonBaseInfo.PokemonName == "Zoroark") {
+            if (pokemonController.currentPokemon.formChanged) return;
+
+            pokemonController.pokemonNameText.text = pokemonController.pokemonInParty[pokemonController.pokemonInParty.Length - 1].pokemonBaseInfo.PokemonName;
+            pokemonController.pokemonBPText.text = "BP " + pokemonController.pokemonInParty[pokemonController.pokemonInParty.Length - 1].BattlePower.ToString();
+
+            pokemonController.type1Icon.sprite = pokemonController.pokemonInParty[pokemonController.pokemonInParty.Length - 1].battleType[0].typeIcon;
+            if (pokemonController.pokemonInParty[pokemonController.pokemonInParty.Length - 1].battleType.Length > 1) {
+                pokemonController.type2Icon.enabled = true;
+                pokemonController.type2IconBackground.enabled = true;
+                pokemonController.type2Icon.sprite = pokemonController.pokemonInParty[pokemonController.pokemonInParty.Length - 1].battleType[1].typeIcon;
+            } else {
+                pokemonController.type2Icon.enabled = false;
+                pokemonController.type2IconBackground.enabled = false;
+            }
+
+        } else if(pokemonController.currentPokemon.pokemonBaseInfo.PokemonName == "Ditto") {
+            if (pokemonController.currentPokemon.formChanged) return;
+
+            pokemonController.pokemonNameText.text = pokemonController.currentPokemon.pokemonBaseInfo.PokemonName;
+            pokemonController.pokemonBPText.text = "BP " + pokemonController.currentPokemon.BattlePower.ToString();
+
+            pokemonController.type1Icon.sprite = opposingPokemonController.currentPokemon.battleType[0].typeIcon;
+            if (opposingPokemonController.currentPokemon.battleType.Length > 1) {
+                pokemonController.type2Icon.enabled = true;
+                pokemonController.type2IconBackground.enabled = true;
+                pokemonController.type2Icon.sprite = opposingPokemonController.currentPokemon.battleType[1].typeIcon;
+            } else {
+                pokemonController.type2Icon.enabled = false;
+                pokemonController.type2IconBackground.enabled = false;
+            }
         } else {
-            aiTrainerPokemonShadowSprite.enabled = false;
+
+            pokemonController.pokemonNameText.text = pokemonController.currentPokemon.pokemonBaseInfo.PokemonName;
+            pokemonController.pokemonBPText.text = "BP " + pokemonController.currentPokemon.BattlePower.ToString();
+
+            pokemonController.type1Icon.sprite = pokemonController.currentPokemon.battleType[0].typeIcon;
+            if (pokemonController.currentPokemon.battleType.Length > 1) {
+                pokemonController.type2Icon.enabled = true;
+                pokemonController.type2IconBackground.enabled = true;
+                pokemonController.type2Icon.sprite = pokemonController.currentPokemon.battleType[1].typeIcon;
+
+            } else {
+                pokemonController.type2Icon.enabled = false;
+                pokemonController.type2IconBackground.enabled = false;
+            }
         }
 
-        if (playerPokemonController.currentPokemon.mega) {
-            playerTechIcon.enabled = true;
-            playerTechIcon.sprite = techIcons[0];
+        if(pokemonController.currentPokemon.currentStatus == StatusEffect.None) {
+            pokemonController.statusIcon.enabled = false;
 
-        } else if (playerPokemonController.currentPokemon.dynamax) { 
-            playerTechIcon.enabled = true;
-            playerTechIcon.sprite = techIcons[1];
+        } else if(pokemonController.currentPokemon.currentStatus == StatusEffect.Attraction) {
+            pokemonController.statusIcon.enabled = true;
+            pokemonController.statusIcon.sprite = statusIcons[0];
 
-        } else if (playerPokemonController.currentPokemon.tera) {
-            playerTechIcon.enabled = true;
-            playerTechIcon.sprite = techIcons[2];
+        } else if (pokemonController.currentPokemon.currentStatus == StatusEffect.Burn) {
+            pokemonController.statusIcon.enabled = true;
+            pokemonController.statusIcon.sprite = statusIcons[1];
 
-        } else {
-            playerTechIcon.enabled = false;
-            playerTechIcon.sprite = null;
+        } else if (pokemonController.currentPokemon.currentStatus == StatusEffect.Confusion) {
+            pokemonController.statusIcon.enabled = true;
+            pokemonController.statusIcon.sprite = statusIcons[2];
+
+        } else if (pokemonController.currentPokemon.currentStatus == StatusEffect.Paralysis) {
+            pokemonController.statusIcon.enabled = true;
+            pokemonController.statusIcon.sprite = statusIcons[3];
+
+        } else if (pokemonController.currentPokemon.currentStatus == StatusEffect.Poison) {
+            pokemonController.statusIcon.enabled = true;
+            pokemonController.statusIcon.sprite = statusIcons[4];
+
+        } else if (pokemonController.currentPokemon.currentStatus == StatusEffect.Sleep) {
+            pokemonController.statusIcon.enabled = true;
+            pokemonController.statusIcon.sprite = statusIcons[5];
         }
 
-        if (aiTrainerPokemonController.currentPokemon.mega) {
-            aiTechIcon.enabled = true;
-            aiTechIcon.sprite = techIcons[0];
+        if (pokemonController.currentPokemon.shadow) {
+            pokemonController.pokemonShadowSprite.enabled = true;
+        } else {
+            pokemonController.pokemonShadowSprite.enabled = false;
+        }
 
-        } else if (aiTrainerPokemonController.currentPokemon.dynamax) {
-            aiTechIcon.enabled = true;
-            aiTechIcon.sprite = techIcons[1];
+        if (pokemonController.currentPokemon.mega) {
+            pokemonController.techIcon.enabled = true;
+            pokemonController.techIcon.sprite = techIcons[0];
 
-        } else if (aiTrainerPokemonController.currentPokemon.tera) {
-            aiTechIcon.enabled = true;
-            aiTechIcon.sprite = techIcons[2];
+        } else if (pokemonController.currentPokemon.dynamax) {
+            pokemonController.techIcon.enabled = true;
+            pokemonController.techIcon.sprite = techIcons[1];
+
+        } else if (pokemonController.currentPokemon.tera) {
+            pokemonController.techIcon.enabled = true;
+            pokemonController.techIcon.sprite = techIcons[2];
 
         } else {
-            aiTechIcon.enabled = false;
-            aiTechIcon.sprite = null;
+            pokemonController.techIcon.enabled = false;
+            pokemonController.techIcon.sprite = null;
         }
+    }
+    public void SetPokemonBattleSprite(PokemonController pokemonController, PokemonController opposingPokemonController) {
+        var p = new Vector2();
+
+        if (pokemonController.currentPokemon.pokemonBaseInfo.PokemonName == "Ditto") {
+            if (pokemonController.currentPokemon.formChanged) {
+                return;
+            }
+        }
+        if (pokemonController.currentPokemon.pokemonBaseInfo.PokemonName == "Zorua") {
+            if (pokemonController.currentPokemon.formChanged) {
+                return;
+            }
+        }
+        if (pokemonController.currentPokemon.pokemonBaseInfo.PokemonName == "Zoroark") {
+            if (pokemonController.currentPokemon.formChanged) {
+                return;
+            }
+        }
+
+        if (pokemonController.currentPokemon.pokemonBaseInfo.PokemonName == "Ditto" && !pokemonController.currentPokemon.formChanged) {
+            p = new Vector2(opposingPokemonController.currentPokemon.pokemonBaseInfo.SpriteSize, opposingPokemonController.currentPokemon.pokemonBaseInfo.SpriteSize);
+            pokemonController.currentPokemon.currentPokemonBattleSprite = opposingPokemonController.currentPokemon.currentPokemonBattleSprite;
+            pokemonController.pokemonBattleImage.sprite = pokemonController.currentPokemon.currentPokemonBattleSprite;
+
+        } else if ((pokemonController.currentPokemon.pokemonBaseInfo.PokemonName == "Zorua" && !pokemonController.currentPokemon.formChanged) || (pokemonController.currentPokemon.pokemonBaseInfo.PokemonName == "Zoroark" && !pokemonController.currentPokemon.formChanged)) {
+            p = new Vector2(pokemonController.pokemonInParty[pokemonController.pokemonInParty.Length - 1].pokemonBaseInfo.SpriteSize, pokemonController.pokemonInParty[pokemonController.pokemonInParty.Length - 1].pokemonBaseInfo.SpriteSize);
+            pokemonController.currentPokemon.currentPokemonBattleSprite = pokemonController.pokemonInParty[pokemonController.pokemonInParty.Length - 1].currentPokemonBattleSprite;
+            pokemonController.pokemonBattleImage.sprite = pokemonController.currentPokemon.currentPokemonBattleSprite;
+
+        } else if (pokemonController.currentPokemon.pokemonBaseInfo.PokemonName != "Ditto" && pokemonController.currentPokemon.pokemonBaseInfo.PokemonName != "Zorua" && pokemonController.currentPokemon.pokemonBaseInfo.PokemonName != "Zoroark")  {
+            p = new Vector2(pokemonController.currentPokemon.pokemonBaseInfo.SpriteSize, pokemonController.currentPokemon.pokemonBaseInfo.SpriteSize);
+            pokemonController.pokemonBattleImage.sprite = pokemonController.currentPokemon.currentPokemonBattleSprite;
+        }
+        pokemonController.pokemonImageRt.sizeDelta = p;
+        pokemonController.shadowImageRt.sizeDelta = new Vector2(p.x * 0.875f, p.y * 0.875f);
+    }
+    public void SetPlayerChargedMoveHUD(PokemonController playerPokemonController) {
+
+        if (playerPokemonController.currentPokemon.pokemonBaseInfo.PokemonName == "Ditto" && playerPokemonController.currentPokemon.formChanged) return;
 
         playerChargedMove1NameText.text = playerPokemonController.currentPokemon.chargedMove1.moveName;
         playerEnergyBackground1.sprite = playerPokemonController.currentPokemon.chargedMove1.moveType.typeIcon;
@@ -143,26 +241,32 @@ public class HUDManager : MonoBehaviour {
             chargedMove2RectTransform.gameObject.SetActive(false);
             chargedMove1RectTransform.transform.localPosition = new Vector3(-500, chargedMove1RectTransform.transform.localPosition.y, chargedMove1RectTransform.transform.localPosition.z);
         }
+    }
+    public void SetDittoTransformInfo(PokemonController pokemonController, PokemonController opposingPokemonController) {
 
-        for (int i = 0; i < playerPartyPokemonSprites.Length; i++) {
-            if (playerPartyPokemonSprites[i] != null) {
-                playerPartyPokemonSprites[i].sprite = playerPokemonController.pokemonInParty[i].currentPokemonBattleSprite;
-                if (playerPokemonController.pokemonInParty[i].shadow) {
-                    playerPartyPokemonShadowSprites[i].enabled = true;
-                } else {
-                    playerPartyPokemonShadowSprites[i].enabled = false;
-                }
-            }
+        if (pokemonController.currentPokemon.pokemonBaseInfo.PokemonName == "Ditto") {
+            if (pokemonController.currentPokemon.formChanged) return;
+            pokemonController.currentPokemon.currentBuffs = opposingPokemonController.currentPokemon.currentBuffs;
+            pokemonController.currentPokemon.shadow = opposingPokemonController.currentPokemon.shadow; // questionable
+            pokemonController.currentPokemon.mega = opposingPokemonController.currentPokemon.mega; // questionable
+            pokemonController.currentPokemon.fastMove = opposingPokemonController.currentPokemon.fastMove;
+            print(opposingPokemonController.currentPokemon.fastMove.moveName);
+            pokemonController.currentPokemon.chargedMove1 = opposingPokemonController.currentPokemon.chargedMove1;
+            if (opposingPokemonController.currentPokemon.chargedMove2 != null) pokemonController.currentPokemon.chargedMove2 = opposingPokemonController.currentPokemon.chargedMove2;
+        }
+
+    }
+    public void SetFormChangedBool(PokemonController pokemonController) {
+        if (pokemonController.currentPokemon.pokemonBaseInfo.PokemonName == "Ditto" || pokemonController.currentPokemon.pokemonBaseInfo.PokemonName == "Zorua" || pokemonController.currentPokemon.pokemonBaseInfo.PokemonName == "Zoroark") {
+
+            if (pokemonController.currentPokemon.formChanged) return;
+            pokemonController.currentPokemon.formChanged = true;
         }
     }
-    public void ClearPokemonHUD(bool playerPokemon) {
+    public void DisablePokemonHUD(bool playerPokemon) {
         if(playerPokemon) {
-            //playerPokemonText.enabled = false;
-            //playerPokemonBPText.enabled = false;
             playerHUD.SetActive(false);
         } else {
-            //aiTrainerPokemonText.enabled = false;
-            //aiTrainerPokemonBPText.enabled = false;
             aiTrainerHUD.SetActive(false);
         }
     }

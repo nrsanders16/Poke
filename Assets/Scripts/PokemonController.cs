@@ -14,10 +14,16 @@ public class PokemonController : MonoBehaviour {
     public PokemonIndividual[] pokemonInParty;
     public float switchTimer;
     [Header("Battle HUD")]
+    public TMP_Text pokemonNameText;
+    public TMP_Text pokemonBPText;
     public Image pokemonBattleImage;
+    public Image pokemonShadowSprite;
     public Image type1Icon;
+    public Image type1IconBackground;
     public Image type2Icon;
+    public Image type2IconBackground;
     public Image statusIcon;
+    public Image techIcon;
     [HideInInspector] public RectTransform pokemonImageRt;
     [HideInInspector] public RectTransform shadowImageRt;
     public TMP_Text effectivenessText;

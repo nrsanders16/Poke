@@ -24,7 +24,10 @@ public static class BattleCalculations {
         bool scrappyAppliesPrimary = attackerHasScrappy && defendingPokemon.battleType[0].typeName == TypeName.Ghost && (pokemonMove.moveType.typeName == TypeName.Normal || pokemonMove.moveType.typeName == TypeName.Fighting);
         bool gravityAppliesPrimary = gravityInEffect && defendingPokemon.battleType[0].typeName == TypeName.Flying && pokemonMove.moveType.typeName == TypeName.Ground;
 
-        if (scrappyAppliesPrimary) {
+        if (pokemonMove.moveName == "Bonemerang" && defendingPokemon.battleType[0].typeName == TypeName.Flying) {
+            mult = 1.6f;
+
+        } else if (scrappyAppliesPrimary) {
             mult = 1;
 
         } else if (gravityAppliesPrimary) {
@@ -35,13 +38,17 @@ public static class BattleCalculations {
 
         } else {
             mult = CalculateTypeEffectiveness(pokemonMove.moveType.typeName, defendingPokemon.battleType[0]);
+            if(pokemonMove.moveName == "Flying Press") mult *= CalculateTypeEffectiveness(TypeName.Flying, defendingPokemon.battleType[0]);
         }
 
         if (defendingPokemon.battleType.Length > 1) {
             bool scrappyAppliesSecondary = attackerHasScrappy && defendingPokemon.battleType[1].typeName == TypeName.Ghost && (pokemonMove.moveType.typeName == TypeName.Normal || pokemonMove.moveType.typeName == TypeName.Fighting);
             bool gravityAppliesSecondary = gravityInEffect && defendingPokemon.battleType[1].typeName == TypeName.Flying && pokemonMove.moveType.typeName == TypeName.Ground;
 
-            if (scrappyAppliesSecondary) {
+            if (pokemonMove.moveName == "Bonemerang" && defendingPokemon.battleType[1].typeName == TypeName.Flying) {
+                mult *= 1.6f;
+
+            } else if (scrappyAppliesSecondary) {
                 mult *= 1;
 
             } else if (gravityAppliesSecondary) {
@@ -52,6 +59,7 @@ public static class BattleCalculations {
 
             } else {
                 mult *= CalculateTypeEffectiveness(pokemonMove.moveType.typeName, defendingPokemon.battleType[1]);
+                if (pokemonMove.moveName == "Flying Press") mult *= CalculateTypeEffectiveness(TypeName.Flying, defendingPokemon.battleType[1]);
             }
         }
 
@@ -73,10 +81,17 @@ public static class BattleCalculations {
         float shadowBoost = 1f;
         float shadowPenalty = 1f;
         if (attackingPokemon.shadow) shadowBoost = 1.2f;
-        if (defendingPokemon.shadow) shadowPenalty = 0.8f; 
+        if (defendingPokemon.shadow) shadowPenalty = 0.8f;
+
+        if (attackingPokemon.currentStatus == StatusEffect.Burn) mult *= 0.95f;
 
         if (pokemonMove.attackType == AttackType.Physical) {
-            finalDamage = (0.64f * (pokemonMove.baseDamage * shadowBoost) * (attackingPokemon.Attack * ConvertBuffLevelToMultiplier(attackingPokemon.currentBuffs[0])) / ((defendingPokemon.Defense * ConvertBuffLevelToMultiplier(defendingPokemon.currentBuffs[1])) * shadowPenalty) * mult) + 1;
+            if(pokemonMove.moveName == "Body Press") {
+                finalDamage = (0.64f * (pokemonMove.baseDamage * shadowBoost) * (attackingPokemon.Defense * ConvertBuffLevelToMultiplier(attackingPokemon.currentBuffs[0])) / ((defendingPokemon.Defense * ConvertBuffLevelToMultiplier(defendingPokemon.currentBuffs[1])) * shadowPenalty) * mult) + 1;
+
+            } else {
+                finalDamage = (0.64f * (pokemonMove.baseDamage * shadowBoost) * (attackingPokemon.Attack * ConvertBuffLevelToMultiplier(attackingPokemon.currentBuffs[0])) / ((defendingPokemon.Defense * ConvertBuffLevelToMultiplier(defendingPokemon.currentBuffs[1])) * shadowPenalty) * mult) + 1;
+            }
 
         } else if (pokemonMove.attackType == AttackType.Special) {
             finalDamage = (0.64f * (pokemonMove.baseDamage * shadowBoost) * (attackingPokemon.SpecialAttack * ConvertBuffLevelToMultiplier(attackingPokemon.currentBuffs[2])) / ((defendingPokemon.SpecialDefense * ConvertBuffLevelToMultiplier(attackingPokemon.currentBuffs[3])) * shadowPenalty) * mult) + 1;
@@ -234,5 +249,10 @@ public static class BattleCalculations {
     public static float CalculateAbilityMultipliers(PokemonIndividual attackingPokemon, PokemonIndividual defendingPokemon, PokemonMove pokemonMove) {
         float eff = 1;
         return eff;
+    }
+    public static float CalculateEnergyGeneration(PokemonIndividual pokemon, FastMove fastMove) {
+        float mult = 2f;
+        mult = ((pokemon.Speed / 200) * 2) * pokemon.currentBuffs[4];
+        return mult;
     }
 }

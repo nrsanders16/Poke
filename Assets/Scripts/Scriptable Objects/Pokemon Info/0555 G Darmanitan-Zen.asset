@@ -10,21 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 54955fc3dffc6004092f1af538665382, type: 3}
-  m_Name: G Darmanitan-Zen
+  m_Name: 0555 G Darmanitan-Zen
   m_EditorClassIdentifier: 
   pokemonName: Darmanitan
-  pokemonBattleSprite: {fileID: 0}
-  shinyPokemonBattleSprite: {fileID: 0}
+  dexNumber: 555
+  description: "Zen Charm Pok\xE9mon"
+  height: 1.7
+  weight: 120
+  dexEntry: When one is injured in a fierce battle, it hardens into a stone-like
+    form. Then it meditates and sharpens its mind.
+  M_FGenderSplit: 50
+  genderless: 0
+  baseExp: 168
+  growthRate: 3
+  catchRate: 60
+  pokemonBattleSprite: {fileID: 21300000, guid: 2487e7b47ef9455458fe6df70cc5844a, type: 3}
+  shinyPokemonBattleSprite: {fileID: 21300000, guid: 4df0bf6bf27f567428e9e52316204ace, type: 3}
   alternateFormSprites: []
   shinyAlternateFormSprites: []
   primaryType: {fileID: 11400000, guid: 8ce1954c72f50134a8480a7a193570cc, type: 2}
   secondaryType: {fileID: 11400000, guid: e73f30425d2072f4ea34fac3bd752926, type: 2}
-  baseHP: 0
-  baseAttack: 0
-  baseDefense: 0
-  baseSpAttack: 0
-  baseSpDefense: 0
-  baseSpeed: 0
+  baseHP: 105
+  baseAttack: 160
+  baseDefense: 55
+  baseSpAttack: 30
+  baseSpDefense: 55
+  baseSpeed: 135
   learnableFastMoves: []
   learnableChargedMoves: []
   possibleAbilities: 

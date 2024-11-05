@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5562582be92fef24fb072e7c25c19d0b, type: 3}
+  m_Name: Transform
+  m_EditorClassIdentifier: 
+  moveName: Transform
+  baseDamage: 0
+  moveType: {fileID: 11400000, guid: 311227a28169be640b31e6b4d062b6f0, type: 2}
+  attackType: 1
+  animationClips:
+  - {fileID: 7400000, guid: b0ffb1ce2a45f0b48bc4b8e46a1b4289, type: 2}
+  - {fileID: 7400000, guid: 9b6bcff4e0f515745bb49e58a23df0f4, type: 2}
+  cycles: 1
+  baseEnergy: 0

@@ -10,20 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 73360b506c309f545b6f8a71951ef427, type: 3}
-  m_Name: Sludge Bomb
+  m_Name: Bonemerang
   m_EditorClassIdentifier: 
-  moveName: Sludge Bomb
-  baseDamage: 80
-  moveType: {fileID: 11400000, guid: 6e91e213da8e9e441b8d22bd10b219a9, type: 2}
-  attackType: 1
+  moveName: Bonemerang
+  baseDamage: 85
+  moveType: {fileID: 11400000, guid: 125c6b9d52738984b845100191b2d7c7, type: 2}
+  attackType: 0
   animationClips: []
-  baseEnergyReq: 5
+  baseEnergyReq: 50
   ownBuffs: []
   ownBuffChance: 0
   oppBuffs: []
   oppBuffChance: 0
-  secondaryType: {fileID: 11400000, guid: 6e91e213da8e9e441b8d22bd10b219a9, type: 2}
-  moveEffect: 1
-  moveEffectChance: 100
+  moveEffect: 0
+  moveEffectChance: 0
   weatherEffect: 0
   terrainEffect: 0

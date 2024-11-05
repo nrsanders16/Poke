@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54955fc3dffc6004092f1af538665382, type: 3}
+  m_Name: 0105 A Marowak
+  m_EditorClassIdentifier: 
+  pokemonName: Marowak
+  dexNumber: 105
+  description: "Bone Keeper Pok\xE9mon"
+  height: 1
+  weight: 45
+  dexEntry: "The cursed flames that light up the bone carried by this Pok\xE9mon
+    are said to cause both mental and physical pain that will never fade."
+  M_FGenderSplit: 50
+  genderless: 0
+  baseExp: 149
+  growthRate: 2
+  catchRate: 75
+  pokemonBattleSprite: {fileID: 21300000, guid: 51a4848ceb6c08a438d2c152e9311bc3, type: 3}
+  shinyPokemonBattleSprite: {fileID: 21300000, guid: 799c652bf84ea26498e2a37d906ad858, type: 3}
+  alternateFormSprites: []
+  shinyAlternateFormSprites: []
+  primaryType: {fileID: 11400000, guid: e73f30425d2072f4ea34fac3bd752926, type: 2}
+  secondaryType: {fileID: 11400000, guid: d2946ee60a217d64bb2b67feba9493c8, type: 2}
+  baseHP: 60
+  baseAttack: 80
+  baseDefense: 110
+  baseSpAttack: 50
+  baseSpDefense: 80
+  baseSpeed: 45
+  learnableFastMoves: []
+  learnableChargedMoves: []
+  possibleAbilities: 
+  spriteSize: 280
